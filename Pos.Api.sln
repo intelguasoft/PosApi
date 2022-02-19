@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.IntegrationTests", "test\IntegrationTests\Api.IntegrationTests\Api.IntegrationTests.csproj", "{2BFC3FEA-A631-423D-854B-950A5C9584C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Shared", "src\Api.Shared\Api.Shared.csproj", "{9746A13A-0C27-4602-8279-7AB0AE7B9601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Shared", "src\Api.Shared\Api.Shared.csproj", "{9746A13A-0C27-4602-8279-7AB0AE7B9601}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.UnitTests", "test\UnitTests\Api.UnitTests\Api.UnitTests.csproj", "{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{9746A13A-0C27-4602-8279-7AB0AE7B9601}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9746A13A-0C27-4602-8279-7AB0AE7B9601}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9746A13A-0C27-4602-8279-7AB0AE7B9601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{D56A8265-A20F-416C-95B5-886FFC995E48} = {F26701F9-AE89-4D95-A423-F0A69877B4CD}
 		{2BFC3FEA-A631-423D-854B-950A5C9584C1} = {963BBDF1-90CD-476E-8390-BA55DD19B19F}
 		{9746A13A-0C27-4602-8279-7AB0AE7B9601} = {72BC882B-4C2E-4663-8BA6-F59CE4696722}
+		{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0} = {D56A8265-A20F-416C-95B5-886FFC995E48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91819C3E-EFCD-4899-9D2C-C2B97BD96F63}
