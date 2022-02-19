@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ICompanyService.cs
+// CompanyForCreationDto.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,16 +21,14 @@
 
 #region using
 
-using Api.Shared.DataTransferObjects;
 using Shared.DataTransferObjects;
 
 #endregion
 
-namespace Api.Service.Contracts;
+namespace Api.Shared.DataTransferObjects;
 
-public interface ICompanyService
-{
-    IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-    CompanyDto GetCompany(int companyId, bool trackChanges);
-    CompanyDto CreateCompany(CompanyForCreationDto company);
-}
+public record CompanyForCreationDto(
+    string Name,
+    string Address,
+    string Country,
+    IEnumerable<EmployeeForCreationDto> Employees);

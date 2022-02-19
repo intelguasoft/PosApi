@@ -47,4 +47,9 @@ internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepos
         return FindByCondition(c => c.Id.Equals(companyId), trackChanges)
             .SingleOrDefault();
     }
+
+    public void CreateCompany(Company company)
+    {
+        Create(company);
+    }
 }
