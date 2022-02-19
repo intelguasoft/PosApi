@@ -29,13 +29,13 @@ using Xunit;
 
 namespace Api.IntegrationTests;
 
-public class EmployeesControllerIntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
+public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
 
-    public EmployeesControllerIntegrationTests(TestingWebAppFactory<Program> factory)
+    public CompanyControllerIntegrationTests(TestingWebAppFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }
