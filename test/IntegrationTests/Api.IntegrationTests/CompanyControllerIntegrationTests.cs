@@ -31,6 +31,8 @@ namespace Api.IntegrationTests;
 
 public class EmployeesControllerIntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
 {
+    // https://code-maze.com/aspnet-core-integration-testing/
+
     private readonly HttpClient _client;
 
     public EmployeesControllerIntegrationTests(TestingWebAppFactory<Program> factory)
