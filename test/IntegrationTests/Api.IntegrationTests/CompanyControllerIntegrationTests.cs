@@ -52,4 +52,21 @@ public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFact
         Assert.Contains("Admin_Solutions Ltd", responseString);
         Assert.Contains("IT_Solutions Ltd", responseString);
     }
+
+    [Fact]
+    public async Task GetCompany()
+    {
+        var response = await _client.GetAsync("api/companies/1");
+
+        response.EnsureSuccessStatusCode();
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        Assert.Contains("IT_Solutions Ltd", responseString);
+
+        //https://dotnettutorials.net/lesson/automapper-in-c-sharp/
+        //var config = new MapperConfiguration(cfg => cfg.CreateMap<Company, CompanyDto>());
+        //var mapper = new Mapper(config);
+        //var companyEntity = mapper.Map<Company>(company);
+    }
 }
