@@ -19,9 +19,13 @@
 
 #endregion
 
+#region using
+
 using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+
+#endregion
 
 namespace Api.ContextFactory;
 
@@ -36,7 +40,7 @@ public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryCo
 
         var builder = new DbContextOptionsBuilder<RepositoryContext>()
             .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
-                b => b.MigrationsAssembly("PosApi"));
+                b => b.MigrationsAssembly("Api"));
 
         return new RepositoryContext(builder.Options);
     }
