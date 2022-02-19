@@ -28,7 +28,6 @@ using Api.Presentation.Controllers;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using FakeItEasy;
-using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
 using Xunit;
 
@@ -61,7 +60,8 @@ public class CompanyControllerTests
         var employeeForCreationDto = new EmployeeForCreationDto(string.Empty, 0, string.Empty);
         listOfEmployeeForCreationDtos.Add(employeeForCreationDto);
 
-        var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA", listOfEmployeeForCreationDtos);
+        //var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA", listOfEmployeeForCreationDtos);
+        var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA");
 
         // act
         var result = _controller.CreateCompany(companyForCreationDto);
@@ -85,6 +85,9 @@ public class CompanyControllerTests
         {
             Name = "Marketing Solutions Ltd",
             Address = "242 Sunny Ave, K334",
+            City = "Los Angeles",
+            State = "CA",
+            ZipCode = "90801",
             Country = "USA",
             Employees = listOfEmployees
         };
