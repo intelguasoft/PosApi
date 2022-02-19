@@ -19,8 +19,12 @@
 
 #endregion
 
+#region using
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+#endregion
 
 namespace Api.Entities.Models;
 
@@ -36,6 +40,20 @@ public class Company
     [MaxLength(60, ErrorMessage = "Maximum length for the Address is 60 characters.")]
     public string? Address { get; set; }
 
+    [Required(ErrorMessage = "Company city is a required field.")]
+    [MaxLength(20, ErrorMessage = "Maximum length for the City is 20 characters.")]
+    public string? City { get; set; }
+
+    [Required(ErrorMessage = "Company state is a required field.")]
+    [MaxLength(20, ErrorMessage = "Maximum length for the State is 2 characters.")]
+    public string? State { get; set; }
+
+    [Required(ErrorMessage = "Company zipcode is a required field.")]
+    [MaxLength(10, ErrorMessage = "Maximum length for the ZipCode is 10 characters.")]
+    public string? ZipCode { get; set; }
+
+    [Required(ErrorMessage = "Company country is a required field.")]
+    [MaxLength(20, ErrorMessage = "Maximum length for the Country is 20 characters.")]
     public string? Country { get; set; }
 
     public ICollection<Employee>? Employees { get; set; }
