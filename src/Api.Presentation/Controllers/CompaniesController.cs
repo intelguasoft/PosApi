@@ -19,8 +19,13 @@
 
 #endregion
 
+#region using
+
 using Api.Service.Contracts;
+using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
+
+#endregion
 
 namespace Api.Presentation.Controllers;
 
@@ -43,10 +48,21 @@ public class CompaniesController : ControllerBase
         return Ok(companies);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "CompanyById")]
     public IActionResult GetCompany(int id)
     {
-        var company = _service.CompanyService.GetCompany(id, trackChanges: false);
+        var company = _service.CompanyService.GetCompany(id, false);
         return Ok(company);
+    }
+
+    [HttpPost]
+    public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
+    {
+        if (company is null || !ModelState.IsValid)
+            return BadRequest("CompanyForCreationDto object is null");
+
+        var createdCompany = _service.CompanyService.CreateCompany(company);
+
+        return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
     }
 }
