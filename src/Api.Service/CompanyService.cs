@@ -24,8 +24,8 @@
 using Api.Contracts;
 using Api.Entities.Exceptions;
 using Api.Service.Contracts;
-using Api.Shared.DataTransferObjects;
 using AutoMapper;
+using Shared.DataTransferObjects;
 
 #endregion
 

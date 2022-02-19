@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Shared.DataTransferObjects;
+using Shared.DataTransferObjects;
 
 #endregion
 
