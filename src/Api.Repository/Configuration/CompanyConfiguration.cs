@@ -19,9 +19,13 @@
 
 #endregion
 
+#region using
+
 using Api.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+#endregion
 
 namespace Api.Repository.Configuration;
 
@@ -36,6 +40,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 Id = 1,
                 Name = "IT_Solutions Ltd",
                 Address = "583 Wall Dr. Gwynn Oak, MD 21207",
+                City = "Los Angeles",
+                State = "CA",
+                ZipCode = "90001",
                 Country = "USA"
             },
             new Company
@@ -43,6 +50,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 Id = 2,
                 Name = "Admin_Solutions Ltd",
                 Address = "312 Forest Avenue, BF 923",
+                City = "New York",
+                State = "NY",
+                ZipCode = "10001",
                 Country = "USA"
             }
         );
