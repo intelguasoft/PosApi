@@ -19,12 +19,17 @@
 
 #endregion
 
+#region using
+
 using Api.Contracts;
 using Api.LoggerService;
 using Api.Repository;
 using Api.Service;
 using Api.Service.Contracts;
+using CompanyEmployees;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace Api.Extensions;
 
@@ -65,5 +70,10 @@ public static class ServiceExtensions
     {
         services.AddDbContext<RepositoryContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+    }
+
+    public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
+    {
+        return builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
     }
 }
