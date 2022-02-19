@@ -61,7 +61,7 @@ public class CompanyControllerTests
         listOfEmployeeForCreationDtos.Add(employeeForCreationDto);
 
         //var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA", listOfEmployeeForCreationDtos);
-        var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA");
+        var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "Los Angeles", "CA", "90001", "USA");
 
         // act
         var result = _controller.CreateCompany(companyForCreationDto);
