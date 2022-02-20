@@ -58,11 +58,12 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
     {
-        if (company is null || !ModelState.IsValid)
+        if (company is null)
             return BadRequest("CompanyForCreationDto object is null");
 
         var createdCompany = _service.CompanyService.CreateCompany(company);
 
+        // CreatedAtRoute will return a status code 201
         return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
     }
 }
