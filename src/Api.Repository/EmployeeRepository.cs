@@ -48,4 +48,10 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
         return FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(id), trackChanges)
             .SingleOrDefault();
     }
+
+    public void CreateEmployeeForCompany(int companyId, Employee employee)
+    {
+        employee.CompanyId = companyId;
+        Create(employee);
+    }
 }

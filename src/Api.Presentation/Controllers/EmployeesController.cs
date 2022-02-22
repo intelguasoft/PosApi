@@ -23,6 +23,7 @@
 
 using Api.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Shared.DataTransferObjects;
 
 #endregion
 
@@ -46,10 +47,21 @@ public class EmployeesController : ControllerBase
         return Ok(employees);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "GetEmployeeForCompany")]
     public IActionResult GetEmployeeForCompany(int companyId, int id)
     {
         var employee = _service.EmployeeService.GetEmployee(companyId, id, false);
         return Ok(employee);
+    }
+
+    [HttpPost]
+    public IActionResult CreateEmployeeForCompany(int companyId, [FromBody] EmployeeForCreationDto employee)
+    {
+        if (employee is null)
+            return BadRequest("EmployeeForCreationDto object is null");
+
+        var employeeToReturn = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee, false);
+
+        return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.Id}, employeeToReturn);
     }
 }
