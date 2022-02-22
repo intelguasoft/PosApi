@@ -39,7 +39,7 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
     public IEnumerable<Employee> GetEmployees(int companyId, bool trackChanges)
     {
         return FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
-            .OrderBy(e => e.Name)
+            .OrderBy(e => e.LastName)
             .ToList();
     }
 

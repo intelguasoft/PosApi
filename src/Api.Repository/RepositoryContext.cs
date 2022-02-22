@@ -46,7 +46,7 @@ public class RepositoryContext : DbContext
 
         // add unique index on name
         modelBuilder.Entity<Employee>()
-            .HasIndex(e => e.Name)
+            .HasIndex(u => new {u.FirstName, u.MiddleName, u.LastName})
             .IsUnique();
     }
 }

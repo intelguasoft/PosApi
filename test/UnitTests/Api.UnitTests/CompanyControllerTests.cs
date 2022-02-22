@@ -76,7 +76,9 @@ public class CompanyControllerTests
         listOfEmployees.Add(new Employee
         {
             Age = 20,
-            Name = "John Smith"
+            FirstName = "John",
+            MiddleName = "D",
+            LastName = "Smith"
         });
 
         var company = new Company

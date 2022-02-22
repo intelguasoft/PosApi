@@ -3,6 +3,7 @@ using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220222070016_add_firstname_middlename_lastname_to_employee")]
+    partial class add_firstname_middlename_lastname_to_employee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,7 +128,7 @@ namespace Api.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("FirstName", "MiddleName", "LastName")
+                    b.HasIndex("LastName")
                         .IsUnique();
 
                     b.ToTable("Employees");

@@ -19,9 +19,13 @@
 
 #endregion
 
+#region using
+
 using Api.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+#endregion
 
 namespace Api.Repository.Configuration;
 
@@ -34,7 +38,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             new Employee
             {
                 Id = 1,
-                Name = "Sam Raiden",
+                FirstName = "Sam",
+                MiddleName = "A",
+                LastName = "Raiden",
                 Age = 26,
                 Position = "Software developer",
                 CompanyId = 1
@@ -42,7 +48,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             new Employee
             {
                 Id = 2,
-                Name = "Jana McLeaf",
+                FirstName = "Jana",
+                MiddleName = "B",
+                LastName = "McLeaf",
                 Age = 30,
                 Position = "Software developer",
                 CompanyId = 1
@@ -50,7 +58,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             new Employee
             {
                 Id = 3,
-                Name = "Kane Miller",
+                FirstName = "Kane",
+                MiddleName = "C",
+                LastName = "Miller",
                 Age = 35,
                 Position = "Administrator",
                 CompanyId = 2

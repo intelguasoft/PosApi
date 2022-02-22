@@ -21,4 +21,4 @@
 
 namespace Api.Shared.DataTransferObjects;
 
-public record EmployeeDto(int Id, string Name, int Age, string Position);
+public record EmployeeDto(int Id, string FirstName, string MiddleName, string LastName, int Age, string Position);
