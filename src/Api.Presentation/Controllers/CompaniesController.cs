@@ -21,10 +21,10 @@
 
 #region using
 
+using Api.Presentation.ModelBinders;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 #endregion
 
@@ -57,7 +57,9 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-    public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder<>))] IEnumerable<int> ids)
+    public IActionResult GetCompanyCollection(
+        [ModelBinder(BinderType = typeof(ArrayModelBinder))]
+        IEnumerable<int> ids)
     {
         var companies = _service.CompanyService.GetByIds(ids, false);
 
