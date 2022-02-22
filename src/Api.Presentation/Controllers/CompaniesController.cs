@@ -24,6 +24,7 @@
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 #endregion
 
@@ -55,6 +56,14 @@ public class CompaniesController : ControllerBase
         return Ok(company);
     }
 
+    [HttpGet("collection/({ids})", Name = "CompanyCollection")]
+    public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder<>))] IEnumerable<int> ids)
+    {
+        var companies = _service.CompanyService.GetByIds(ids, false);
+
+        return Ok(companies);
+    }
+
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
     {
@@ -65,5 +74,13 @@ public class CompaniesController : ControllerBase
 
         // CreatedAtRoute will return a status code 201
         return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
+    }
+
+    [HttpPost("collection")]
+    public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+    {
+        var result = _service.CompanyService.CreateCompanyCollection(companyCollection);
+
+        return CreatedAtRoute("CompanyCollection", new {result.ids}, result.companies);
     }
 }

@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ICompanyService.cs
+// BadRequestException.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,20 +19,12 @@
 
 #endregion
 
-#region using
+namespace Api.Entities.Exceptions;
 
-using Api.Shared.DataTransferObjects;
-using Shared.DataTransferObjects;
-
-#endregion
-
-namespace Api.Service.Contracts;
-
-public interface ICompanyService
+public abstract class BadRequestException : Exception
 {
-    IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-    CompanyDto GetCompany(int companyId, bool trackChanges);
-    CompanyDto CreateCompany(CompanyForCreationDto company);
-    IEnumerable<CompanyDto> GetByIds(IEnumerable<int> ids, bool trackChanges);
-    (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
+    protected BadRequestException(string message)
+        : base(message)
+    {
+    }
 }

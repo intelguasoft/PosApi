@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ICompanyService.cs
+// IdParametersBadRequestException.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,18 +21,14 @@
 
 #region using
 
-using Api.Shared.DataTransferObjects;
-using Shared.DataTransferObjects;
-
 #endregion
 
-namespace Api.Service.Contracts;
+namespace Api.Entities.Exceptions;
 
-public interface ICompanyService
+public sealed class IdParametersBadRequestException : BadRequestException
 {
-    IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-    CompanyDto GetCompany(int companyId, bool trackChanges);
-    CompanyDto CreateCompany(CompanyForCreationDto company);
-    IEnumerable<CompanyDto> GetByIds(IEnumerable<int> ids, bool trackChanges);
-    (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
+    public IdParametersBadRequestException()
+        : base("Parameter ids is null")
+    {
+    }
 }

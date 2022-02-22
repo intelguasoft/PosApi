@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Api.Contracts\Api.Contracts.csproj" />
 		<ProjectReference Include="..\Api.LoggerService\Api.LoggerService.csproj" />
 		<ProjectReference Include="..\Api.Presentation\Api.Presentation.csproj" />
 		<ProjectReference Include="..\Api.Repository\Api.Repository.csproj" />

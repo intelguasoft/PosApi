@@ -44,12 +44,16 @@ internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepos
 
     public Company GetCompany(int companyId, bool trackChanges)
     {
-        return FindByCondition(c => c.Id.Equals(companyId), trackChanges)
-            .SingleOrDefault();
+        return FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefault();
     }
 
     public void CreateCompany(Company company)
     {
         Create(company);
+    }
+
+    public IEnumerable<Company> GetByIds(IEnumerable<int> ids, bool trackChanges)
+    {
+        return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
     }
 }
