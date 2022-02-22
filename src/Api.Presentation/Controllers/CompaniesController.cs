@@ -85,4 +85,12 @@ public class CompaniesController : ControllerBase
 
         return CreatedAtRoute("CompanyCollection", new {result.ids}, result.companies);
     }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult DeleteCompany(int id)
+    {
+        _service.CompanyService.DeleteCompany(id, trackChanges: false);
+
+        return NoContent();
+    }
 }

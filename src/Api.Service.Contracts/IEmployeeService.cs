@@ -33,4 +33,5 @@ public interface IEmployeeService
     IEnumerable<EmployeeDto> GetEmployees(int companyId, bool trackChanges);
     EmployeeDto GetEmployee(int companyId, int id, bool trackChanges);
     EmployeeDto CreateEmployeeForCompany(int companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges);
+    void DeleteEmployeeForCompany(int companyId, int id, bool trackChanges);
 }

@@ -21,4 +21,9 @@
 
 namespace Shared.DataTransferObjects;
 
-public record EmployeeForCreationDto(string FirstName, string MiddleName, string LastName, int Age, string Position);
+public record EmployeeForCreationDto(
+    string FirstName,
+    string MiddleName,
+    string LastName,
+    int Age,
+    string Position);
