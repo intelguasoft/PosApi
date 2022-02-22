@@ -19,9 +19,13 @@
 
 #endregion
 
+#region using
+
 using Api.Entities.Models;
 using Api.Repository.Configuration;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace Api.Repository;
 
@@ -39,5 +43,10 @@ public class RepositoryContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new CompanyConfiguration());
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
+        // add unique index on name
+        modelBuilder.Entity<Employee>()
+            .HasIndex(e => e.Name)
+            .IsUnique();
     }
 }
