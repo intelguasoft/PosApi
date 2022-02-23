@@ -22,6 +22,7 @@
 #region using
 
 using Api.Service.Contracts;
+using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
 
@@ -69,6 +70,17 @@ public class EmployeesController : ControllerBase
     public IActionResult DeleteEmployeeForCompany(int companyId, int id)
     {
         _service.EmployeeService.DeleteEmployeeForCompany(companyId, id, false);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id:int}")]
+    public IActionResult UpdateEmployeeForCompany(int companyId, int id, [FromBody] EmployeeForUpdateDto employee)
+    {
+        if (employee is null)
+            return BadRequest("EmployeeForUpdateDto object is null");
+
+        _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee, false, true);
 
         return NoContent();
     }

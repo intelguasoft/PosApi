@@ -25,6 +25,7 @@ using Api.Presentation.ModelBinders;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
+using Shared.DataTransferObjects;
 
 #endregion
 
@@ -89,7 +90,18 @@ public class CompaniesController : ControllerBase
     [HttpDelete("{id:int}")]
     public IActionResult DeleteCompany(int id)
     {
-        _service.CompanyService.DeleteCompany(id, trackChanges: false);
+        _service.CompanyService.DeleteCompany(id, false);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id:int}")]
+    public IActionResult UpdateCompany(int id, [FromBody] CompanyForUpdateDto company)
+    {
+        if (company is null)
+            return BadRequest("CompanyForUpdateDto object is null");
+
+        _service.CompanyService.UpdateCompany(id, company, true);
 
         return NoContent();
     }

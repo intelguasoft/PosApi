@@ -44,9 +44,14 @@ public class RepositoryContext : DbContext
         modelBuilder.ApplyConfiguration(new CompanyConfiguration());
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
 
-        // add unique index on name
+        // add unique index on company name
+        modelBuilder.Entity<Company>()
+            .HasIndex(c => c.Name)
+            .IsUnique();
+
+        // add unique index on employee name
         modelBuilder.Entity<Employee>()
-            .HasIndex(u => new {u.FirstName, u.MiddleName, u.LastName})
+            .HasIndex(e => new {e.FirstName, e.MiddleName, e.LastName})
             .IsUnique();
     }
 }

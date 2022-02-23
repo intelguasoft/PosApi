@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// MappingProfile.cs
+// EmployeeForUpdateDto.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,29 +19,11 @@
 
 #endregion
 
-#region using
+namespace Api.Shared.DataTransferObjects;
 
-using Api.Entities.Models;
-using Api.Shared.DataTransferObjects;
-using AutoMapper;
-using Shared.DataTransferObjects;
-
-#endregion
-
-namespace Api;
-
-public class MappingProfile : Profile
-{
-    public MappingProfile()
-    {
-        CreateMap<Company, CompanyDto>()
-            .ForMember(c => c.FullAddress,
-                opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
-
-        CreateMap<Employee, EmployeeDto>();
-        CreateMap<CompanyForCreationDto, Company>();
-        CreateMap<EmployeeForCreationDto, Employee>();
-        CreateMap<EmployeeForUpdateDto, Employee>();
-        CreateMap<CompanyForUpdateDto, Company>();
-    }
-}
+public record EmployeeForUpdateDto(
+    string FirstName,
+    string MiddleName,
+    string LastName,
+    int Age,
+    string Position);
