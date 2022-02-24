@@ -21,6 +21,7 @@
 
 #region using
 
+using Api.Entities.Models;
 using Api.Shared.DataTransferObjects;
 using Shared.DataTransferObjects;
 
@@ -35,4 +36,6 @@ public interface IEmployeeService
     EmployeeDto CreateEmployeeForCompany(int companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges);
     void DeleteEmployeeForCompany(int companyId, int id, bool trackChanges);
     void UpdateEmployeeForCompany(int companyId, int id, EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
+    (EmployeeForUpdateDto employeeToPatch, Employee employeeEntity) GetEmployeeForPatch(int companyId, int id, bool compTrackChanges, bool empTrackChanges);
+    void SaveChangesForPatch(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity);
 }

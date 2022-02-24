@@ -75,7 +75,6 @@ public class CompaniesController : ControllerBase
 
         var createdCompany = _service.CompanyService.CreateCompany(company);
 
-        // CreatedAtRoute will return a status code 201
         return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
     }
 

@@ -23,6 +23,7 @@
 
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
 
@@ -81,6 +82,22 @@ public class EmployeesController : ControllerBase
             return BadRequest("EmployeeForUpdateDto object is null");
 
         _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee, false, true);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:int}")]
+    public IActionResult PartiallyUpdateEmployeeForCompany(int companyId, int id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc)
+    {
+        if (patchDoc is null)
+            return BadRequest("patchDoc object sent from client is null.");
+
+        var result = _service.EmployeeService.GetEmployeeForPatch(companyId, id, false,
+            true);
+
+        patchDoc.ApplyTo(result.employeeToPatch);
+
+        _service.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
 
         return NoContent();
     }
