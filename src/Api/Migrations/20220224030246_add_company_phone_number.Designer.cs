@@ -3,6 +3,7 @@ using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220224030246_add_company_phone_number")]
+    partial class add_company_phone_number
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,9 +127,6 @@ namespace Api.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -151,7 +150,6 @@ namespace Api.Migrations
                             FirstName = "Sam",
                             LastName = "Raiden",
                             MiddleName = "A",
-                            Phone = "713-100-0000",
                             Position = "Software developer"
                         },
                         new
@@ -162,7 +160,6 @@ namespace Api.Migrations
                             FirstName = "Jana",
                             LastName = "McLeaf",
                             MiddleName = "B",
-                            Phone = "832-200-0000",
                             Position = "Software developer"
                         },
                         new
@@ -173,7 +170,6 @@ namespace Api.Migrations
                             FirstName = "Kane",
                             LastName = "Miller",
                             MiddleName = "C",
-                            Phone = "346-300-0000",
                             Position = "Administrator"
                         });
                 });

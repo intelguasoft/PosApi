@@ -43,6 +43,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 LastName = "Raiden",
                 Age = 26,
                 Position = "Software developer",
+                Phone = "713-100-0000",
                 CompanyId = 1
             },
             new Employee
@@ -53,6 +54,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 LastName = "McLeaf",
                 Age = 30,
                 Position = "Software developer",
+                Phone = "832-200-0000",
                 CompanyId = 1
             },
             new Employee
@@ -63,6 +65,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 LastName = "Miller",
                 Age = 35,
                 Position = "Administrator",
+                Phone = "346-300-0000",
                 CompanyId = 2
             }
         );

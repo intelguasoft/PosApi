@@ -51,6 +51,8 @@ public class Employee
     [MaxLength(20, ErrorMessage = "Maximum length for the Position is 20 characters.")]
     public string? Position { get; set; }
 
+    [Phone] public string? Phone { get; set; }
+
     [ForeignKey(nameof(Company))] public int CompanyId { get; set; }
 
     public Company? Company { get; set; }

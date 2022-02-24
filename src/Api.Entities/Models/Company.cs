@@ -56,5 +56,7 @@ public class Company
     [MaxLength(20, ErrorMessage = "Maximum length for the Country is 20 characters.")]
     public string? Country { get; set; }
 
+    [Phone] public string? Phone { get; set; }
+
     public ICollection<Employee>? Employees { get; set; }
 }

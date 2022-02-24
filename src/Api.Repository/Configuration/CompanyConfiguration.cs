@@ -43,7 +43,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 City = "Los Angeles",
                 State = "CA",
                 ZipCode = "90001",
-                Country = "USA"
+                Country = "USA",
+                Phone = "800-123-4567"
             },
             new Company
             {
@@ -53,7 +54,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 City = "New York",
                 State = "NY",
                 ZipCode = "10001",
-                Country = "USA"
+                Country = "USA",
+                Phone = "888-123-4567"
             }
         );
     }
