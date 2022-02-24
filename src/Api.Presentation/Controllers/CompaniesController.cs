@@ -24,6 +24,7 @@
 using Api.Presentation.ModelBinders;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DataTransferObjects;
 
@@ -101,6 +102,21 @@ public class CompaniesController : ControllerBase
             return BadRequest("CompanyForUpdateDto object is null");
 
         _service.CompanyService.UpdateCompany(id, company, true);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:int}")]
+    public IActionResult PartiallyUpdateCompany(int id, [FromBody] JsonPatchDocument<CompanyForUpdateDto> patchDoc)
+    {
+        if (patchDoc is null)
+            return BadRequest("patchDoc object sent from client is null.");
+
+        var result = _service.CompanyService.GetCompanyForPatch(id, true);
+
+        patchDoc.ApplyTo(result.companyToPatch);
+
+        _service.CompanyService.SaveChangesForPatch(result.companyToPatch, result.companyEntity);
 
         return NoContent();
     }

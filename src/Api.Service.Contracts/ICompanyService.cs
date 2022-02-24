@@ -21,6 +21,7 @@
 
 #region using
 
+using Api.Entities.Models;
 using Api.Shared.DataTransferObjects;
 using Shared.DataTransferObjects;
 
@@ -37,4 +38,6 @@ public interface ICompanyService
     (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
     void DeleteCompany(int companyId, bool trackChanges);
     void UpdateCompany(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges);
+    (CompanyForUpdateDto companyToPatch, Company companyEntity) GetCompanyForPatch(int companyId, bool compTrackChanges);
+    void SaveChangesForPatch(CompanyForUpdateDto companyToPatch, Company companyEntity);
 }
