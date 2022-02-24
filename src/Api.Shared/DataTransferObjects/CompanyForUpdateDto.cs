@@ -19,7 +19,11 @@
 
 #endregion
 
-namespace Shared.DataTransferObjects;
+#region using
+
+#endregion
+
+namespace Api.Shared.DataTransferObjects;
 
 public record CompanyForUpdateDto(
     string Name,

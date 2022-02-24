@@ -27,7 +27,6 @@ using Api.Entities.Models;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using AutoMapper;
-using Shared.DataTransferObjects;
 
 #endregion
 

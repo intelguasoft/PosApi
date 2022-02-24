@@ -22,9 +22,9 @@
 #region using
 
 using System.Text;
+using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
-using Shared.DataTransferObjects;
 
 #endregion
 

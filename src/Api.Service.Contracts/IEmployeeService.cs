@@ -23,7 +23,6 @@
 
 using Api.Entities.Models;
 using Api.Shared.DataTransferObjects;
-using Shared.DataTransferObjects;
 
 #endregion
 

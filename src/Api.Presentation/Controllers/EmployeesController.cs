@@ -25,7 +25,6 @@ using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Shared.DataTransferObjects;
 
 #endregion
 
@@ -62,6 +61,9 @@ public class EmployeesController : ControllerBase
         if (employee is null)
             return BadRequest("EmployeeForCreationDto object is null");
 
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         var employeeToReturn = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee, false);
 
         return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.Id}, employeeToReturn);
@@ -81,6 +83,9 @@ public class EmployeesController : ControllerBase
         if (employee is null)
             return BadRequest("EmployeeForUpdateDto object is null");
 
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employee, false, true);
 
         return NoContent();
@@ -96,6 +101,11 @@ public class EmployeesController : ControllerBase
             true);
 
         patchDoc.ApplyTo(result.employeeToPatch);
+
+        TryValidateModel(result.employeeToPatch);
+
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
 
         _service.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
 

@@ -26,7 +26,6 @@ using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Shared.DataTransferObjects;
 
 #endregion
 

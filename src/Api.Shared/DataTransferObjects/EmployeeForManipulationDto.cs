@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// Employee.cs
+// EmployeeForManipulationDto.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -22,41 +22,34 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion
 
-namespace Api.Entities.Models;
+namespace Api.Shared.DataTransferObjects;
 
-public class Employee
+public abstract record EmployeeForManipulationDto
 {
-    [Column("EmployeeId")] public int Id { get; set; }
-
     [Required(ErrorMessage = "Employee first name is a required field.")]
     [MaxLength(15, ErrorMessage = "Maximum length for the FirstName is 15 characters.")]
-    public string? FirstName { get; set; }
+    public string? FirstName { get; init; }
 
-    [Required(ErrorMessage = "Employee middle name is a required field.")]
+    [Required(ErrorMessage = "Employee first name is a required field.")]
     [MaxLength(15, ErrorMessage = "Maximum length for the MiddleName is 15 characters.")]
-    public string? MiddleName { get; set; }
+    public string? MiddleName { get; init; }
 
-    [Required(ErrorMessage = "Employee last name is a required field.")]
+    [Required(ErrorMessage = "Employee first name is a required field.")]
     [MaxLength(15, ErrorMessage = "Maximum length for the LastName is 15 characters.")]
-    public string? LastName { get; set; }
+    public string? LastName { get; init; }
 
     [Required(ErrorMessage = "Age is a required field.")]
     [Range(18, int.MaxValue, ErrorMessage = "Age is required and it can't be lower than 18")]
-    public int Age { get; set; }
+    public int Age { get; init; }
 
     [Required(ErrorMessage = "Position is a required field.")]
     [MaxLength(20, ErrorMessage = "Maximum length for the Position is 20 characters.")]
-    public string? Position { get; set; }
+    public string? Position { get; init; }
 
     [Required(ErrorMessage = "Phone is a required field.")]
     [Phone]
-    public string? Phone { get; set; }
-
-    [ForeignKey(nameof(Company))] public int CompanyId { get; set; }
-
-    public Company? Company { get; set; }
+    public string? Phone { get; init; }
 }

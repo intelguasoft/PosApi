@@ -21,9 +21,4 @@
 
 namespace Api.Shared.DataTransferObjects;
 
-public record EmployeeForUpdateDto(
-    string FirstName,
-    string MiddleName,
-    string LastName,
-    int Age,
-    string Position);
+public record EmployeeForUpdateDto : EmployeeForManipulationDto;
