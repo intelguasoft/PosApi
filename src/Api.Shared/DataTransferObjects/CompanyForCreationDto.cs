@@ -21,21 +21,13 @@
 
 #region using
 
-#endregion
-
-#region using
+using Shared.DataTransferObjects;
 
 #endregion
 
 namespace Api.Shared.DataTransferObjects;
 
-// IEnumerable<EmployeeForCreationDto> Employees
-
-public record CompanyForCreationDto(
-    string Name,
-    string Address,
-    string City,
-    string State,
-    string ZipCode,
-    string Country,
-    IEnumerable<EmployeeForCreationDto> Employees);
+public record CompanyForCreationDto : CompanyForManipulationDto
+{
+    public IEnumerable<EmployeeForCreationDto>? Employees { get; init; }
+}

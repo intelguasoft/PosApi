@@ -53,6 +53,7 @@ public class Employee
     public string? Position { get; set; }
 
     [Required(ErrorMessage = "Phone is a required field.")]
+    [MaxLength(15, ErrorMessage = "Maximum length for the Phone is 15 characters.")]
     [Phone]
     public string? Phone { get; set; }
 

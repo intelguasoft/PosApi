@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// Company.cs
+// CompanyForManipulationDto.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -22,23 +22,20 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion
 
-namespace Api.Entities.Models;
+namespace Shared.DataTransferObjects;
 
-public class Company
+public abstract record CompanyForManipulationDto
 {
-    [Column("CompanyId")] public int Id { get; set; }
-
     [Required(ErrorMessage = "Company name is a required field.")]
     [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")]
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
     [Required(ErrorMessage = "Company address is a required field.")]
     [MaxLength(60, ErrorMessage = "Maximum length for the Address is 60 characters.")]
-    public string? Address { get; set; }
+    public string? Address { get; init; }
 
     [Required(ErrorMessage = "Company city is a required field.")]
     [MaxLength(20, ErrorMessage = "Maximum length for the City is 20 characters.")]
@@ -52,14 +49,5 @@ public class Company
     [MaxLength(10, ErrorMessage = "Maximum length for the ZipCode is 10 characters.")]
     public string? ZipCode { get; set; }
 
-    [Required(ErrorMessage = "Company country is a required field.")]
-    [MaxLength(20, ErrorMessage = "Maximum length for the Country is 20 characters.")]
-    public string? Country { get; set; }
-
-    [Required(ErrorMessage = "Phone is a required field.")]
-    [MaxLength(15, ErrorMessage = "Maximum length for the Phone is 15 characters.")]
-    [Phone]
-    public string? Phone { get; set; }
-
-    public ICollection<Employee>? Employees { get; set; }
+    public string? Country { get; init; }
 }
