@@ -92,11 +92,11 @@ public class CompanyControllerTests
             Employees = listOfEmployees
         };
 
-        A.CallTo(() => _repository.GetCompany(1, false)).Returns(company);
-        var result = _repository.GetCompany(1, false);
+        A.CallTo(() => _repository.GetCompanyAsync(1, false)).Returns(company);
+        var result = _repository.GetCompanyAsync(1, false);
 
         // assert
         Assert.NotNull(result);
-        Assert.Equal(company.Name, result.Name);
+        Assert.Equal(company.Name, result.Result.Name);
     }
 }

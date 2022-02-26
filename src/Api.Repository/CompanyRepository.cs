@@ -23,6 +23,7 @@
 
 using Api.Contracts;
 using Api.Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 #endregion
 
@@ -35,16 +36,11 @@ internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepos
     {
     }
 
-    public IEnumerable<Company> GetAllCompanies(bool trackChanges)
+    public async Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges)
     {
-        return FindAll(trackChanges)
+        return await FindAll(trackChanges)
             .OrderBy(c => c.Name)
-            .ToList();
-    }
-
-    public Company GetCompany(int companyId, bool trackChanges)
-    {
-        return FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefault();
+            .ToListAsync();
     }
 
     public void CreateCompany(Company company)
@@ -52,13 +48,18 @@ internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepos
         Create(company);
     }
 
-    public IEnumerable<Company> GetByIds(IEnumerable<int> ids, bool trackChanges)
-    {
-        return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
-    }
-
     public void DeleteCompany(Company company)
     {
         Delete(company);
+    }
+
+    public async Task<Company> GetCompanyAsync(int companyId, bool trackChanges)
+    {
+        return await FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+    {
+        return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
     }
 }

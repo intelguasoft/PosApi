@@ -30,13 +30,13 @@ namespace Api.Service.Contracts;
 
 public interface ICompanyService
 {
-    IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges);
-    CompanyDto GetCompany(int companyId, bool trackChanges);
-    CompanyDto CreateCompany(CompanyForCreationDto company);
-    IEnumerable<CompanyDto> GetByIds(IEnumerable<int> ids, bool trackChanges);
-    (IEnumerable<CompanyDto> companies, string ids) CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
-    void DeleteCompany(int companyId, bool trackChanges);
-    void UpdateCompany(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges);
-    (CompanyForUpdateDto companyToPatch, Company companyEntity) GetCompanyForPatch(int companyId, bool compTrackChanges);
-    void SaveChangesForPatch(CompanyForUpdateDto companyToPatch, Company companyEntity);
+    Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges);
+    Task<CompanyDto> GetCompanyAsync(int companyId, bool trackChanges);
+    Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company);
+    Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+    Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync(IEnumerable<CompanyForCreationDto> companyCollection);
+    Task DeleteCompanyAsync(int companyId, bool trackChanges);
+    Task UpdateCompanyAsync(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges);
+    Task<(CompanyForUpdateDto companyToPatch, Company companyEntity)> GetCompanyForPatchAsync(int companyId, bool compTrackChanges);
+    Task SaveChangesForPatchAsync(CompanyForUpdateDto companyToPatch, Company companyEntity);
 }

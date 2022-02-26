@@ -24,6 +24,7 @@
 using Api.Contracts;
 using Api.Entities.Models;
 using Api.Repository;
+using Microsoft.EntityFrameworkCore;
 
 #endregion
 
@@ -36,17 +37,17 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
     {
     }
 
-    public IEnumerable<Employee> GetEmployees(int companyId, bool trackChanges)
+    public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId, bool trackChanges)
     {
-        return FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+        return await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .OrderBy(e => e.LastName)
-            .ToList();
+            .ToListAsync();
     }
 
-    public Employee GetEmployee(int companyId, int id, bool trackChanges)
+    public async Task<Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges)
     {
-        return FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(id), trackChanges)
-            .SingleOrDefault();
+        return await FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync();
     }
 
     public void CreateEmployeeForCompany(int companyId, Employee employee)

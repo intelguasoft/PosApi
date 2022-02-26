@@ -43,32 +43,30 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetCompanies()
+    public async Task<IActionResult> GetCompanies()
     {
-        var companies = _service.CompanyService.GetAllCompanies(false);
+        var companies = await _service.CompanyService.GetAllCompaniesAsync(false);
 
         return Ok(companies);
     }
 
     [HttpGet("{id:int}", Name = "CompanyById")]
-    public IActionResult GetCompany(int id)
+    public async Task<IActionResult> GetCompany(int id)
     {
-        var company = _service.CompanyService.GetCompany(id, false);
+        var company = await _service.CompanyService.GetCompanyAsync(id, false);
         return Ok(company);
     }
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-    public IActionResult GetCompanyCollection(
-        [ModelBinder(BinderType = typeof(ArrayModelBinder))]
-        IEnumerable<int> ids)
+    public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
     {
-        var companies = _service.CompanyService.GetByIds(ids, false);
+        var companies = await _service.CompanyService.GetByIdsAsync(ids, false);
 
         return Ok(companies);
     }
 
     [HttpPost]
-    public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
+    public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
     {
         if (company is null)
             return BadRequest("CompanyForCreationDto object is null");
@@ -76,29 +74,29 @@ public class CompaniesController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
 
-        var createdCompany = _service.CompanyService.CreateCompany(company);
+        var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
 
         return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
     }
 
     [HttpPost("collection")]
-    public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+    public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
     {
-        var result = _service.CompanyService.CreateCompanyCollection(companyCollection);
+        var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
 
         return CreatedAtRoute("CompanyCollection", new {result.ids}, result.companies);
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult DeleteCompany(int id)
+    public async Task<IActionResult> DeleteCompany(int id)
     {
-        _service.CompanyService.DeleteCompany(id, false);
+        await _service.CompanyService.DeleteCompanyAsync(id, false);
 
         return NoContent();
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult UpdateCompany(int id, [FromBody] CompanyForUpdateDto company)
+    public async Task<IActionResult> UpdateCompany(int id, [FromBody] CompanyForUpdateDto company)
     {
         if (company is null)
             return BadRequest("CompanyForUpdateDto object is null");
@@ -106,22 +104,22 @@ public class CompaniesController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
 
-        _service.CompanyService.UpdateCompany(id, company, true);
+        await _service.CompanyService.UpdateCompanyAsync(id, company, true);
 
         return NoContent();
     }
 
     [HttpPatch("{id:int}")]
-    public IActionResult PartiallyUpdateCompany(int id, [FromBody] JsonPatchDocument<CompanyForUpdateDto> patchDoc)
+    public async Task<IActionResult> PartiallyUpdateCompany(int id, [FromBody] JsonPatchDocument<CompanyForUpdateDto> patchDoc)
     {
         if (patchDoc is null)
             return BadRequest("patchDoc object sent from client is null.");
 
-        var result = _service.CompanyService.GetCompanyForPatch(id, true);
+        var result = await _service.CompanyService.GetCompanyForPatchAsync(id, true);
 
         patchDoc.ApplyTo(result.companyToPatch);
 
-        _service.CompanyService.SaveChangesForPatch(result.companyToPatch, result.companyEntity);
+        _service.CompanyService.SaveChangesForPatchAsync(result.companyToPatch, result.companyEntity);
 
         return NoContent();
     }
