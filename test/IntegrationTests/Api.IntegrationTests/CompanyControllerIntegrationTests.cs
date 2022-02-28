@@ -21,8 +21,14 @@
 
 #region using
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Api.Shared.DataTransferObjects;
+using Newtonsoft.Json;
 using Xunit;
 
 #endregion
@@ -34,6 +40,7 @@ public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFact
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
+    private CompanyDto _company;
 
     public CompanyControllerIntegrationTests(TestingWebAppFactory<Program> factory)
     {
@@ -43,8 +50,10 @@ public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFact
     [Fact]
     public async Task Index_WhenCalled_ReturnsApplicationForm()
     {
+        // act
         var response = await _client.GetAsync("api/companies");
 
+        // assert
         response.EnsureSuccessStatusCode();
 
         var responseString = await response.Content.ReadAsStringAsync();
@@ -54,19 +63,204 @@ public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFact
     }
 
     [Fact]
-    public async Task GetCompany()
+    public async Task GetCompany_WhenCalled_ReturnsRequestedCompany()
     {
+        // act
         var response = await _client.GetAsync("api/companies/1");
 
+        // assert
         response.EnsureSuccessStatusCode();
 
         var responseString = await response.Content.ReadAsStringAsync();
 
         Assert.Contains("IT_Solutions Ltd", responseString);
+    }
 
-        //https://dotnettutorials.net/lesson/automapper-in-c-sharp/
-        //var config = new MapperConfiguration(cfg => cfg.CreateMap<Company, CompanyDto>());
-        //var mapper = new Mapper(config);
-        //var companyEntity = mapper.Map<Company>(company);
+    [Fact]
+    public async Task GetCompanyCollection_WhenCalled_ReturnsRequestedCompanies()
+    {
+        // act
+        var response = await _client.GetAsync("api/companies/collection/(1,2)");
+
+        // assert
+        response.EnsureSuccessStatusCode();
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        Assert.Contains("IT_Solutions Ltd", responseString);
+        Assert.Contains("Admin_Solutions Ltd", responseString);
+    }
+
+    [Fact]
+    public async Task CreateCompany_WhenPassedValidData_ReturnsSuccess()
+    {
+        // ----
+        // POST
+        // ----
+
+        // arrange
+        var postCompany = new CompanyForCreationDto
+        {
+            Name = "Bit Friendly Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(postCompany), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var _company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(_company.Id > 0);
+
+        // ---
+        // PUT
+        // ---
+
+        // arrange
+        var putCompany = new CompanyForCreationDto
+        {
+            Name = "Byte Friendly Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        // act
+        payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
+        response = await _client.PutAsync($"api/companies/{_company.Id}", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // -----
+        // PATCH
+        // -----
+
+        // arrange
+        var patchCompany = new CompanyForCreationDto
+        {
+            Name = "FooBar Friendly Networks"
+        };
+
+        // act
+        payLoad = new StringContent(JsonConvert.SerializeObject(patchCompany), Encoding.UTF8, "application/json");
+        response = await _client.PatchAsync($"api/companies/{_company.Id}", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // ------
+        // DELETE
+        // ------
+
+        // act
+        response = await _client.DeleteAsync($"api/companies/{_company.Id}");
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateCompany_WhenPassedInvalidData_ReturnsUnprocessableEntity()
+    {
+        // arrange - with null phone number
+        var company = new CompanyForCreationDto
+        {
+            Name = "Bit Flip Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = null
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateCompanyCollection_WhenPassedValidData_CreatesMultipleCompanies()
+    {
+        // arrange
+        var listOfCompanies = new List<CompanyForCreationDto>();
+
+        var aCompany = new CompanyForCreationDto
+        {
+            Name = "Bit Friendly Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        listOfCompanies.Add(aCompany);
+
+        aCompany = new CompanyForCreationDto
+        {
+            Name = "Byte Friendly Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        listOfCompanies.Add(aCompany);
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(listOfCompanies), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies/collection", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var responseString = await response.Content.ReadAsStringAsync();
+        var companies = JsonConvert.DeserializeObject<IEnumerable<CompanyDto>>(response.Content.ReadAsStringAsync().Result);
+
+        Assert.True(companies.Count() == 2);
+    }
+
+    public async Task PartiallyUpdateCompany_WhenPassedValidData_PatchesCompany()
+    {
+        // arrange
+        var newCompany = new CompanyForCreationDto
+        {
+            Name = "Bit Friendly Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(newCompany), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var _company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(_company.Id > 0);
     }
 }

@@ -49,5 +49,11 @@ public abstract record CompanyForManipulationDto
     [MaxLength(10, ErrorMessage = "Maximum length for the ZipCode is 10 characters.")]
     public string? ZipCode { get; set; }
 
+    [Required(ErrorMessage = "Company country is a required field.")]
+    [MaxLength(20, ErrorMessage = "Maximum length for the Country is 20 characters.")]
     public string? Country { get; init; }
+
+    [Required(ErrorMessage = "Company phone is a required field.")]
+    [MaxLength(15, ErrorMessage = "Maximum length for the Phone is 15 characters.")]
+    public string? Phone { get; init; }
 }
