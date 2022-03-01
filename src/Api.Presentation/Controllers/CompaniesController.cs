@@ -119,7 +119,7 @@ public class CompaniesController : ControllerBase
 
         patchDoc.ApplyTo(result.companyToPatch);
 
-        _service.CompanyService.SaveChangesForPatchAsync(result.companyToPatch, result.companyEntity);
+        await _service.CompanyService.SaveChangesForPatchAsync(result.companyToPatch, result.companyEntity);
 
         return NoContent();
     }
