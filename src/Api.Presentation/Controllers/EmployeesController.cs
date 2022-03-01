@@ -21,6 +21,7 @@
 
 #region using
 
+using Api.Presentation.ActionFilters;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.JsonPatch;
@@ -56,14 +57,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployeeForCompany(int companyId, [FromBody] EmployeeForCreationDto employee)
     {
-        if (employee is null)
-            return BadRequest("EmployeeForCreationDto object is null");
-
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
-
         var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false);
 
         return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.Id}, employeeToReturn);
@@ -78,14 +74,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployeeForCompany(int companyId, int id, [FromBody] EmployeeForUpdateDto employee)
     {
-        if (employee is null)
-            return BadRequest("EmployeeForUpdateDto object is null");
-
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
-
         await _service.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee, false, true);
 
         return NoContent();
