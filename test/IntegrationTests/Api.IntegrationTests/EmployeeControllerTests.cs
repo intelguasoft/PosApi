@@ -127,5 +127,34 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // -----
+        // PATCH
+        // -----
+
+        // arrange
+        var patchEmployee = new EmployeeForCreationDto
+        {
+            FirstName = "Larry",
+            MiddleName = "Fine",
+            LastName = "Horwitz"
+        };
+
+        // act
+        payLoad = new StringContent(JsonConvert.SerializeObject(patchEmployee), Encoding.UTF8, "application/json");
+        response = await _client.PatchAsync($"api/companies/{companyId}/employees/{employee?.Id}", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // ------
+        // DELETE
+        // ------
+
+        // act
+        response = await _client.DeleteAsync($"api/companies/{companyId}/employees/{employee?.Id}");
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
 }
