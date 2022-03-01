@@ -54,6 +54,9 @@ public class CsvOutputFormatter : TextOutputFormatter
         var response = context.HttpContext.Response;
         var buffer = new StringBuilder();
 
+        // todo - write unit test for working code below, then add context.Object != null guard clause to prevent null dereference
+        // if (context.Object != null)
+
         if (context.Object is IEnumerable<CompanyDto>)
             foreach (var company in (IEnumerable<CompanyDto>) context.Object)
                 FormatCsv(buffer, company);
