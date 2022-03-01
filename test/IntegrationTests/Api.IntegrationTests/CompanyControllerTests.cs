@@ -47,7 +47,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task Index_WhenCalled_ReturnsApplicationForm()
+    public async Task Index_WhenCalled_Returns_ApplicationForm()
     {
         // act
         var response = await _client.GetAsync("api/companies");
@@ -62,7 +62,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task GetCompany_WhenCalled_ReturnsRequestedCompany()
+    public async Task GetCompany_WhenCalled_Returns_RequestedCompany()
     {
         // act
         var response = await _client.GetAsync("api/companies/1");
@@ -76,7 +76,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task GetCompanyCollection_WhenCalled_ReturnsRequestedCompanies()
+    public async Task GetCompanyCollection_WhenCalled_Returns_RequestedCompanies()
     {
         // act
         var response = await _client.GetAsync("api/companies/collection/(1,2)");
@@ -91,7 +91,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task CreateCompany_WhenPassedValidData_ReturnsSuccess()
+    public async Task CreateCompany_WhenPassedValidData_Returns_Success()
     {
         // ----
         // POST
@@ -171,7 +171,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task CreateCompany_WhenPassedInvalidData_ReturnsUnprocessableEntity()
+    public async Task CreateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
     {
         // arrange - with null phone number
         var company = new CompanyForCreationDto
@@ -194,7 +194,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task CreateCompanyCollection_WhenPassedValidData_CreatesMultipleCompanies()
+    public async Task CreateCompanyCollection_WhenPassed_ValidData_Creates_MultipleCompanies()
     {
         // arrange
         var listOfCompanies = new List<CompanyForCreationDto>();
@@ -238,7 +238,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task PartiallyUpdateCompany_WhenPassedValidData_PatchesCompany()
+    public async Task PartiallyUpdateCompany_WhenPassed_ValidData_Patches_Company()
     {
         // arrange
         var newCompany = new CompanyForCreationDto

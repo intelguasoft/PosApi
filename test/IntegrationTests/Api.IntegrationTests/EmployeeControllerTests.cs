@@ -47,7 +47,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     }
 
     [Fact]
-    public async Task GetCompanyEmployees_WhenCalled_ReturnsEmployees()
+    public async Task GetCompanyEmployees_WhenCalled_Returns_Employees()
     {
         // act
         var response = await _client.GetAsync("api/companies/1/employees");
@@ -64,7 +64,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     }
 
     [Fact]
-    public async Task GetCompanyEmployee_WhenCalled_ReturnsEmployee()
+    public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
     {
         // act
         var response = await _client.GetAsync("api/companies/1/employees/2");
@@ -77,7 +77,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     }
 
     [Fact]
-    public async Task CreateEmployeeForCompany_WhenCalled_CreatesEmployee()
+    public async Task CreateEmployeeForCompany_WhenCalled_Creates_Employee()
     {
         // arrange
         var companyId = 1;
