@@ -22,9 +22,9 @@
 #region using
 
 using System.Net;
-using Api.Contracts;
 using Api.Entities.Exceptions;
 using Api.Entities.Models.ErrorModel;
+using Api.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 
 #endregion

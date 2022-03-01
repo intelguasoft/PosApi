@@ -22,8 +22,8 @@
 #region using
 
 using System.Collections.Generic;
-using Api.Contracts;
 using Api.Entities.Models;
+using Api.Interfaces;
 using Api.Presentation.Controllers;
 using Api.Service.Contracts;
 using FakeItEasy;
@@ -39,34 +39,14 @@ public class CompanyControllerTests
 
     private readonly ICompanyRepository _repository;
 
-    //private readonly Mock<ICompanyRepository> _mockRepo;
     private readonly IServiceManager _serviceManager;
 
     public CompanyControllerTests()
     {
-        //_mockRepo = new Mock<ICompanyRepository>();
         _repository = A.Fake<ICompanyRepository>();
         _serviceManager = A.Fake<IServiceManager>();
         _controller = A.Fake<CompaniesController>();
     }
-
-    //[Fact]
-    //public void Create_ActionExecutes_ReturnsViewForCreate()
-    //{
-    //    // arraange
-    //    var listOfEmployeeForCreationDtos = new List<EmployeeForCreationDto>();
-    //    var employeeForCreationDto = new EmployeeForCreationDto(string.Empty, 0, string.Empty);
-    //    listOfEmployeeForCreationDtos.Add(employeeForCreationDto);
-
-    //    //var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "USA", listOfEmployeeForCreationDtos);
-    //    var companyForCreationDto = new CompanyForCreationDto("Marketing Solutions Ltd", "242 Sunny Ave, K334", "Los Angeles", "CA", "90001", "USA");
-
-    //    // act
-    //    var result = _controller.CreateCompany(companyForCreationDto);
-
-    //    // assert
-    //    Assert.NotNull(result);
-    //}
 
     [Fact]
     public void Get_ActionExecutes_ReturnsViewForGet()

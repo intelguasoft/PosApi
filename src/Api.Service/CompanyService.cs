@@ -21,9 +21,9 @@
 
 #region using
 
-using Api.Contracts;
 using Api.Entities.Exceptions;
 using Api.Entities.Models;
+using Api.Interfaces;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
 using AutoMapper;

@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ServiceManager.cs
+// IRepositoryBase.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,27 +21,20 @@
 
 #region using
 
-using Api.Interfaces;
-using Api.Service.Contracts;
-using AutoMapper;
+using System.Linq.Expressions;
 
 #endregion
 
-namespace Api.Service;
+namespace Api.Interfaces;
 
-public sealed class ServiceManager : IServiceManager
+public interface IRepositoryBase<T>
 {
-    private readonly Lazy<ICompanyService> _companyService;
-    private readonly Lazy<IEmployeeService> _employeeService;
+    IQueryable<T> FindAll(bool trackChanges);
 
-    public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
-    {
-        _companyService = new Lazy<ICompanyService>(() =>
-            new CompanyService(repositoryManager, logger, mapper));
-        _employeeService = new Lazy<IEmployeeService>(() =>
-            new EmployeeService(repositoryManager, logger, mapper));
-    }
+    IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
+        bool trackChanges);
 
-    public ICompanyService CompanyService => _companyService.Value;
-    public IEmployeeService EmployeeService => _employeeService.Value;
+    void Create(T entity);
+    void Update(T entity);
+    void Delete(T entity);
 }

@@ -21,8 +21,8 @@
 
 #region using
 
-using Api.Contracts;
 using Api.Entities.Models;
+using Api.Interfaces;
 using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 

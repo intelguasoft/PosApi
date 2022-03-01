@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Contracts;
+using Api.Interfaces;
 using Api.LoggerService;
 using Api.Repository;
 using Api.Service;

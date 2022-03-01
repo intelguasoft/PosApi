@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ServiceManager.cs
+// IRepositoryManager.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,27 +21,13 @@
 
 #region using
 
-using Api.Interfaces;
-using Api.Service.Contracts;
-using AutoMapper;
-
 #endregion
 
-namespace Api.Service;
+namespace Api.Interfaces;
 
-public sealed class ServiceManager : IServiceManager
+public interface IRepositoryManager
 {
-    private readonly Lazy<ICompanyService> _companyService;
-    private readonly Lazy<IEmployeeService> _employeeService;
-
-    public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
-    {
-        _companyService = new Lazy<ICompanyService>(() =>
-            new CompanyService(repositoryManager, logger, mapper));
-        _employeeService = new Lazy<IEmployeeService>(() =>
-            new EmployeeService(repositoryManager, logger, mapper));
-    }
-
-    public ICompanyService CompanyService => _companyService.Value;
-    public IEmployeeService EmployeeService => _employeeService.Value;
+    ICompanyRepository Company { get; }
+    IEmployeeRepository Employee { get; }
+    Task SaveAsync();
 }

@@ -21,11 +21,15 @@
 
 #region using
 
+#endregion
+
+#region using
+
 using Api.Entities.Models;
 
 #endregion
 
-namespace Api.Contracts;
+namespace Api.Interfaces;
 
 public interface IEmployeeRepository
 {

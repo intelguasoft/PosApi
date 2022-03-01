@@ -22,8 +22,8 @@
 #region using
 
 using Api;
-using Api.Contracts;
 using Api.Extensions;
+using Api.Interfaces;
 using Api.Presentation;
 using Api.Presentation.ActionFilters;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
@@ -38,8 +38,6 @@ using NLog;
 EntityFrameworkProfilerBootstrapper.PreStart();
 
 var builder = WebApplication.CreateBuilder(args);
-
-IHostEnvironment environment = builder.Environment;
 
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
