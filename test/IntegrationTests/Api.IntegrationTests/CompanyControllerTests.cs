@@ -194,6 +194,31 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
+    public async Task UpdateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    {
+        var companyId = 1;
+
+        // arrange - with null phone number
+        var putCompany = new CompanyForCreationDto
+        {
+            Name = "Bit Flip Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = null
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
+        var response = await _client.PutAsync($"api/companies/{companyId}", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+
+    [Fact]
     public async Task CreateCompanyCollection_WhenPassed_ValidData_Creates_MultipleCompanies()
     {
         // arrange

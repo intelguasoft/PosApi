@@ -157,4 +157,53 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
+
+    [Fact]
+    public async Task CreateEmployee_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    {
+        // arrange
+        var companyId = 1;
+
+        // note null position
+        var postEmployee = new EmployeeForCreationDto
+        {
+            FirstName = "Curly",
+            MiddleName = "Lester",
+            LastName = "Horwitz",
+            Age = 30,
+            Phone = "346-300-4000",
+            Position = null
+        };
+
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(postEmployee), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateEmployee_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    {
+        // arrange
+        var companyId = 1;
+        var employeeId = 1;
+
+        // note null last name
+        var putEmployee = new EmployeeForCreationDto
+        {
+            FirstName = "Larry",
+            MiddleName = "Fine",
+            LastName = null
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(putEmployee), Encoding.UTF8, "application/json");
+        var response = await _client.PutAsync($"api/companies/{companyId}/employees/{employeeId}", payLoad);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
 }
