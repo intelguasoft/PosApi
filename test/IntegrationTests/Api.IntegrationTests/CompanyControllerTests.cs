@@ -1,6 +1,6 @@
 #region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// CompanyControllerIntegrationTests.cs
+// CompanyControllerTests.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -35,14 +35,14 @@ using Xunit;
 
 namespace Api.IntegrationTests;
 
-public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
+public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
     private CompanyDto _company;
 
-    public CompanyControllerIntegrationTests(TestingWebAppFactory<Program> factory)
+    public CompanyControllerTests(TestingWebAppFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }
@@ -239,6 +239,7 @@ public class CompanyControllerIntegrationTests : IClassFixture<TestingWebAppFact
         Assert.True(companies.Count() == 2);
     }
 
+    [Fact]
     public async Task PartiallyUpdateCompany_WhenPassedValidData_PatchesCompany()
     {
         // arrange
