@@ -25,6 +25,7 @@ using Api;
 using Api.Contracts;
 using Api.Extensions;
 using Api.Presentation;
+using Api.Presentation.ActionFilters;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,8 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Api.Program));
 
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddControllers(config =>
     {
