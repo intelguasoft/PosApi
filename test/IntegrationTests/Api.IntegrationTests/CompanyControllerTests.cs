@@ -40,7 +40,6 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
-    private CompanyDto _company;
 
     public CompanyControllerTests(TestingWebAppFactory<Program> factory)
     {
@@ -117,8 +116,8 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var _company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(_company.Id > 0);
+        var company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(company?.Id > 0);
 
         // ---
         // PUT
@@ -138,7 +137,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
-        response = await _client.PutAsync($"api/companies/{_company.Id}", payLoad);
+        response = await _client.PutAsync($"api/companies/{company?.Id}", payLoad);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -155,7 +154,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(patchCompany), Encoding.UTF8, "application/json");
-        response = await _client.PatchAsync($"api/companies/{_company.Id}", payLoad);
+        response = await _client.PatchAsync($"api/companies/{company.Id}", payLoad);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -165,7 +164,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // ------
 
         // act
-        response = await _client.DeleteAsync($"api/companies/{_company.Id}");
+        response = await _client.DeleteAsync($"api/companies/{company?.Id}");
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -233,10 +232,9 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var responseString = await response.Content.ReadAsStringAsync();
         var companies = JsonConvert.DeserializeObject<IEnumerable<CompanyDto>>(response.Content.ReadAsStringAsync().Result);
 
-        Assert.True(companies.Count() == 2);
+        Assert.True(companies?.Count() == 2);
     }
 
     [Fact]
@@ -261,7 +259,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var _company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(_company.Id > 0);
+        var company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(company?.Id > 0);
     }
 }
