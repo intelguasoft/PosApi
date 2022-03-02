@@ -48,6 +48,7 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
             services.AddDbContext<RepositoryContext>(options =>
             {
                 options.UseInMemoryDatabase("InMemoryEmployeeTest");
+                options.EnableSensitiveDataLogging();
             });
 
             var sp = services.BuildServiceProvider();
