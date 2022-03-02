@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// PagingEmployeeEmployee.cs
+// PagingRequestParameters.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,8 +19,18 @@
 
 #endregion
 
-namespace Api.Shared.Request;
+namespace Api.Shared.Paging;
 
-public class PagingEmployeeEmployee : PagingRequest
+public abstract class PagingRequestParameters
 {
+    private const int maxPageSize = 50;
+
+    private int _pageSize = 10;
+    public int PageNumber { get; set; } = 1;
+
+    public int PageSize
+    {
+        get => _pageSize;
+        set => _pageSize = value > maxPageSize ? maxPageSize : value;
+    }
 }

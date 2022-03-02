@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// IRepositoryManager.cs
+// PagingMetaData.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,11 +19,15 @@
 
 #endregion
 
-namespace Api.Contracts;
+namespace Api.Shared.Paging;
 
-public interface IRepositoryManager
+public class PagingMetaData
 {
-    ICompanyRepository Company { get; }
-    IEmployeeRepository Employee { get; }
-    Task SaveAsync();
+    public int CurrentPage { get; set; }
+    public int TotalPages { get; set; }
+    public int PageSize { get; set; }
+    public int TotalCount { get; set; }
+
+    public bool HasPrevious => CurrentPage > 1;
+    public bool HasNext => CurrentPage < TotalPages;
 }

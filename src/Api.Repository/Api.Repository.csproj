@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Api.Entities\Api.Entities.csproj" />
     <ProjectReference Include="..\Api.Interfaces\Api.Interfaces.csproj" />
+    <ProjectReference Include="..\Api.Shared\Api.Shared.csproj" />
   </ItemGroup>
 
 </Project>

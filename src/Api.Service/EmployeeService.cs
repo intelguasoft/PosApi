@@ -26,6 +26,7 @@ using Api.Entities.Models;
 using Api.Interfaces;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
+using Api.Shared.Paging;
 using AutoMapper;
 
 #endregion
@@ -96,11 +97,11 @@ internal sealed class EmployeeService : IEmployeeService
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(int companyId, bool trackChanges)
+    public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
     {
         await CheckIfCompanyExists(companyId, trackChanges);
 
-        var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, trackChanges);
+        var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, pagingEmployeeParameters, trackChanges);
         var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
 
         return employeesDto;

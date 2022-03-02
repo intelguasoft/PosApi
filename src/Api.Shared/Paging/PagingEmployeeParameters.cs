@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// ILoggerManager.cs
+// PagingEmployeeParameters.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,12 +19,12 @@
 
 #endregion
 
-namespace Api.Contracts;
+#region using
 
-public interface ILoggerManager
+#endregion
+
+namespace Api.Shared.Paging;
+
+public class PagingEmployeeParameters : PagingRequestParameters
 {
-    void LogInfo(string message);
-    void LogWarn(string message);
-    void LogDebug(string message);
-    void LogError(string message);
 }

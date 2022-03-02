@@ -24,6 +24,7 @@
 using Api.Presentation.ActionFilters;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
+using Api.Shared.Paging;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +44,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployeesForCompany(int companyId)
+    public async Task<IActionResult> GetEmployeesForCompany(int companyId, [FromQuery] PagingEmployeeParameters pagingEmployeeParameters)
     {
-        var employees = await _service.EmployeeService.GetEmployeesAsync(companyId, false);
+        var employees = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false);
         return Ok(employees);
     }
 

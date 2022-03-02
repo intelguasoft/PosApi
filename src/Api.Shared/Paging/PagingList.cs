@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// PagingRequest.cs
+// PagingList.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,18 +19,32 @@
 
 #endregion
 
-namespace Api.Shared.Request;
+namespace Api.Shared.Paging;
 
-public abstract class PagingRequest
+public class PagingList<T> : List<T>
 {
-    private const int maxPageSize = 50;
-
-    private int _pageSize = 10;
-    public int PageNumber { get; set; } = 1;
-
-    public int PageSize
+    public PagingList(List<T> items, int count, int pageNumber, int pageSize)
     {
-        get => _pageSize;
-        set => _pageSize = value > maxPageSize ? maxPageSize : value;
+        PagingMetaData = new PagingMetaData
+        {
+            TotalCount = count,
+            PageSize = pageSize,
+            CurrentPage = pageNumber,
+            TotalPages = (int) Math.Ceiling(count / (double) pageSize)
+        };
+
+        AddRange(items);
+    }
+
+    public PagingMetaData PagingMetaData { get; set; }
+
+    public static PagingList<T> ToPagingList(IEnumerable<T> source, int pageNumber, int pageSize)
+    {
+        var count = source.Count();
+        var items = source
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize).ToList();
+
+        return new PagingList<T>(items, count, pageNumber, pageSize);
     }
 }

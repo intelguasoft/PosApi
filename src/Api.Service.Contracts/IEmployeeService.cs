@@ -23,6 +23,7 @@
 
 using Api.Entities.Models;
 using Api.Shared.DataTransferObjects;
+using Api.Shared.Paging;
 
 #endregion
 
@@ -30,7 +31,7 @@ namespace Api.Service.Contracts;
 
 public interface IEmployeeService
 {
-    Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(int companyId, bool trackChanges);
+    Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges);
     Task<EmployeeDto> GetEmployeeAsync(int companyId, int id, bool trackChanges);
     Task<EmployeeDto> CreateEmployeeForCompanyAsync(int companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges);
     Task DeleteEmployeeForCompanyAsync(int companyId, int id, bool trackChanges);

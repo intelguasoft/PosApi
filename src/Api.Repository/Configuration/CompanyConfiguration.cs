@@ -56,6 +56,17 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 ZipCode = "10001",
                 Country = "USA",
                 Phone = "888-123-4567"
+            },
+            new Company
+            {
+                Id = 3,
+                Name = "New Generation Electronics",
+                Address = "10000 North Loop East",
+                City = "Houston",
+                State = "TX",
+                ZipCode = "77002",
+                Country = "USA",
+                Phone = "866-100-2000"
             }
         );
     }

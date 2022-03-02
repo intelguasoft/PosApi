@@ -24,6 +24,7 @@
 using Api.Entities.Models;
 using Api.Interfaces;
 using Api.Repository;
+using Api.Shared.Paging;
 using Microsoft.EntityFrameworkCore;
 
 #endregion
@@ -35,13 +36,6 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
     public EmployeeRepository(RepositoryContext repositoryContext)
         : base(repositoryContext)
     {
-    }
-
-    public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId, bool trackChanges)
-    {
-        return await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
-            .OrderBy(e => e.LastName)
-            .ToListAsync();
     }
 
     public async Task<Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges)
@@ -59,5 +53,14 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
     public void DeleteEmployee(Employee employee)
     {
         Delete(employee);
+    }
+
+    public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    {
+        return await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+            .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
+            .Skip((pagingEmployeeParameters.PageNumber - 1) * pagingEmployeeParameters.PageSize)
+            .Take(pagingEmployeeParameters.PageSize)
+            .ToListAsync();
     }
 }
