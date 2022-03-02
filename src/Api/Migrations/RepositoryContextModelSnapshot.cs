@@ -94,6 +94,17 @@ namespace Api.Migrations
                             Phone = "888-123-4567",
                             State = "NY",
                             ZipCode = "10001"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "10000 North Loop East",
+                            City = "Houston",
+                            Country = "USA",
+                            Name = "New Generation Electronics",
+                            Phone = "866-100-2000",
+                            State = "TX",
+                            ZipCode = "77002"
                         });
                 });
 
@@ -177,8 +188,96 @@ namespace Api.Migrations
                             FirstName = "Kane",
                             LastName = "Miller",
                             MiddleName = "C",
-                            Phone = "346-300-0000",
+                            Phone = "100-300-0000",
                             Position = "Administrator"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Age = 25,
+                            CompanyId = 2,
+                            FirstName = "Michael",
+                            LastName = "Worth",
+                            MiddleName = "D",
+                            Phone = "200-300-0000",
+                            Position = "Support I"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Age = 35,
+                            CompanyId = 2,
+                            FirstName = "Nina",
+                            LastName = "Hawk",
+                            MiddleName = "E",
+                            Phone = "300-300-0000",
+                            Position = "Support II"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Age = 29,
+                            CompanyId = 2,
+                            FirstName = "John",
+                            LastName = "Spike",
+                            MiddleName = "F",
+                            Phone = "400-300-0000",
+                            Position = "Support III"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Age = 20,
+                            CompanyId = 2,
+                            FirstName = "Michael",
+                            LastName = "Fins",
+                            MiddleName = "G",
+                            Phone = "500-300-0000",
+                            Position = "Support VI"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Age = 22,
+                            CompanyId = 2,
+                            FirstName = "Martha",
+                            LastName = "Growns",
+                            MiddleName = "H",
+                            Phone = "500-300-0000",
+                            Position = "Developer I"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Age = 24,
+                            CompanyId = 2,
+                            FirstName = "Kirk",
+                            LastName = "Metha",
+                            MiddleName = "H",
+                            Phone = "600-300-0000",
+                            Position = "Developer II"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Age = 25,
+                            CompanyId = 3,
+                            FirstName = "John",
+                            LastName = "Smith",
+                            MiddleName = "I",
+                            Phone = "500-300-0000",
+                            Position = "Developer III"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Age = 25,
+                            CompanyId = 3,
+                            FirstName = "Walter",
+                            LastName = "White",
+                            MiddleName = "J",
+                            Phone = "600-300-0000",
+                            Position = "Developer IV"
                         });
                 });
 
