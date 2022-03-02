@@ -19,6 +19,12 @@
 
 #endregion
 
+#region using
+
+using Api.Service.Interfaces;
+
+#endregion
+
 namespace Api.Service.Contracts;
 
 public interface IServiceManager

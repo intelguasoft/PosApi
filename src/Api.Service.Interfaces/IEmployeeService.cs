@@ -27,7 +27,7 @@ using Api.Shared.Paging;
 
 #endregion
 
-namespace Api.Service.Contracts;
+namespace Api.Service.Interfaces;
 
 public interface IEmployeeService
 {

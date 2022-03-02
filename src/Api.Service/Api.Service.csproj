@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Interfaces\Api.Interfaces.csproj" />
-    <ProjectReference Include="..\Api.Service.Contracts\Api.Service.Contracts.csproj" />
+    <ProjectReference Include="..\Api.Service.Interfaces\Api.Service.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

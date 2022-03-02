@@ -26,7 +26,7 @@ using Api.Shared.DataTransferObjects;
 
 #endregion
 
-namespace Api.Service.Contracts;
+namespace Api.Service.Interfaces;
 
 public interface ICompanyService
 {

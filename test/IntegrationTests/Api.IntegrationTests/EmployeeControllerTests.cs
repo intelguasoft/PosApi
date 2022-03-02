@@ -64,16 +64,34 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     }
 
     [Fact]
+    public async Task GetCompanyEmployees_WhenCalled_Returns_PagedEmployees()
+    {
+        // arrange
+        var companyId = 2;
+        var pageNumber = 1;
+        var pageSize = 3;
+
+        // act
+        var response = await _client.GetAsync($"api/companies/{companyId}/employees?pageNumber={pageNumber}&pageSize={pageSize}");
+
+        // assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(employees?.Count() == 3);
+    }
+
+    [Fact]
     public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
     {
         // act
-        var response = await _client.GetAsync("api/companies/1/employees/2");
+        var response = await _client.GetAsync("api/companies/2/employees/2");
 
         // assert
-        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-        var employee = JsonConvert.DeserializeObject<EmployeeDto>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(employee?.Id == 2);
+        var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(employees?.Count() == 2);
     }
 
     [Fact]

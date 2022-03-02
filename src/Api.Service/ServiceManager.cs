@@ -23,6 +23,7 @@
 
 using Api.Interfaces;
 using Api.Service.Contracts;
+using Api.Service.Interfaces;
 using AutoMapper;
 
 #endregion
