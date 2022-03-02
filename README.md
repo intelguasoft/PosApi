@@ -14,4 +14,6 @@ Includes these features:
 - Global Error handling
 - Content Negotiation with REST API output in JSON, XML, and CSV
 - GET, POST, PUT, PATCH, DELETE
+- Action Filters for DRY data validation
+- Paged data responses
 > Written with [StackEdit](https://stackedit.io/).
