@@ -21,6 +21,7 @@
 
 #region using
 
+using System.Text.Json;
 using Api.Presentation.ActionFilters;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
@@ -46,8 +47,11 @@ public class EmployeesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetEmployeesForCompany(int companyId, [FromQuery] PagingEmployeeParameters pagingEmployeeParameters)
     {
-        var employees = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false);
-        return Ok(employees);
+        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false);
+
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingResult.pagingMetaData));
+
+        return Ok(pagingResult.employees);
     }
 
     [HttpGet("{id:int}", Name = "GetEmployeeForCompany")]

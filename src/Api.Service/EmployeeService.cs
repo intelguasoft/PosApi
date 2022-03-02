@@ -97,16 +97,6 @@ internal sealed class EmployeeService : IEmployeeService
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
-    {
-        await CheckIfCompanyExists(companyId, trackChanges);
-
-        var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, pagingEmployeeParameters, trackChanges);
-        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
-
-        return employeesDto;
-    }
-
     public async Task<EmployeeDto> GetEmployeeAsync(int companyId, int id, bool trackChanges)
     {
         await CheckIfCompanyExists(companyId, trackChanges);
@@ -115,6 +105,16 @@ internal sealed class EmployeeService : IEmployeeService
 
         var employee = _mapper.Map<EmployeeDto>(employeeDb);
         return employee;
+    }
+
+    public async Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    {
+        await CheckIfCompanyExists(companyId, trackChanges);
+
+        var employeesWithMetaData = await _repository.Employee.GetEmployeesAsync(companyId, pagingEmployeeParameters, trackChanges);
+        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithMetaData);
+
+        return (employees: employeesDto, pagingMetaData: employeesWithMetaData.PagingMetaData);
     }
 
     private async Task CheckIfCompanyExists(int companyId, bool trackChanges)

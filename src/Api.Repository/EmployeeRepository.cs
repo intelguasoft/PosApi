@@ -55,12 +55,13 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
         Delete(employee);
     }
 
-    public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
     {
-        return await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+        var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
-            .Skip((pagingEmployeeParameters.PageNumber - 1) * pagingEmployeeParameters.PageSize)
-            .Take(pagingEmployeeParameters.PageSize)
             .ToListAsync();
+
+        return PagingList<Employee>
+            .ToPagingList(employees, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
     }
 }
