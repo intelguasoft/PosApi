@@ -55,13 +55,28 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
         Delete(employee);
     }
 
+    // method #1
+    //public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    //{
+    //    var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+    //        .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
+    //        .ToListAsync();
+
+    //    return PagingList<Employee>
+    //        .ToPagingList(employees, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
+    //}
+
+    // method #2 for larger tables
     public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
     {
         var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
+            .Skip((pagingEmployeeParameters.PageNumber - 1) * pagingEmployeeParameters.PageSize)
+            .Take(pagingEmployeeParameters.PageSize)
             .ToListAsync();
 
-        return PagingList<Employee>
-            .ToPagingList(employees, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
+        var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();
+
+        return new PagingList<Employee>(employees, count, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
     }
 }
