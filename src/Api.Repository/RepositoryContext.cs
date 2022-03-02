@@ -54,4 +54,9 @@ public class RepositoryContext : DbContext
             .HasIndex(e => new {e.FirstName, e.MiddleName, e.LastName})
             .IsUnique();
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
 }
