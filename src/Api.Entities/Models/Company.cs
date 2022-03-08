@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Entities.Models;
 
-public class Company
+public class Company : FullAuditModel
 {
     [Column("CompanyId")] public int Id { get; set; }
 
@@ -60,6 +60,11 @@ public class Company
     [MaxLength(15, ErrorMessage = "Maximum length for the Phone is 15 characters.")]
     [Phone]
     public string? Phone { get; set; }
+
+    [NotMapped]
+    [Required(ErrorMessage = "ApiKey is a required field.")]
+    [MaxLength(100, ErrorMessage = "Maximum length for the Name is 100 characters.")]
+    public string ApiKey { get; set; }
 
     public ICollection<Employee>? Employees { get; set; }
 }
