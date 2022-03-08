@@ -21,7 +21,9 @@
 
 #region using
 
+using Api.Entities.Models;
 using Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 
 #endregion
@@ -31,6 +33,7 @@ namespace Api.Repository;
 public sealed class RepositoryManager : IRepositoryManager
 {
     private readonly Lazy<ICompanyRepository> _companyRepository;
+    private readonly string _defaultApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b";
     private readonly Lazy<IEmployeeRepository> _employeeRepository;
     private readonly RepositoryContext _repositoryContext;
 
@@ -46,6 +49,37 @@ public sealed class RepositoryManager : IRepositoryManager
 
     public async Task SaveAsync()
     {
+        var tracker = _repositoryContext.ChangeTracker;
+
+        foreach (var entry in tracker.Entries())
+        {
+            var apiKey = string.Empty;
+            if (entry.Entity is Company)
+            {
+                var companyEntity = entry.Entity as Company;
+                apiKey = companyEntity.ApiKey;
+            }
+
+            if (entry.Entity is FullAuditModel)
+            {
+                var referenceEntity = entry.Entity as FullAuditModel;
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        referenceEntity!.CreatedDate = DateTime.Now;
+                        referenceEntity.CreatedByApiKey = apiKey;
+                        break;
+                    case EntityState.Deleted:
+                        referenceEntity.IsDeleted = true;
+                        break;
+                    case EntityState.Modified:
+                        referenceEntity!.LastModifiedDate = DateTime.Now;
+                        referenceEntity.LastModifiedApiKey = apiKey;
+                        break;
+                }
+            }
+        }
+
         await _repositoryContext.SaveChangesAsync();
     }
 }
