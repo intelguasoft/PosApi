@@ -31,6 +31,9 @@ namespace Api.Repository.Configuration;
 
 public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 {
+    private readonly string _defaultApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b";
+    private readonly DateTime _dtNow = DateTime.Now;
+
     public void Configure(EntityTypeBuilder<Company> builder)
     {
         builder.HasData
@@ -44,7 +47,11 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 State = "CA",
                 ZipCode = "90001",
                 Country = "USA",
-                Phone = "800-123-4567"
+                Phone = "800-123-4567",
+                CreatedByApiKey = _defaultApiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedDate = _dtNow
             },
             new Company
             {
@@ -55,7 +62,11 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 State = "NY",
                 ZipCode = "10001",
                 Country = "USA",
-                Phone = "888-123-4567"
+                Phone = "888-123-4567",
+                CreatedByApiKey = _defaultApiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedDate = _dtNow
             },
             new Company
             {
@@ -66,7 +77,11 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 State = "TX",
                 ZipCode = "77002",
                 Country = "USA",
-                Phone = "866-100-2000"
+                Phone = "866-100-2000",
+                CreatedByApiKey = _defaultApiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedDate = _dtNow
             }
         );
     }
