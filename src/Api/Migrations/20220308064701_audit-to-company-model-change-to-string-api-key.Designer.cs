@@ -4,6 +4,7 @@ using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220308064701_audit-to-company-model-change-to-string-api-key")]
+    partial class audittocompanymodelchangetostringapikey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,21 +50,17 @@ namespace Api.Migrations
 
                     b.Property<string>("CreatedByApiKey")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedApiKey")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -99,10 +97,9 @@ namespace Api.Migrations
                             City = "Los Angeles",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
-                            IsDeleted = false,
+                            CreatedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             Name = "IT_Solutions Ltd",
                             Phone = "800-123-4567",
                             State = "CA",
@@ -115,10 +112,9 @@ namespace Api.Migrations
                             City = "New York",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
-                            IsDeleted = false,
+                            CreatedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             Name = "Admin_Solutions Ltd",
                             Phone = "888-123-4567",
                             State = "NY",
@@ -131,10 +127,9 @@ namespace Api.Migrations
                             City = "Houston",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
-                            IsDeleted = false,
+                            CreatedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 0, 47, 1, 301, DateTimeKind.Local).AddTicks(3838),
                             Name = "New Generation Electronics",
                             Phone = "866-100-2000",
                             State = "TX",

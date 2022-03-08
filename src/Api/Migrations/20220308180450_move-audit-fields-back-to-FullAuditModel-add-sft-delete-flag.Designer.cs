@@ -4,6 +4,7 @@ using Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220308180450_move-audit-fields-back-to-FullAuditModel-add-sft-delete-flag")]
+    partial class moveauditfieldsbacktoFullAuditModeladdsftdeleteflag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +101,10 @@ namespace Api.Migrations
                             City = "Los Angeles",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            CreatedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             IsDeleted = false,
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             Name = "IT_Solutions Ltd",
                             Phone = "800-123-4567",
                             State = "CA",
@@ -115,10 +117,10 @@ namespace Api.Migrations
                             City = "New York",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            CreatedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             IsDeleted = false,
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             Name = "Admin_Solutions Ltd",
                             Phone = "888-123-4567",
                             State = "NY",
@@ -131,10 +133,10 @@ namespace Api.Migrations
                             City = "Houston",
                             Country = "USA",
                             CreatedByApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            CreatedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            CreatedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             IsDeleted = false,
                             LastModifiedApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b",
-                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 15, 27, 719, DateTimeKind.Local).AddTicks(47),
+                            LastModifiedDate = new DateTime(2022, 3, 8, 12, 4, 50, 321, DateTimeKind.Local).AddTicks(4298),
                             Name = "New Generation Electronics",
                             Phone = "866-100-2000",
                             State = "TX",
