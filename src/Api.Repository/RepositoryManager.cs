@@ -23,6 +23,7 @@
 
 using Api.Entities.Models;
 using Api.Interfaces;
+using Api.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 
@@ -32,13 +33,15 @@ namespace Api.Repository;
 
 public sealed class RepositoryManager : IRepositoryManager
 {
+    private readonly IApiKeyService _apiKeyService;
     private readonly Lazy<ICompanyRepository> _companyRepository;
     private readonly Lazy<IEmployeeRepository> _employeeRepository;
     private readonly RepositoryContext _repositoryContext;
 
-    public RepositoryManager(RepositoryContext repositoryContext)
+    public RepositoryManager(RepositoryContext repositoryContext, IApiKeyService apiKeyService)
     {
         _repositoryContext = repositoryContext;
+        _apiKeyService = apiKeyService;
         _companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(repositoryContext));
         _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
     }
@@ -48,13 +51,10 @@ public sealed class RepositoryManager : IRepositoryManager
 
     public async Task SaveAsync()
     {
+        var apiKey = _apiKeyService.GetApiKey();
         var tracker = _repositoryContext.ChangeTracker;
 
         foreach (var entry in tracker.Entries())
-        {
-            var apiKey = string.Empty;
-
-            if (entry.Entity is Company companyEntity) apiKey = companyEntity.ApiKey;
 
             if (entry.Entity is FullAuditModel referenceEntity)
                 switch (entry.State)
@@ -79,7 +79,6 @@ public sealed class RepositoryManager : IRepositoryManager
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-        }
 
         await _repositoryContext.SaveChangesAsync();
     }
