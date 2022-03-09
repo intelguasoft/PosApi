@@ -42,11 +42,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
+builder.Services.ConfigureHttpContextAccessor();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureApiKeyService();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 
 // scan assembly for mapping definitions in class MappingProfile 
