@@ -52,6 +52,7 @@ public class ApiKeyMiddleware
 
         var appSettings = context.RequestServices.GetRequiredService<IConfiguration>();
 
+        // todo - perform ApiKey lookup
         var apiKey = appSettings.GetValue<string>(APIKEYNAME);
 
         if (!apiKey.Equals(extractedApiKey))
