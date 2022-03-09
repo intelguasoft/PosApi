@@ -22,7 +22,6 @@
 #region using
 
 using Api.Presentation.ActionFilters;
-using Api.Presentation.Attributes;
 using Api.Presentation.ModelBinders;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
@@ -35,7 +34,7 @@ namespace Api.Presentation.Controllers;
 
 [Route("api/companies")]
 [ApiController]
-[ApiKey]
+//[ApiKey]
 public class CompaniesController : ControllerBase
 {
     private readonly IServiceManager _service;
