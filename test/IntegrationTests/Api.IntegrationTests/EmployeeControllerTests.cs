@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Shared.DataTransferObjects;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -37,13 +38,33 @@ namespace Api.IntegrationTests;
 
 public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
+    private readonly string _apiKey;
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
 
     public EmployeeControllerTests(TestingWebAppFactory<Program> factory)
     {
+        //_client = factory.CreateClient();
+
+        var config = InitConfiguration();
+        _apiKey = config["ApiKey"];
+
         _client = factory.CreateClient();
+
+        // https://makolyte.com/csharp-how-to-add-request-headers-when-using-httpclient/
+        _client.DefaultRequestHeaders.Add("ApiKey", _apiKey);
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Fact]
@@ -85,13 +106,14 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
     {
         // act
-        var response = await _client.GetAsync("api/companies/2/employees/2");
+        var response = await _client.GetAsync("api/companies/1/employees/1");
 
         // assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-        var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(employees?.Count() == 2);
+        var json = response.Content.ReadAsStringAsync().Result;
+        var employee = JsonConvert.DeserializeObject<EmployeeDto>(json);
+        Assert.NotNull(employee);
     }
 
     [Fact]

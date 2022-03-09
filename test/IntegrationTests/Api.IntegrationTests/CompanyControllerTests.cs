@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Shared.DataTransferObjects;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -37,13 +38,31 @@ namespace Api.IntegrationTests;
 
 public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
+    private readonly string _apiKey;
     // https://code-maze.com/aspnet-core-integration-testing/
 
     private readonly HttpClient _client;
 
     public CompanyControllerTests(TestingWebAppFactory<Program> factory)
     {
+        var config = InitConfiguration();
+        _apiKey = config["ApiKey"];
+
         _client = factory.CreateClient();
+
+        // https://makolyte.com/csharp-how-to-add-request-headers-when-using-httpclient/
+        _client.DefaultRequestHeaders.Add("ApiKey", _apiKey);
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Fact]
