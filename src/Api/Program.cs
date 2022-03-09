@@ -26,6 +26,7 @@ using Api.Extensions;
 using Api.Interfaces;
 using Api.Presentation;
 using Api.Presentation.ActionFilters;
+using Api.Presentation.Middleware;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -83,6 +84,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.MapControllers();
 
