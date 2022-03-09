@@ -33,7 +33,6 @@ namespace Api.Repository;
 public sealed class RepositoryManager : IRepositoryManager
 {
     private readonly Lazy<ICompanyRepository> _companyRepository;
-    private readonly string _defaultApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b";
     private readonly Lazy<IEmployeeRepository> _employeeRepository;
     private readonly RepositoryContext _repositoryContext;
 
@@ -54,15 +53,10 @@ public sealed class RepositoryManager : IRepositoryManager
         foreach (var entry in tracker.Entries())
         {
             var apiKey = string.Empty;
-            if (entry.Entity is Company)
-            {
-                var companyEntity = entry.Entity as Company;
-                apiKey = companyEntity.ApiKey;
-            }
 
-            if (entry.Entity is FullAuditModel)
-            {
-                var referenceEntity = entry.Entity as FullAuditModel;
+            if (entry.Entity is Company companyEntity) apiKey = companyEntity.ApiKey;
+
+            if (entry.Entity is FullAuditModel referenceEntity)
                 switch (entry.State)
                 {
                     case EntityState.Added:
@@ -71,13 +65,20 @@ public sealed class RepositoryManager : IRepositoryManager
                         break;
                     case EntityState.Deleted:
                         referenceEntity.IsDeleted = true;
+                        referenceEntity!.LastModifiedDate = DateTime.Now;
+                        referenceEntity.LastModifiedApiKey = apiKey;
                         break;
                     case EntityState.Modified:
                         referenceEntity!.LastModifiedDate = DateTime.Now;
                         referenceEntity.LastModifiedApiKey = apiKey;
                         break;
+                    case EntityState.Detached:
+                        break;
+                    case EntityState.Unchanged:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-            }
         }
 
         await _repositoryContext.SaveChangesAsync();
