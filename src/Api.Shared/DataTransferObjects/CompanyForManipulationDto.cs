@@ -22,7 +22,6 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion
 
@@ -57,9 +56,4 @@ public abstract record CompanyForManipulationDto
     [Required(ErrorMessage = "Company phone is a required field.")]
     [MaxLength(15, ErrorMessage = "Maximum length for the Phone is 15 characters.")]
     public string? Phone { get; init; }
-
-    [NotMapped]
-    [Required(ErrorMessage = "ApiKey is a required field.")]
-    [MaxLength(100, ErrorMessage = "Maximum length for the Name is 100 characters.")]
-    public string ApiKey { get; set; }
 }
