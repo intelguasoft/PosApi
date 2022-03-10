@@ -16,4 +16,6 @@ Includes these features:
 - GET, POST, PUT, PATCH, DELETE
 - Action Filters for DRY data validation
 - Paged data responses
+- Migrated to Database First
+- Added EntityFramework Reverse POCO Code First Generator (https://www.reversepoco.co.uk/)
 > Written with [StackEdit](https://stackedit.io/).
