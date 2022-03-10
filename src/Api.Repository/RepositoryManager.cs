@@ -21,10 +21,11 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Interfaces;
 using Api.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Repository;
 
 #endregion
@@ -33,7 +34,7 @@ namespace Api.Repository;
 
 public sealed class RepositoryManager : IRepositoryManager
 {
-    private readonly IApiKeyService _apiKeyService;
+    private readonly string _apiKey;
     private readonly Lazy<ICompanyRepository> _companyRepository;
     private readonly Lazy<IEmployeeRepository> _employeeRepository;
     private readonly RepositoryContext _repositoryContext;
@@ -41,7 +42,7 @@ public sealed class RepositoryManager : IRepositoryManager
     public RepositoryManager(RepositoryContext repositoryContext, IApiKeyService apiKeyService)
     {
         _repositoryContext = repositoryContext;
-        _apiKeyService = apiKeyService;
+        _apiKey = apiKeyService.GetApiKey();
         _companyRepository = new Lazy<ICompanyRepository>(() => new CompanyRepository(repositoryContext));
         _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
     }
@@ -51,35 +52,84 @@ public sealed class RepositoryManager : IRepositoryManager
 
     public async Task SaveAsync()
     {
-        var apiKey = _apiKeyService.GetApiKey();
         var tracker = _repositoryContext.ChangeTracker;
 
-        foreach (var entry in tracker.Entries())
+        foreach (var trackerEntry in tracker.Entries())
+        {
+            // todo - create generic
+            if (trackerEntry.Entity is Company_Company companyEntity)
+                UpdateCompanyAuditing(companyEntity, trackerEntry);
 
-            if (entry.Entity is FullAuditModel referenceEntity)
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        referenceEntity!.CreatedDate = DateTime.Now;
-                        referenceEntity.CreatedByApiKey = apiKey;
-                        break;
-                    case EntityState.Deleted:
-                        referenceEntity.IsDeleted = true;
-                        referenceEntity!.LastModifiedDate = DateTime.Now;
-                        referenceEntity.LastModifiedApiKey = apiKey;
-                        break;
-                    case EntityState.Modified:
-                        referenceEntity!.LastModifiedDate = DateTime.Now;
-                        referenceEntity.LastModifiedApiKey = apiKey;
-                        break;
-                    case EntityState.Detached:
-                        break;
-                    case EntityState.Unchanged:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+            if (trackerEntry.Entity is Employee_Employee employeeEntity)
+                UpdateEmployeeAuditing(employeeEntity, trackerEntry);
+        }
 
         await _repositoryContext.SaveChangesAsync();
+    }
+
+    private Company_Company UpdateCompanyAuditing(Company_Company referenceEntity, EntityEntry trackerEntry)
+    {
+        switch (trackerEntry.State)
+        {
+            case EntityState.Added:
+                referenceEntity!.CreatedDate = DateTime.Now;
+                referenceEntity.CreatedByApiKey = _apiKey;
+                break;
+
+            case EntityState.Deleted:
+                referenceEntity.IsDeleted = true;
+                referenceEntity!.LastModifiedDate = DateTime.Now;
+                referenceEntity.LastModifiedApiKey = _apiKey;
+                break;
+
+            case EntityState.Modified:
+                referenceEntity!.LastModifiedDate = DateTime.Now;
+                referenceEntity.LastModifiedApiKey = _apiKey;
+                break;
+
+            case EntityState.Detached:
+                break;
+
+            case EntityState.Unchanged:
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException("{");
+        }
+
+        return referenceEntity;
+    }
+
+    private Employee_Employee UpdateEmployeeAuditing(Employee_Employee referenceEntity, EntityEntry trackerEntry)
+    {
+        switch (trackerEntry.State)
+        {
+            case EntityState.Added:
+                referenceEntity!.CreatedDate = DateTime.Now;
+                referenceEntity.CreatedApiKey = _apiKey;
+                break;
+
+            case EntityState.Deleted:
+                referenceEntity.IsDeleted = true;
+                referenceEntity!.LastModifiedDate = DateTime.Now;
+                referenceEntity.LastModifiedApiKey = _apiKey;
+                break;
+
+            case EntityState.Modified:
+                referenceEntity!.LastModifiedDate = DateTime.Now;
+                referenceEntity.LastModifiedApiKey = _apiKey;
+                break;
+
+            case EntityState.Detached:
+                break;
+
+            case EntityState.Unchanged:
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException("{");
+        }
+
+        return referenceEntity;
     }
 }
