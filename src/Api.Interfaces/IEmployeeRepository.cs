@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Shared.Paging;
 
 #endregion
@@ -30,8 +30,8 @@ namespace Api.Interfaces;
 
 public interface IEmployeeRepository
 {
-    Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges);
-    Task<Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges);
-    void CreateEmployeeForCompany(int companyId, Employee employee);
-    void DeleteEmployee(Employee employee);
+    Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges);
+    Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges);
+    void CreateEmployeeForCompany(int companyId, Employee_Employee employee);
+    void DeleteEmployee(Employee_Employee employee);
 }

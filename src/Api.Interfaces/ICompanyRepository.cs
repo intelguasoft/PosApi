@@ -21,7 +21,11 @@
 
 #region using
 
-using Api.Entities.Models;
+#endregion
+
+#region using
+
+using Api.Entities;
 
 #endregion
 
@@ -29,9 +33,9 @@ namespace Api.Interfaces;
 
 public interface ICompanyRepository
 {
-    Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges);
-    Task<Company> GetCompanyAsync(int companyId, bool trackChanges);
-    void CreateCompany(Company company);
-    Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
-    void DeleteCompany(Company company);
+    Task<IEnumerable<Company_Company>> GetAllCompaniesAsync(bool trackChanges);
+    Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges);
+    void CreateCompany(Company_Company company);
+    Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+    void DeleteCompany(Company_Company company);
 }
