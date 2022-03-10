@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Shared.DataTransferObjects;
 using Api.Shared.Paging;
 
@@ -36,6 +36,6 @@ public interface IEmployeeService
     Task<EmployeeDto> CreateEmployeeForCompanyAsync(int companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges);
     Task DeleteEmployeeForCompanyAsync(int companyId, int id, bool trackChanges);
     Task UpdateEmployeeForCompanyAsync(int companyId, int id, EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
-    Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(int companyId, int id, bool compTrackChanges, bool empTrackChanges);
-    Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity);
+    Task<(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)> GetEmployeeForPatchAsync(int companyId, int id, bool compTrackChanges, bool empTrackChanges);
+    Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity);
 }

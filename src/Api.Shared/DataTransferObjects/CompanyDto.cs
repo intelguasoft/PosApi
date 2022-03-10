@@ -23,7 +23,7 @@ namespace Api.Shared.DataTransferObjects;
 
 public record CompanyDto
 {
-    public int Id { get; init; }
+    public int CompanyId { get; init; }
     public string? Name { get; init; }
     public string? FullAddress { get; init; }
     public string? City { get; init; }

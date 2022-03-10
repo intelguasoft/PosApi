@@ -67,7 +67,7 @@ public class EmployeesController : ControllerBase
     {
         var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false);
 
-        return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.Id}, employeeToReturn);
+        return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.EmployeeId}, employeeToReturn);
     }
 
     [HttpDelete("{id:int}")]

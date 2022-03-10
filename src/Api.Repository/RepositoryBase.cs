@@ -22,6 +22,7 @@
 #region using
 
 using System.Linq.Expressions;
+using Api.Entities;
 using Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

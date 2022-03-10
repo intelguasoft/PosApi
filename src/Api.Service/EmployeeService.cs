@@ -21,8 +21,8 @@
 
 #region using
 
+using Api.Entities;
 using Api.Entities.Exceptions;
-using Api.Entities.Models;
 using Api.Interfaces;
 using Api.Service.Interfaces;
 using Api.Shared.DataTransferObjects;
@@ -50,7 +50,7 @@ internal sealed class EmployeeService : IEmployeeService
     {
         await CheckIfCompanyExists(companyId, trackChanges);
 
-        var employeeEntity = _mapper.Map<Employee>(employeeForCreation);
+        var employeeEntity = _mapper.Map<Employee_Employee>(employeeForCreation);
 
         _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity);
         await _repository.SaveAsync();
@@ -80,7 +80,7 @@ internal sealed class EmployeeService : IEmployeeService
         await _repository.SaveAsync();
     }
 
-    public async Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(int companyId, int id, bool compTrackChanges, bool empTrackChanges)
+    public async Task<(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)> GetEmployeeForPatchAsync(int companyId, int id, bool compTrackChanges, bool empTrackChanges)
     {
         await CheckIfCompanyExists(companyId, compTrackChanges);
 
@@ -91,7 +91,7 @@ internal sealed class EmployeeService : IEmployeeService
         return (employeeToPatch, employeeEntity: employeeDb);
     }
 
-    public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)
+    public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)
     {
         _mapper.Map(employeeToPatch, employeeEntity);
         await _repository.SaveAsync();
@@ -124,7 +124,7 @@ internal sealed class EmployeeService : IEmployeeService
             throw new CompanyNotFoundException(companyId);
     }
 
-    private async Task<Employee> GetEmployeeForCompanyAndCheckIfItExists(int companyId, int id, bool trackChanges)
+    private async Task<Employee_Employee> GetEmployeeForCompanyAndCheckIfItExists(int companyId, int id, bool trackChanges)
     {
         var employeeDb = await _repository.Employee.GetEmployeeAsync(companyId, id, trackChanges);
         if (employeeDb is null)

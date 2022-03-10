@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Shared.DataTransferObjects;
 
 #endregion
@@ -37,6 +37,6 @@ public interface ICompanyService
     Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync(IEnumerable<CompanyForCreationDto> companyCollection);
     Task DeleteCompanyAsync(int companyId, bool trackChanges);
     Task UpdateCompanyAsync(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges);
-    Task<(CompanyForUpdateDto companyToPatch, Company companyEntity)> GetCompanyForPatchAsync(int companyId, bool compTrackChanges);
-    Task SaveChangesForPatchAsync(CompanyForUpdateDto companyToPatch, Company companyEntity);
+    Task<(CompanyForUpdateDto companyToPatch, Company_Company companyEntity)> GetCompanyForPatchAsync(int companyId, bool compTrackChanges);
+    Task SaveChangesForPatchAsync(CompanyForUpdateDto companyToPatch, Company_Company companyEntity);
 }

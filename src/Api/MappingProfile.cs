@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Shared.DataTransferObjects;
 using AutoMapper;
 
@@ -33,22 +33,22 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Company, CompanyDto>()
+        CreateMap<Company_Company, CompanyDto>()
             .ForMember(c => c.FullAddress,
                 opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
 
-        CreateMap<Employee, EmployeeDto>();
+        CreateMap<Employee_Employee, EmployeeDto>();
 
-        CreateMap<CompanyForCreationDto, Company>();
+        CreateMap<CompanyForCreationDto, Company_Company>();
 
-        CreateMap<EmployeeForCreationDto, Employee>();
+        CreateMap<EmployeeForCreationDto, Employee_Employee>();
 
-        CreateMap<EmployeeForUpdateDto, Employee>();
+        CreateMap<EmployeeForUpdateDto, Employee_Employee>();
 
-        CreateMap<CompanyForUpdateDto, Company>();
+        CreateMap<CompanyForUpdateDto, Company_Company>();
 
-        CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
+        CreateMap<EmployeeForUpdateDto, Employee_Employee>().ReverseMap();
 
-        CreateMap<CompanyForUpdateDto, Company>().ReverseMap();
+        CreateMap<CompanyForUpdateDto, Company_Company>().ReverseMap();
     }
 }

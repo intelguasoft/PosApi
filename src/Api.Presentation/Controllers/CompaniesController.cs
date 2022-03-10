@@ -73,7 +73,7 @@ public class CompaniesController : ControllerBase
     {
         var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
 
-        return CreatedAtRoute("CompanyById", new {id = createdCompany.Id}, createdCompany);
+        return CreatedAtRoute("CompanyById", new {id = createdCompany?.CompanyId}, createdCompany);
     }
 
     [HttpPost("collection")]

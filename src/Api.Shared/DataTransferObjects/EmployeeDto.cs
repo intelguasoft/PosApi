@@ -21,11 +21,19 @@
 
 namespace Api.Shared.DataTransferObjects;
 
-public record EmployeeDto(
-    int Id,
-    string FirstName,
-    string MiddleName,
-    string LastName,
-    int Age,
-    string Position,
-    string Phone);
+public record EmployeeDto
+{
+    public int EmployeeId { get; init; }
+    public string? FirstName { get; init; }
+    public string? MiddleName { get; init; }
+    public string? LastName { get; init; }
+    public int Age { get; init; }
+    public string? Position { get; init; }
+    public string? Phone { get; init; }
+
+    //bool IsDeleted,
+    //string CreatedApiKey,
+    //DateTime CreatedDate,
+    //string LastModifiedApiKey,
+    //DateTime LastModifiedDate)
+}

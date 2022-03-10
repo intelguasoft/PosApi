@@ -21,36 +21,38 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Interfaces;
 using Api.Repository;
 using Api.Shared.Paging;
 using Microsoft.EntityFrameworkCore;
 
+//using RepositoryContext = Api.Repository.RepositoryContext;
+
 #endregion
 
 namespace Repository;
 
-internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
+internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IEmployeeRepository
 {
     public EmployeeRepository(RepositoryContext repositoryContext)
         : base(repositoryContext)
     {
     }
 
-    public async Task<Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges)
+    public async Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges)
     {
-        return await FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(id), trackChanges)
+        return await FindByCondition(e => e.CompanyId.Equals(companyId) && e.EmployeeId.Equals(id), trackChanges)
             .SingleOrDefaultAsync();
     }
 
-    public void CreateEmployeeForCompany(int companyId, Employee employee)
+    public void CreateEmployeeForCompany(int companyId, Employee_Employee employee)
     {
         employee.CompanyId = companyId;
         Create(employee);
     }
 
-    public void DeleteEmployee(Employee employee)
+    public void DeleteEmployee(Employee_Employee employee)
     {
         Delete(employee);
     }
@@ -67,7 +69,7 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
     //}
 
     // method #2 for larger tables
-    public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
     {
         var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
@@ -77,6 +79,6 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
 
         var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();
 
-        return new PagingList<Employee>(employees, count, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
+        return new PagingList<Employee_Employee>(employees, count, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
     }
 }

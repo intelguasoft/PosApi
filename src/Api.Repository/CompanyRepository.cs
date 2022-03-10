@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,37 +29,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repository;
 
-internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepository
+internal sealed class CompanyRepository : RepositoryBase<Company_Company>, ICompanyRepository
 {
     public CompanyRepository(RepositoryContext repositoryContext)
         : base(repositoryContext)
     {
     }
 
-    public async Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges)
+    public void CreateCompany(Company_Company company)
+    {
+        Create(company);
+    }
+
+    public void DeleteCompany(Company_Company company)
+    {
+        Delete(company);
+    }
+
+    public async Task<IEnumerable<Company_Company>> GetAllCompaniesAsync(bool trackChanges)
     {
         return await FindAll(trackChanges)
             .OrderBy(c => c.Name)
             .ToListAsync();
     }
 
-    public void CreateCompany(Company company)
+    public async Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges)
     {
-        Create(company);
+        return await FindByCondition(c => c.CompanyId.Equals(companyId), trackChanges).SingleOrDefaultAsync();
     }
 
-    public void DeleteCompany(Company company)
+    public async Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
     {
-        Delete(company);
-    }
-
-    public async Task<Company> GetCompanyAsync(int companyId, bool trackChanges)
-    {
-        return await FindByCondition(c => c.Id.Equals(companyId), trackChanges).SingleOrDefaultAsync();
-    }
-
-    public async Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
-    {
-        return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
+        return await FindByCondition(x => ids.Contains(x.CompanyId), trackChanges).ToListAsync();
     }
 }
