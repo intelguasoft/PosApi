@@ -38,9 +38,9 @@ namespace Api.IntegrationTests;
 
 public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
-    private readonly string _apiKey;
     // https://code-maze.com/aspnet-core-integration-testing/
 
+    private readonly string _apiKey;
     private readonly HttpClient _client;
 
     public CompanyControllerTests(TestingWebAppFactory<Program> factory)

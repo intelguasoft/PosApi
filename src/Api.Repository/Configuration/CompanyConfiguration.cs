@@ -24,6 +24,7 @@
 using Api.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Configuration;
 
 #endregion
 
@@ -31,8 +32,14 @@ namespace Api.Repository.Configuration;
 
 public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 {
-    private readonly string _defaultApiKey = "a2229196-5eb8-4a14-a234-b5451df0a08b";
+    private readonly string _apiKey;
     private readonly DateTime _dtNow = DateTime.Now;
+
+    public CompanyConfiguration()
+    {
+        var config = InitConfiguration();
+        _apiKey = config["ApiKey"];
+    }
 
     public void Configure(EntityTypeBuilder<Company> builder)
     {
@@ -48,9 +55,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 ZipCode = "90001",
                 Country = "USA",
                 Phone = "800-123-4567",
-                CreatedByApiKey = _defaultApiKey,
+                CreatedByApiKey = _apiKey,
                 CreatedDate = _dtNow,
-                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedApiKey = _apiKey,
                 LastModifiedDate = _dtNow
             },
             new Company
@@ -63,9 +70,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 ZipCode = "10001",
                 Country = "USA",
                 Phone = "888-123-4567",
-                CreatedByApiKey = _defaultApiKey,
+                CreatedByApiKey = _apiKey,
                 CreatedDate = _dtNow,
-                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedApiKey = _apiKey,
                 LastModifiedDate = _dtNow
             },
             new Company
@@ -78,11 +85,22 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 ZipCode = "77002",
                 Country = "USA",
                 Phone = "866-100-2000",
-                CreatedByApiKey = _defaultApiKey,
+                CreatedByApiKey = _apiKey,
                 CreatedDate = _dtNow,
-                LastModifiedApiKey = _defaultApiKey,
+                LastModifiedApiKey = _apiKey,
                 LastModifiedDate = _dtNow
             }
         );
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 }

@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Entities.Models;
 
-public class Employee
+public class Employee : FullAuditModel
 {
     [Column("EmployeeId")] public int Id { get; set; }
 

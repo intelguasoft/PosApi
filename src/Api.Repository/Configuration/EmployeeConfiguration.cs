@@ -24,6 +24,7 @@
 using Api.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Configuration;
 
 #endregion
 
@@ -31,6 +32,15 @@ namespace Api.Repository.Configuration;
 
 public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
+    private readonly string _apiKey;
+    private readonly DateTime _dtNow = DateTime.Now;
+
+    public EmployeeConfiguration()
+    {
+        var config = InitConfiguration();
+        _apiKey = config["ApiKey"];
+    }
+
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
         builder.HasData
@@ -44,7 +54,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 26,
                 Position = "Software developer",
                 Phone = "713-100-0000",
-                CompanyId = 1
+                CompanyId = 1,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -55,7 +69,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 30,
                 Position = "Software developer",
                 Phone = "832-200-0000",
-                CompanyId = 1
+                CompanyId = 1,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -66,7 +84,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 35,
                 Position = "Administrator",
                 Phone = "100-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -77,7 +99,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 25,
                 Position = "Support I",
                 Phone = "200-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -88,7 +114,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 35,
                 Position = "Support II",
                 Phone = "300-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -99,7 +129,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 29,
                 Position = "Support III",
                 Phone = "400-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -110,7 +144,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 20,
                 Position = "Support VI",
                 Phone = "500-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -121,7 +159,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 22,
                 Position = "Developer I",
                 Phone = "500-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -132,7 +174,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 24,
                 Position = "Developer II",
                 Phone = "600-300-0000",
-                CompanyId = 2
+                CompanyId = 2,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -143,7 +189,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 25,
                 Position = "Developer III",
                 Phone = "500-300-0000",
-                CompanyId = 3
+                CompanyId = 3,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             },
             new Employee
             {
@@ -154,8 +204,23 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
                 Age = 25,
                 Position = "Developer IV",
                 Phone = "600-300-0000",
-                CompanyId = 3
+                CompanyId = 3,
+                CreatedByApiKey = _apiKey,
+                CreatedDate = _dtNow,
+                LastModifiedApiKey = _apiKey,
+                LastModifiedDate = _dtNow
             }
         );
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 }
