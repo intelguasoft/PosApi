@@ -22,7 +22,7 @@
 #region using
 
 using System.Linq;
-using Api.Repository;
+using Api.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -47,9 +47,15 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
 
             services.AddDbContext<RepositoryContext>(options =>
             {
-                options.UseInMemoryDatabase("InMemoryEmployeeTest");
+                options.UseSqlServer("server=.; database=PosApi; Integrated Security=true");
                 options.EnableSensitiveDataLogging();
             });
+
+            //services.AddDbContext<RepositoryContext>(options =>
+            //{
+            //    options.UseInMemoryDatabase("InMemoryEmployeeTest");
+            //    options.EnableSensitiveDataLogging();
+            //});
 
             var sp = services.BuildServiceProvider();
             using (var scope = sp.CreateScope())

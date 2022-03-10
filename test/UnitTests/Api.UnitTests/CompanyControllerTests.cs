@@ -22,7 +22,7 @@
 #region using
 
 using System.Collections.Generic;
-using Api.Entities.Models;
+using Api.Entities;
 using Api.Interfaces;
 using Api.Presentation.Controllers;
 using Api.Service.Contracts;
@@ -52,8 +52,8 @@ public class CompanyControllerTests
     public void Get_ActionExecutes_ReturnsViewForGet()
     {
         // arrange
-        var listOfEmployees = new List<Employee>();
-        listOfEmployees.Add(new Employee
+        var listOfEmployees = new List<Employee_Employee>();
+        listOfEmployees.Add(new Employee_Employee
         {
             Age = 20,
             FirstName = "John",
@@ -61,7 +61,7 @@ public class CompanyControllerTests
             LastName = "Smith"
         });
 
-        var company = new Company
+        var company = new Company_Company
         {
             Name = "Marketing Solutions Ltd",
             Address = "242 Sunny Ave, K334",
@@ -69,7 +69,7 @@ public class CompanyControllerTests
             State = "CA",
             ZipCode = "90801",
             Country = "USA",
-            Employees = listOfEmployees
+            Employee_Employees = listOfEmployees
         };
 
         A.CallTo(() => _repository.GetCompanyAsync(1, false)).Returns(company);
