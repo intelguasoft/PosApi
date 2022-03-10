@@ -21,6 +21,7 @@
 
 #region using
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -48,5 +49,13 @@ public class ValidationFilterAttribute : IActionFilter
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
+        // todo - remove this line
+        if (context.Exception != null)
+        {
+            var message = $"{context.Exception}{Environment.NewLine}{context.Exception.InnerException}";
+
+            if (!string.IsNullOrEmpty(message))
+                context.HttpContext.Response.WriteAsync(message);
+        }
     }
 }
