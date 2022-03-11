@@ -112,7 +112,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         Assert.NotNull(employee);
     }
 
-    //[Fact]
+    [Fact]
     public async Task CreateEmployeeForCompany_WhenCalled_Creates_Employee()
     {
         // arrange

@@ -107,7 +107,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         Assert.Contains("Admin Solutions Limited", responseString);
     }
 
-    //[Fact]
+    [Fact]
     public async Task CreateCompany_WhenPassedValidData_Returns_Success()
     {
         // ----
