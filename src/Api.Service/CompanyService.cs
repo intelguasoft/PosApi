@@ -63,7 +63,7 @@ internal sealed class CompanyService : ICompanyService
         (IEnumerable<CompanyForCreationDto> companyCollection)
     {
         if (companyCollection is null)
-            throw new CompanyCollectionBadRequest();
+            throw new CompanyCollectionBadRequestException();
 
         var companyEntities = _mapper.Map<IEnumerable<Company_Company>>(companyCollection);
         foreach (var company in companyEntities)
