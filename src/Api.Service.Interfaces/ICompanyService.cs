@@ -30,7 +30,7 @@ namespace Api.Service.Interfaces;
 
 public interface ICompanyService
 {
-    Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges);
+    Task<IEnumerable<CompanyDto>> GetCompaniesAsync(bool trackChanges);
     Task<CompanyDto> GetCompanyAsync(int companyId, bool trackChanges);
     Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company);
     Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);

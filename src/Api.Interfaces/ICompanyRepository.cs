@@ -33,7 +33,7 @@ namespace Api.Interfaces;
 
 public interface ICompanyRepository
 {
-    Task<IEnumerable<Company_Company>> GetAllCompaniesAsync(bool trackChanges);
+    Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges);
     Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges);
     void CreateCompany(Company_Company company);
     Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);

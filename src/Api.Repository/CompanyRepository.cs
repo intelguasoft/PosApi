@@ -46,7 +46,7 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, IComp
         Delete(company);
     }
 
-    public async Task<IEnumerable<Company_Company>> GetAllCompaniesAsync(bool trackChanges)
+    public async Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges)
     {
         return await FindAll(trackChanges)
             .OrderBy(c => c.Name)

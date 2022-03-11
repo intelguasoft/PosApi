@@ -93,9 +93,9 @@ internal sealed class CompanyService : ICompanyService
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges)
+    public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync(bool trackChanges)
     {
-        var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges);
+        var companies = await _repository.Company.GetCompaniesAsync(trackChanges);
 
         var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
