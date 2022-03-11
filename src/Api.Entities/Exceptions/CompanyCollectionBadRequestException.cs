@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// CompanyCollectionBadRequest.cs
+// CompanyCollectionBadRequestException.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,11 +19,19 @@
 
 #endregion
 
+#region using
+
+using System.Diagnostics.CodeAnalysis;
+
+#endregion
+
+[assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Api.Entities.Exceptions", Scope = "type", Justification = "TODO")]
+
 namespace Api.Entities.Exceptions;
 
-public sealed class CompanyCollectionBadRequest : BadRequestException
+public sealed class CompanyCollectionBadRequestException : BadRequestException
 {
-    public CompanyCollectionBadRequest()
+    public CompanyCollectionBadRequestException()
         : base("Company collection sent from a client is null.")
     {
     }
