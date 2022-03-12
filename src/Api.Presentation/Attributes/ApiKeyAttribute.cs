@@ -31,7 +31,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Api.Presentation.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public class ApiKeyAttribute : Attribute, IAsyncActionFilter
+public sealed class ApiKeyAttribute : Attribute, IAsyncActionFilter
 {
     // http://codingsonata.com/secure-asp-net-core-web-api-using-api-key-authentication/
 

@@ -28,7 +28,7 @@ using Microsoft.Net.Http.Headers;
 
 #endregion
 
-namespace CompanyEmployees;
+namespace Api;
 
 public class CsvOutputFormatter : TextOutputFormatter
 {

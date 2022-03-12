@@ -28,7 +28,6 @@ using Api.Repository;
 using Api.Service;
 using Api.Service.Contracts;
 using Api.Service.Interfaces;
-using CompanyEmployees;
 using Microsoft.EntityFrameworkCore;
 
 #endregion

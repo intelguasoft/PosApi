@@ -32,7 +32,7 @@ namespace Api.Repository;
 
 public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
-    protected RepositoryContext _repositoryContext;
+    private readonly RepositoryContext _repositoryContext;
 
     public RepositoryBase(RepositoryContext repositoryContext)
     {

@@ -30,25 +30,25 @@ namespace Api.LoggerService;
 
 public class LoggerManager : ILoggerManager
 {
-    private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger s_logger = LogManager.GetCurrentClassLogger();
 
     public void LogDebug(string message)
     {
-        _logger.Debug(message);
+        s_logger.Debug(message);
     }
 
     public void LogError(string message)
     {
-        _logger.Error(message);
+        s_logger.Error(message);
     }
 
     public void LogInfo(string message)
     {
-        _logger.Info(message);
+        s_logger.Info(message);
     }
 
     public void LogWarn(string message)
     {
-        _logger.Warn(message);
+        s_logger.Warn(message);
     }
 }
