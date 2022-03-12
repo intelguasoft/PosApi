@@ -34,35 +34,44 @@ public interface IEmployeeService
     Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         PagingEmployeeParameters pagingEmployeeParameters,
-        bool trackChanges);
+        bool trackChanges, 
+        CancellationToken cancellationToken);
 
     Task<EmployeeDto> GetEmployeeAsync(
         int companyId,
         int id,
-        bool trackChanges);
+        bool trackChanges, 
+        CancellationToken cancellationToken);
 
     Task<EmployeeDto> CreateEmployeeForCompanyAsync(
         int companyId,
         EmployeeForCreationDto employeeForCreation,
-        bool trackChanges);
+        bool trackChanges, 
+        CancellationToken cancellationToken);
 
     Task DeleteEmployeeForCompanyAsync(
         int companyId,
         int id,
-        bool trackChanges);
+        bool trackChanges, 
+        CancellationToken cancellationToken);
 
     Task UpdateEmployeeForCompanyAsync(
         int companyId,
         int id,
         EmployeeForUpdateDto employeeForUpdate,
         bool compTrackChanges,
-        bool empTrackChanges);
+        bool empTrackChanges, 
+        CancellationToken cancellationToken);
 
     Task<(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)> GetEmployeeForPatchAsync(
         int companyId,
         int id,
         bool compTrackChanges,
-        bool empTrackChanges);
+        bool empTrackChanges, 
+        CancellationToken cancellationToken);
 
-    Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity);
+    Task SaveChangesForPatchAsync(
+        EmployeeForUpdateDto employeeToPatch, 
+        Employee_Employee employeeEntity, 
+        CancellationToken cancellationToken);
 }

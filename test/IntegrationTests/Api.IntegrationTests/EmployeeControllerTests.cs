@@ -70,11 +70,11 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     [Fact]
     public async Task GetCompanyEmployees_WhenCalled_Returns_Employees()
     {
-        var response = await _client.GetAsync("api/companies/1/employees");
+        var response = await _client.GetAsync("api/companies/1/employees").ConfigureAwait(false);
 
         response.EnsureSuccessStatusCode();
 
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         Assert.Contains("Raiden", responseString);
 
@@ -91,7 +91,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         var pageSize = 3;
 
         // act
-        var response = await _client.GetAsync($"api/companies/{companyId}/employees?pageNumber={pageNumber}&pageSize={pageSize}");
+        var response = await _client.GetAsync($"api/companies/{companyId}/employees?pageNumber={pageNumber}&pageSize={pageSize}").ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -104,7 +104,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
     {
         // act
-        var response = await _client.GetAsync("api/companies/1/employees/1");
+        var response = await _client.GetAsync("api/companies/1/employees/1").ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -136,7 +136,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(postEmployee), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad);
+        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -161,7 +161,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(putEmployee), Encoding.UTF8, "application/json");
-        response = await _client.PutAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}", payLoad);
+        response = await _client.PutAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -180,7 +180,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(patchEmployee), Encoding.UTF8, "application/json");
-        response = await _client.PatchAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}", payLoad);
+        response = await _client.PatchAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -190,7 +190,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // ------
 
         // act
-        response = await _client.DeleteAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}");
+        response = await _client.DeleteAsync($"api/companies/{companyId}/employees/{employee?.EmployeeId}").ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -216,7 +216,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(postEmployee), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad);
+        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
@@ -239,7 +239,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(putEmployee), Encoding.UTF8, "application/json");
-        var response = await _client.PutAsync($"api/companies/{companyId}/employees/{employeeId}", payLoad);
+        var response = await _client.PutAsync($"api/companies/{companyId}/employees/{employeeId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);

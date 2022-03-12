@@ -30,8 +30,8 @@ namespace Api.Interfaces;
 
 public interface IEmployeeRepository
 {
-    Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges);
-    Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges);
-    void CreateEmployeeForCompany(int companyId, Employee_Employee employee);
+    Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges, CancellationToken cancellationToken);
+    Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges, CancellationToken cancellationToken);
+    void CreateEmployeeForCompany(int companyId, Employee_Employee employee, CancellationToken cancellationToken);
     void DeleteEmployee(Employee_Employee employee);
 }

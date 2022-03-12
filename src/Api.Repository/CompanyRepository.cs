@@ -48,20 +48,20 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, IComp
         Delete(company);
     }
 
-    public async Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges)
+    public async Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken)
     {
         return await FindAll(trackChanges)
             .OrderBy(c => c.Name)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges)
+    public async Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
-        return await FindByCondition(c => c.CompanyId.Equals(companyId), trackChanges).SingleOrDefaultAsync();
+        return await FindByCondition(c => c.CompanyId.Equals(companyId), trackChanges).SingleOrDefaultAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+    public async Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken)
     {
-        return await FindByCondition(x => ids.Contains(x.CompanyId), trackChanges).ToListAsync();
+        return await FindByCondition(x => ids.Contains(x.CompanyId), trackChanges).ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 }

@@ -72,8 +72,8 @@ public class CompanyControllerTests
             Employee_Employees = listOfEmployees
         };
 
-        A.CallTo(() => _repository.GetCompanyAsync(1, false)).Returns(company);
-        var result = _repository.GetCompanyAsync(1, false);
+        A.CallTo(() => _repository.GetCompanyAsync(1, false, default)).Returns(company);
+        var result = _repository.GetCompanyAsync(1, false, default);
 
         // assert
         Assert.NotNull(result);

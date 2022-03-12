@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// IRepositoryManager.cs
+// IApiKeyService.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -19,15 +19,9 @@
 
 #endregion
 
-#region using
+namespace Api.Service.Interfaces;
 
-#endregion
-
-namespace Api.Interfaces;
-
-public interface IRepositoryManager
+public interface IApiKeyService
 {
-    ICompanyRepository Company { get; }
-    IEmployeeRepository Employee { get; }
-    Task SaveAsync(CancellationToken cancellationToken);
+    string GetApiKey();
 }

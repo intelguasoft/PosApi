@@ -22,11 +22,14 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using NDepend.Attributes;
 
 #endregion
 
-namespace Shared.DataTransferObjects;
+[assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Shared.DataTransferObjects", Scope = "type", Justification = "TODO")]
+
+namespace Api.Shared.DataTransferObjects;
 
 [FullCovered]
 public abstract record CompanyForManipulationDtoBase

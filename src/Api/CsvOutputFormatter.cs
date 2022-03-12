@@ -63,7 +63,7 @@ public class CsvOutputFormatter : TextOutputFormatter
         else
             FormatCsv(buffer, (CompanyDto) context.Object);
 
-        await response.WriteAsync(buffer.ToString());
+        await response.WriteAsync(buffer.ToString(), cancellationToken: default).ConfigureAwait(false);
     }
 
     private static void FormatCsv(StringBuilder buffer, CompanyDto company)

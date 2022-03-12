@@ -46,7 +46,7 @@ public class ApiKeyMiddleware
         if (!context.Request.Headers.TryGetValue(APIKEYNAME, out var extractedApiKey))
         {
             context.Response.StatusCode = 401;
-            await context.Response.WriteAsync("Api Key was not provided. (Using ApiKeyMiddleware) ");
+            await context.Response.WriteAsync("Api Key was not provided. (Using ApiKeyMiddleware)", default).ConfigureAwait(false);
             return;
         }
 
@@ -58,10 +58,10 @@ public class ApiKeyMiddleware
         if (!apiKey.Equals(extractedApiKey))
         {
             context.Response.StatusCode = 401;
-            await context.Response.WriteAsync("Unauthorized client. (Using ApiKeyMiddleware)");
+            await context.Response.WriteAsync("Unauthorized client. (Using ApiKeyMiddleware)", default).ConfigureAwait(false);
             return;
         }
 
-        await _next(context);
+        await _next(context).ConfigureAwait(false);
     }
 }

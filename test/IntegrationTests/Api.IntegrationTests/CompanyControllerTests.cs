@@ -70,11 +70,11 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     [Fact]
     public async Task Index_WhenCalled_Returns_ApplicationForm()
     {
-        var response = await _client.GetAsync("api/companies");
+        var response = await _client.GetAsync("api/companies").ConfigureAwait(false);
 
         response.EnsureSuccessStatusCode();
 
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         Assert.Contains("Admin Solutions Limited", responseString);
         Assert.Contains("IT Solutions Limited", responseString);
@@ -83,11 +83,11 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     [Fact]
     public async Task GetCompany_WhenCalled_Returns_RequestedCompany()
     {
-        var response = await _client.GetAsync("api/companies/1");
+        var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
 
         response.EnsureSuccessStatusCode();
 
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         Assert.Contains("IT Solutions Limited", responseString);
     }
@@ -96,12 +96,12 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     public async Task GetCompanyCollection_WhenCalled_Returns_RequestedCompanies()
     {
         // act
-        var response = await _client.GetAsync("api/companies/collection/(1,2)");
+        var response = await _client.GetAsync("api/companies/collection/(1,2)").ConfigureAwait(false);
 
         // assert
         response.EnsureSuccessStatusCode();
 
-        var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         Assert.Contains("IT Solutions Limited", responseString);
         Assert.Contains("Admin Solutions Limited", responseString);
@@ -128,7 +128,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(postCompany), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies", payLoad);
+        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -154,7 +154,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
-        response = await _client.PutAsync($"api/companies/{company?.CompanyId}", payLoad);
+        response = await _client.PutAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -172,7 +172,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         payLoad = new StringContent(JsonConvert.SerializeObject(patchCompany), Encoding.UTF8, "application/json");
-        response = await _client.PatchAsync($"api/companies/{company?.CompanyId}", payLoad);
+        response = await _client.PatchAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -182,7 +182,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // ------
 
         // act
-        response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}");
+        response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}").ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
@@ -205,7 +205,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies", payLoad);
+        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
@@ -230,7 +230,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
-        var response = await _client.PutAsync($"api/companies/{companyId}", payLoad);
+        var response = await _client.PutAsync($"api/companies/{companyId}", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
@@ -270,7 +270,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(listOfCompanies), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies/collection", payLoad);
+        var response = await _client.PostAsync("api/companies/collection", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -297,7 +297,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         // act
         var payLoad = new StringContent(JsonConvert.SerializeObject(newCompany), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies", payLoad);
+        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
 
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);

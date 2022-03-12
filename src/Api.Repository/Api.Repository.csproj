@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Api.Entities\Api.Entities.csproj" />
     <ProjectReference Include="..\Api.Interfaces\Api.Interfaces.csproj" />
-    <ProjectReference Include="..\Api.Service.Interfaces\Api.Service.Interfaces.csproj" />
+    <ProjectReference Include="..\Api.Service\Api.Service.csproj" />
     <ProjectReference Include="..\Api.Shared\Api.Shared.csproj" />
   </ItemGroup>
 

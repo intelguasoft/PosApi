@@ -43,13 +43,13 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IE
     {
     }
 
-    public async Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges)
+    public async Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges, CancellationToken cancellationToken)
     {
         return await FindByCondition(e => e.CompanyId.Equals(companyId) && e.EmployeeId.Equals(id), trackChanges)
-            .SingleOrDefaultAsync();
+            .SingleOrDefaultAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public void CreateEmployeeForCompany(int companyId, Employee_Employee employee)
+    public void CreateEmployeeForCompany(int companyId, Employee_Employee employee, CancellationToken cancellationToken)
     {
         employee.CompanyId = companyId;
         Create(employee);
@@ -72,15 +72,15 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IE
     //}
 
     // method #2 for larger tables
-    public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges, CancellationToken cancellationToken)
     {
         var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
             .Skip((pagingEmployeeParameters.PageNumber - 1) * pagingEmployeeParameters.PageSize)
             .Take(pagingEmployeeParameters.PageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();
+        var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         return new PagingList<Employee_Employee>(employees, count, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
     }

@@ -63,6 +63,6 @@ public class ApiKeyAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
-        await next();
+        await next().ConfigureAwait(false);
     }
 }

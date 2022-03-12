@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// IRepositoryManager.cs
+// IServiceManager.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,13 +21,14 @@
 
 #region using
 
+using Api.Service.Interfaces;
+
 #endregion
 
-namespace Api.Interfaces;
+namespace Api.Service.Contracts;
 
-public interface IRepositoryManager
+public interface IServiceManager
 {
-    ICompanyRepository Company { get; }
-    IEmployeeRepository Employee { get; }
-    Task SaveAsync(CancellationToken cancellationToken);
+    ICompanyService CompanyService { get; }
+    IEmployeeService EmployeeService { get; }
 }

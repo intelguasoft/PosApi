@@ -24,7 +24,6 @@
 		<ProjectReference Include="..\Api.LoggerService\Api.LoggerService.csproj" />
 		<ProjectReference Include="..\Api.Presentation\Api.Presentation.csproj" />
 		<ProjectReference Include="..\Api.Repository\Api.Repository.csproj" />
-		<ProjectReference Include="..\Api.Service.Interfaces\Api.Service.Interfaces.csproj" />
 		<ProjectReference Include="..\Api.Service\Api.Service.csproj" />
 	</ItemGroup>
 

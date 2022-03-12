@@ -21,9 +21,12 @@
 
 #region using
 
+using System.Diagnostics.CodeAnalysis;
 using NDepend.Attributes;
 
 #endregion
+
+[assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Api.Shared.Paging", Scope = "type", Justification = "TODO")]
 
 namespace Api.Shared.Paging;
 

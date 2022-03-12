@@ -21,11 +21,11 @@
 
 #region using
 
-using System.Net;
 using Api.Entities.Exceptions;
 using Api.Entities.Models.ErrorModel;
 using Api.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
 
 #endregion
 
@@ -39,7 +39,7 @@ public static class ExceptionMiddlewareExtensions
         {
             appError.Run(async context =>
             {
-                context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -58,7 +58,7 @@ public static class ExceptionMiddlewareExtensions
                     {
                         StatusCode = context.Response.StatusCode,
                         Message = contextFeature.Error.Message
-                    }.ToString());
+                    }.ToString(), default).ConfigureAwait(false);
                 }
             });
         });

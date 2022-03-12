@@ -22,9 +22,12 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using NDepend.Attributes;
 
 #endregion
+
+[assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Api.Shared.DataTransferObjects", Scope = "type", Justification = "TODO")]
 
 namespace Api.Shared.DataTransferObjects;
 

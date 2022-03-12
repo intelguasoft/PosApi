@@ -50,7 +50,7 @@ public sealed class RepositoryManager : IRepositoryManager
     public ICompanyRepository Company => _companyRepository.Value;
     public IEmployeeRepository Employee => _employeeRepository.Value;
 
-    public async Task SaveAsync()
+    public async Task SaveAsync(CancellationToken cancellationToken)
     {
         var tracker = _repositoryContext.ChangeTracker;
 
@@ -64,7 +64,7 @@ public sealed class RepositoryManager : IRepositoryManager
                 UpdateEmployeeAuditing(employeeEntity, trackerEntry);
         }
 
-        await _repositoryContext.SaveChangesAsync();
+        await _repositoryContext.SaveChangesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     private Company_Company UpdateCompanyAuditing(Company_Company referenceEntity, EntityEntry trackerEntry)

@@ -45,12 +45,12 @@ internal sealed class CompanyService : ICompanyService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+    public async Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken)
     {
         if (ids is null)
             throw new IdParametersBadRequestException();
 
-        var companyEntities = await _repository.Company.GetByIdsAsync(ids, trackChanges);
+        var companyEntities = await _repository.Company.GetByIdsAsync(ids, trackChanges, cancellationToken: cancellationToken).ConfigureAwait(false);
         if (ids.Count() != companyEntities.Count())
             throw new CollectionByIdsBadRequestException();
 
@@ -60,7 +60,7 @@ internal sealed class CompanyService : ICompanyService
     }
 
     public async Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync
-        (IEnumerable<CompanyForCreationDto> companyCollection)
+        (IEnumerable<CompanyForCreationDto> companyCollection, CancellationToken cancellationToken)
     {
         if (companyCollection is null)
             throw new CompanyCollectionBadRequestException();
@@ -69,7 +69,7 @@ internal sealed class CompanyService : ICompanyService
         foreach (var company in companyEntities)
             _repository.Company.CreateCompany(company);
 
-        await _repository.SaveAsync();
+        await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var companyCollectionToReturn = _mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
         var ids = string.Join(",", companyCollectionToReturn.Select(c => c.CompanyId));
@@ -77,60 +77,60 @@ internal sealed class CompanyService : ICompanyService
         return (companies: companyCollectionToReturn, ids);
     }
 
-    public async Task DeleteCompanyAsync(int companyId, bool trackChanges)
+    public async Task DeleteCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
-        var company = await GetCompanyAndCheckIfItExists(companyId, trackChanges);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
 
         _repository.Company.DeleteCompany(company);
-        await _repository.SaveAsync();
+        await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task UpdateCompanyAsync(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges)
+    public async Task UpdateCompanyAsync(int companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges, CancellationToken cancellationToken)
     {
-        var company = await GetCompanyAndCheckIfItExists(companyId, trackChanges);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
 
         _mapper.Map(companyForUpdate, company);
-        await _repository.SaveAsync();
+        await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync(bool trackChanges)
+    public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken)
     {
-        var companies = await _repository.Company.GetCompaniesAsync(trackChanges);
+        var companies = await _repository.Company.GetCompaniesAsync(trackChanges, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
         return companiesDto;
     }
 
-    public async Task<CompanyDto> GetCompanyAsync(int companyId, bool trackChanges)
+    public async Task<CompanyDto> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
-        var company = await GetCompanyAndCheckIfItExists(companyId, trackChanges);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
 
         var companyDto = _mapper.Map<CompanyDto>(company);
         return companyDto;
     }
 
-    public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company)
+    public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company, CancellationToken cancellationToken)
     {
         var companyEntity = _mapper.Map<Company_Company>(company);
 
         _repository.Company.CreateCompany(companyEntity);
-        await _repository.SaveAsync();
+        await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
 
         return companyToReturn;
     }
 
-    public async Task SaveChangesForPatchAsync(CompanyForUpdateDto companyToPatch, Company_Company companyEntity)
+    public async Task SaveChangesForPatchAsync(CompanyForUpdateDto companyToPatch, Company_Company companyEntity, CancellationToken cancellationToken)
     {
         _mapper.Map(companyToPatch, companyEntity);
-        await _repository.SaveAsync();
+        await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<(CompanyForUpdateDto companyToPatch, Company_Company companyEntity)> GetCompanyForPatchAsync(int companyId, bool compTrackChanges)
+    public async Task<(CompanyForUpdateDto companyToPatch, Company_Company companyEntity)> GetCompanyForPatchAsync(int companyId, bool compTrackChanges, CancellationToken cancellationToken)
     {
-        var companyEntity = await _repository.Company.GetCompanyAsync(companyId, compTrackChanges);
+        var companyEntity = await _repository.Company.GetCompanyAsync(companyId, compTrackChanges, cancellationToken: cancellationToken).ConfigureAwait(false);
         if (companyEntity is null)
             throw new CompanyNotFoundException(companyId);
 
@@ -139,9 +139,9 @@ internal sealed class CompanyService : ICompanyService
         return (companyToPatch, companyEntity);
     }
 
-    private async Task<Company_Company> GetCompanyAndCheckIfItExists(int id, bool trackChanges)
+    private async Task<Company_Company> GetCompanyAndCheckIfItExistsAsync(int id, bool trackChanges, CancellationToken cancellationToken)
     {
-        var company = await _repository.Company.GetCompanyAsync(id, trackChanges);
+        var company = await _repository.Company.GetCompanyAsync(id, trackChanges, cancellationToken).ConfigureAwait(false);
         if (company is null)
             throw new CompanyNotFoundException(id);
 

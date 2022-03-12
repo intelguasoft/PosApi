@@ -33,9 +33,9 @@ namespace Api.Interfaces;
 
 public interface ICompanyRepository
 {
-    Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges);
-    Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges);
     void CreateCompany(Company_Company company);
-    Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
     void DeleteCompany(Company_Company company);
+    Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken);
+    Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken);
+    Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
 }

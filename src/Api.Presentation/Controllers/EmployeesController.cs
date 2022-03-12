@@ -45,9 +45,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployeesForCompany(int companyId, [FromQuery] PagingEmployeeParameters pagingEmployeeParameters)
+    public async Task<IActionResult> GetEmployeesForCompanyAsync(int companyId, [FromQuery] PagingEmployeeParameters pagingEmployeeParameters, CancellationToken cancellationToken)
     {
-        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false);
+        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false, cancellationToken).ConfigureAwait(false);
 
         Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingResult.pagingMetaData));
 
@@ -55,46 +55,45 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet("{id:int}", Name = "GetEmployeeForCompany")]
-    public async Task<IActionResult> GetEmployeeForCompany(int companyId, int id)
+    public async Task<IActionResult> GetEmployeeForCompanyAsync(int companyId, int id, CancellationToken cancellationToken)
     {
-        var employee = await _service.EmployeeService.GetEmployeeAsync(companyId, id, false);
+        var employee = await _service.EmployeeService.GetEmployeeAsync(companyId, id, false, cancellationToken).ConfigureAwait(false);
         return Ok(employee);
     }
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> CreateEmployeeForCompany(int companyId, [FromBody] EmployeeForCreationDto employee)
+    public async Task<IActionResult> CreateEmployeeForCompanyAsync(int companyId, [FromBody] EmployeeForCreationDto employee, CancellationToken cancellationToken)
     {
-        var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false);
+        var employeeToReturn = await _service.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, false, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtRoute("GetEmployeeForCompany", new {companyId, id = employeeToReturn.EmployeeId}, employeeToReturn);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteEmployeeForCompany(int companyId, int id)
+    public async Task<IActionResult> DeleteEmployeeForCompanyAsync(int companyId, int id, CancellationToken cancellationToken)
     {
-        await _service.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, false);
+        await _service.EmployeeService.DeleteEmployeeForCompanyAsync(companyId, id, false, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
 
     [HttpPut("{id:int}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> UpdateEmployeeForCompany(int companyId, int id, [FromBody] EmployeeForUpdateDto employee)
+    public async Task<IActionResult> UpdateEmployeeForCompanyAsync(int companyId, int id, [FromBody] EmployeeForUpdateDto employee, CancellationToken cancellationToken)
     {
-        await _service.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee, false, true);
+        await _service.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employee, false, true, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<IActionResult> PartiallyUpdateEmployeeForCompany(int companyId, int id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc)
+    public async Task<IActionResult> PartiallyUpdateEmployeeForCompanyAsync(int companyId, int id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc, CancellationToken cancellationToken)
     {
         if (patchDoc is null)
             return BadRequest("patchDoc object sent from client is null.");
 
-        var result = await _service.EmployeeService.GetEmployeeForPatchAsync(companyId, id, false,
-            true);
+        var result = await _service.EmployeeService.GetEmployeeForPatchAsync(companyId, id, false, true, cancellationToken).ConfigureAwait(false);
 
         patchDoc.ApplyTo(result.employeeToPatch);
 
@@ -103,7 +102,7 @@ public class EmployeesController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
 
-        await _service.EmployeeService.SaveChangesForPatchAsync(result.employeeToPatch, result.employeeEntity);
+        await _service.EmployeeService.SaveChangesForPatchAsync(result.employeeToPatch, result.employeeEntity, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }

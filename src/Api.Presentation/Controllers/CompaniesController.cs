@@ -45,73 +45,73 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCompanies()
+    public async Task<IActionResult> GetCompaniesAsync(CancellationToken cancellationToken)
     {
-        var companies = await _service.CompanyService.GetCompaniesAsync(false);
+        var companies = await _service.CompanyService.GetCompaniesAsync(false, cancellationToken).ConfigureAwait(false);
 
         return Ok(companies);
     }
 
     [HttpGet("{id:int}", Name = "CompanyById")]
-    public async Task<IActionResult> GetCompany(int id)
+    public async Task<IActionResult> GetCompanyAsync(int id, CancellationToken cancellationToken)
     {
-        var company = await _service.CompanyService.GetCompanyAsync(id, false);
+        var company = await _service.CompanyService.GetCompanyAsync(id, false, cancellationToken).ConfigureAwait(false);
         return Ok(company);
     }
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-    public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
+    public async Task<IActionResult> GetCompanyCollectionAsync([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids, CancellationToken cancellationToken)
     {
-        var companies = await _service.CompanyService.GetByIdsAsync(ids, false);
+        var companies = await _service.CompanyService.GetByIdsAsync(ids, false, cancellationToken).ConfigureAwait(false);
 
         return Ok(companies);
     }
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
+    public async Task<IActionResult> CreateCompanyAsync([FromBody] CompanyForCreationDto company, CancellationToken cancellationToken)
     {
-        var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
+        var createdCompany = await _service.CompanyService.CreateCompanyAsync(company, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtRoute("CompanyById", new {id = createdCompany?.CompanyId}, createdCompany);
     }
 
     [HttpPost("collection")]
-    public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+    public async Task<IActionResult> CreateCompanyCollectionAsync([FromBody] IEnumerable<CompanyForCreationDto> companyCollection, CancellationToken cancellationToken)
     {
-        var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
+        var result = await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection, cancellationToken).ConfigureAwait(false);
 
         return CreatedAtRoute("CompanyCollection", new {result.ids}, result.companies);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteCompany(int id)
+    public async Task<IActionResult> DeleteCompanyAsync(int id, CancellationToken cancellationToken)
     {
-        await _service.CompanyService.DeleteCompanyAsync(id, false);
+        await _service.CompanyService.DeleteCompanyAsync(id, false, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
 
     [HttpPut("{id:int}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> UpdateCompany(int id, [FromBody] CompanyForUpdateDto company)
+    public async Task<IActionResult> UpdateCompanyAsync(int id, [FromBody] CompanyForUpdateDto company, CancellationToken cancellationToken)
     {
-        await _service.CompanyService.UpdateCompanyAsync(id, company, true);
+        await _service.CompanyService.UpdateCompanyAsync(id, company, true, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<IActionResult> PartiallyUpdateCompany(int id, [FromBody] JsonPatchDocument<CompanyForUpdateDto> patchDoc)
+    public async Task<IActionResult> PartiallyUpdateCompanyAsync(int id, [FromBody] JsonPatchDocument<CompanyForUpdateDto> patchDoc, CancellationToken cancellationToken)
     {
         if (patchDoc is null)
             return BadRequest("patchDoc object sent from client is null.");
 
-        var result = await _service.CompanyService.GetCompanyForPatchAsync(id, true);
+        var result = await _service.CompanyService.GetCompanyForPatchAsync(id, true, cancellationToken).ConfigureAwait(false);
 
         patchDoc.ApplyTo(result.companyToPatch);
 
-        await _service.CompanyService.SaveChangesForPatchAsync(result.companyToPatch, result.companyEntity);
+        await _service.CompanyService.SaveChangesForPatchAsync(result.companyToPatch, result.companyEntity, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
