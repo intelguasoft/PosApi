@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="NDepend.API">
+      <HintPath>..\Api.NDepend\NDepend.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

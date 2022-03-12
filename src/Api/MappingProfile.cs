@@ -24,11 +24,13 @@
 using Api.Entities;
 using Api.Shared.DataTransferObjects;
 using AutoMapper;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api;
 
+[FullCovered]
 public class MappingProfile : Profile
 {
     public MappingProfile()

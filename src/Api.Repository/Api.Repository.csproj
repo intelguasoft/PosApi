@@ -21,4 +21,10 @@
     <ProjectReference Include="..\Api.Shared\Api.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="NDepend.API">
+      <HintPath>..\Api.NDepend\NDepend.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

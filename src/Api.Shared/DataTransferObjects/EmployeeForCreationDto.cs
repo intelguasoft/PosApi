@@ -21,4 +21,4 @@
 
 namespace Api.Shared.DataTransferObjects;
 
-public record EmployeeForCreationDto : EmployeeForManipulationDto;
+public record EmployeeForCreationDto : EmployeeForManipulationDtoBase;

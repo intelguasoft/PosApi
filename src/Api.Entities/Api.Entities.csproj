@@ -12,6 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="NDepend.API">
+      <HintPath>..\Api.NDepend\NDepend.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="PosApi.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PosApi.cs</LastGenOutput>

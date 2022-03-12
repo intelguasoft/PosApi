@@ -24,11 +24,13 @@
 using Api.Entities;
 using Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api.Repository;
 
+[FullCovered]
 internal sealed class CompanyRepository : RepositoryBase<Company_Company>, ICompanyRepository
 {
     public CompanyRepository(RepositoryContext repositoryContext)

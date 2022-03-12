@@ -26,13 +26,16 @@ using Api.Interfaces;
 using Api.Repository;
 using Api.Shared.Paging;
 using Microsoft.EntityFrameworkCore;
+using NDepend.Attributes;
 
-//using RepositoryContext = Api.Repository.RepositoryContext;
+//using _repositoryContext = Api.Repository._repositoryContext;
 
 #endregion
 
+
 namespace Repository;
 
+[FullCovered]
 internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IEmployeeRepository
 {
     public EmployeeRepository(RepositoryContext repositoryContext)

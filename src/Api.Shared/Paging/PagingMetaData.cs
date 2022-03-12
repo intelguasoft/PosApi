@@ -19,8 +19,15 @@
 
 #endregion
 
+#region using
+
+using NDepend.Attributes;
+
+#endregion
+
 namespace Api.Shared.Paging;
 
+[FullCovered]
 public class PagingMetaData
 {
     public int CurrentPage { get; set; }

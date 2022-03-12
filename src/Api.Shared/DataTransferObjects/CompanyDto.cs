@@ -19,8 +19,15 @@
 
 #endregion
 
+#region using
+
+using NDepend.Attributes;
+
+#endregion
+
 namespace Api.Shared.DataTransferObjects;
 
+[FullCovered]
 public record CompanyDto
 {
     public int CompanyId { get; init; }

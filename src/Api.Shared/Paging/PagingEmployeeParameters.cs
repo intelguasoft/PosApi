@@ -25,6 +25,6 @@
 
 namespace Api.Shared.Paging;
 
-public class PagingEmployeeParameters : PagingRequestParameters
+public class PagingEmployeeParameters : PagingRequestParametersBase
 {
 }

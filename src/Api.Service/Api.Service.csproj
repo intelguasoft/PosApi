@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Api.Service.Interfaces\Api.Service.Interfaces.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="NDepend.API">
+      <HintPath>..\Api.NDepend\NDepend.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

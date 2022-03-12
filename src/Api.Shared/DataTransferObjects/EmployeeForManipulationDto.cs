@@ -22,12 +22,14 @@
 #region using
 
 using System.ComponentModel.DataAnnotations;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api.Shared.DataTransferObjects;
 
-public abstract record EmployeeForManipulationDto
+[FullCovered]
+public abstract record EmployeeForManipulationDtoBase
 {
     [Required(ErrorMessage = "Employee first name is a required field.")]
     [MaxLength(15, ErrorMessage = "Maximum length for the FirstName is 15 characters.")]

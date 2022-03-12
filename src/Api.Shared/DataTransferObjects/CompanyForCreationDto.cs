@@ -27,7 +27,4 @@ using Shared.DataTransferObjects;
 
 namespace Api.Shared.DataTransferObjects;
 
-public record CompanyForCreationDto : CompanyForManipulationDto
-{
-    public IEnumerable<EmployeeForCreationDto>? Employees { get; init; }
-}
+public record CompanyForCreationDto : CompanyForManipulationDtoBase;

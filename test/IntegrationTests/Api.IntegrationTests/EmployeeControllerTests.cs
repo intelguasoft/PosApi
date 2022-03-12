@@ -29,6 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.Shared.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
+using NDepend.Attributes;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -36,6 +37,7 @@ using Xunit;
 
 namespace Api.IntegrationTests;
 
+[FullCovered]
 public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     private readonly string _apiKey;

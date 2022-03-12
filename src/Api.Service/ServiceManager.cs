@@ -25,11 +25,13 @@ using Api.Interfaces;
 using Api.Service.Contracts;
 using Api.Service.Interfaces;
 using AutoMapper;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api.Service;
 
+[FullCovered]
 public sealed class ServiceManager : IServiceManager
 {
     private readonly Lazy<ICompanyService> _companyService;

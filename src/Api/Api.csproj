@@ -7,10 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="ContextFactory\RepositoryContextFactory.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="EntityFrameworkProfiler" Version="6.0.6031" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
@@ -25,15 +21,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="ContextFactory\RepositoryContextFactory.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Api.LoggerService\Api.LoggerService.csproj" />
 		<ProjectReference Include="..\Api.Presentation\Api.Presentation.csproj" />
 		<ProjectReference Include="..\Api.Repository\Api.Repository.csproj" />
 		<ProjectReference Include="..\Api.Service.Interfaces\Api.Service.Interfaces.csproj" />
 		<ProjectReference Include="..\Api.Service\Api.Service.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="NDepend.API">
+	    <HintPath>..\Api.NDepend\NDepend.API.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<ItemGroup>

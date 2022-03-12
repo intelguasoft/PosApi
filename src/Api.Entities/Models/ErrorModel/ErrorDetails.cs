@@ -19,10 +19,16 @@
 
 #endregion
 
+#region using
+
 using System.Text.Json;
+using NDepend.Attributes;
+
+#endregion
 
 namespace Api.Entities.Models.ErrorModel;
 
+[FullCovered]
 public class ErrorDetails
 {
     public int StatusCode { get; set; }

@@ -19,9 +19,16 @@
 
 #endregion
 
+#region using
+
+using NDepend.Attributes;
+
+#endregion
+
 namespace Api.Shared.Paging;
 
-public abstract class PagingRequestParameters
+[FullCovered]
+public abstract class PagingRequestParametersBase
 {
     private const int maxPageSize = 50;
 

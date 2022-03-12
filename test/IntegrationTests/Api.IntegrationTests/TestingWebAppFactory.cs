@@ -27,11 +27,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api.IntegrationTests;
 
+[FullCovered]
 public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> where TEntryPoint : Program
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -51,7 +53,7 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
                 options.EnableSensitiveDataLogging();
             });
 
-            //services.AddDbContext<RepositoryContext>(options =>
+            //services.AddDbContext<_repositoryContext>(options =>
             //{
             //    options.UseInMemoryDatabase("InMemoryEmployeeTest");
             //    options.EnableSensitiveDataLogging();

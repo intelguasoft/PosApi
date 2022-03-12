@@ -23,11 +23,13 @@
 
 using Api.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
+using NDepend.Attributes;
 
 #endregion
 
 namespace Api.Service;
 
+[FullCovered]
 public class ApiKeyService : IApiKeyService
 {
     private const string APIKEYNAME = "ApiKey";
