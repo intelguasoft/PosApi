@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72BC882B-4C2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{2D66ABBA-7C09-4A26-A5DE-646C2018F53F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Entities", "src\Api.Entities\Api.Entities.csproj", "{EB615C67-84AC-4ABD-87CD-84B3DBE1D92B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "src\Api.Entities\Entities.csproj", "{EB615C67-84AC-4ABD-87CD-84B3DBE1D92B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.LoggerService", "src\Api.LoggerService\Api.LoggerService.csproj", "{873DFD94-BADB-47F2-9A0E-88449127331D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "src\Api.LoggerService\LoggerService.csproj", "{873DFD94-BADB-47F2-9A0E-88449127331D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Presentation", "src\Api.Presentation\Api.Presentation.csproj", "{19DC60DE-76DC-4C97-8AE2-CCAAB0067431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "src\Api.Presentation\Presentation.csproj", "{19DC60DE-76DC-4C97-8AE2-CCAAB0067431}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Repository", "src\Api.Repository\Api.Repository.csproj", "{9EAF79A9-E7BB-4F28-AA8A-D9EB81BEC8BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "src\Api.Repository\Repository.csproj", "{9EAF79A9-E7BB-4F28-AA8A-D9EB81BEC8BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Service", "src\Api.Service\Api.Service.csproj", "{53E27B34-9CAF-407B-AACF-5BB8DF20C319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "src\Api.Service\Service.csproj", "{53E27B34-9CAF-407B-AACF-5BB8DF20C319}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F26701F9-AE89-4D95-A423-F0A69877B4CD}"
 EndProject
@@ -23,15 +23,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "Integra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{D56A8265-A20F-416C-95B5-886FFC995E48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.IntegrationTests", "test\IntegrationTests\Api.IntegrationTests\Api.IntegrationTests.csproj", "{2BFC3FEA-A631-423D-854B-950A5C9584C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "test\IntegrationTests\Api.IntegrationTests\IntegrationTests.csproj", "{2BFC3FEA-A631-423D-854B-950A5C9584C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Shared", "src\Api.Shared\Api.Shared.csproj", "{9746A13A-0C27-4602-8279-7AB0AE7B9601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Api.Shared\Shared.csproj", "{9746A13A-0C27-4602-8279-7AB0AE7B9601}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.UnitTests", "test\UnitTests\Api.UnitTests\Api.UnitTests.csproj", "{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "test\UnitTests\Api.UnitTests\UnitTests.csproj", "{1E749CBD-4D26-48A9-BCD0-9BA4B905E6B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Interfaces", "src\Api.Interfaces\Api.Interfaces.csproj", "{D8CB77D0-61A1-47D5-86D1-A64F71110422}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "src\Api.Interfaces\Interfaces.csproj", "{D8CB77D0-61A1-47D5-86D1-A64F71110422}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.NDepend", "src\Api.NDepend\Api.NDepend.csproj", "{A0D15675-2243-463F-A33F-AA419EFFFD03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDepend", "src\Api.NDepend\NDepend.csproj", "{A0D15675-2243-463F-A33F-AA419EFFFD03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

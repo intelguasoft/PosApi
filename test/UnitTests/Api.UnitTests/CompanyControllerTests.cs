@@ -22,7 +22,7 @@
 #region using
 
 using System.Collections.Generic;
-using Api.Entities;
+using Entities;
 using Api.Interfaces;
 using Api.Presentation.Controllers;
 using Api.Service.Contracts;

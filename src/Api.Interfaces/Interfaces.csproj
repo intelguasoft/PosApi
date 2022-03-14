@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Api.Entities\Api.Entities.csproj" />
-    <ProjectReference Include="..\Api.Shared\Api.Shared.csproj" />
+    <ProjectReference Include="..\Api.Entities\Entities.csproj" />
+    <ProjectReference Include="..\Api.Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

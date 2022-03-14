@@ -22,7 +22,7 @@
 #region using
 
 using System.Linq;
-using Api.Entities;
+using Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;

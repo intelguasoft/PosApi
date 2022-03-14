@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities;
+using Entities;
 using Api.Interfaces;
 using Api.Repository;
 using Api.Shared.Paging;

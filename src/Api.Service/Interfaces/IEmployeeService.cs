@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities;
+using Entities;
 using Api.Shared.DataTransferObjects;
 using Api.Shared.Paging;
 

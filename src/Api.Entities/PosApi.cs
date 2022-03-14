@@ -24,7 +24,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Api.Entities
+namespace Entities
 {
     #region Database context interface
 
@@ -104,7 +104,7 @@ namespace Api.Entities
             }
         }
 
-        public static bool IsSqlParameterNull(SqlParameter param)
+        public bool IsSqlParameterNull(SqlParameter param)
         {
             var sqlValue = param.SqlValue;
             var nullableValue = sqlValue as INullable;

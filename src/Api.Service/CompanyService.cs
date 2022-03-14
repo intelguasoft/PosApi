@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities;
+using Entities;
 using Api.Entities.Exceptions;
 using Api.Interfaces;
 using Api.Service.Interfaces;
