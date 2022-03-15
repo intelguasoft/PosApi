@@ -24,7 +24,7 @@
 using Entities;
 using Api.Interfaces;
 using Api.Repository;
-using Api.Shared.Paging;
+using Shared.Paging;
 using Microsoft.EntityFrameworkCore;
 using NDepend.Attributes;
 
@@ -61,27 +61,28 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IE
     }
 
     // method #1
-    //public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges)
+    //public async Task<PagingList<Employee>> GetEmployeesAsync(int companyId, employeeRequestParameters employeeRequestParameters, bool trackChanges)
     //{
     //    var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
     //        .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
     //        .ToListAsync();
 
     //    return PagingList<Employee>
-    //        .ToPagingList(employees, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
+    //        .ToPagingList(employees, employeeRequestParameters.PageNumber, employeeRequestParameters.PageSize);
     //}
 
     // method #2 for larger tables
-    public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges, CancellationToken cancellationToken)
+    public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, EmployeeRequestParameters employeeRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
-        var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+        var employees = await FindByCondition(e => e.CompanyId.Equals(companyId) &&
+            (e.Age >= employeeRequestParameters.MinAge && e.Age <= employeeRequestParameters.MaxAge), trackChanges)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
-            .Skip((pagingEmployeeParameters.PageNumber - 1) * pagingEmployeeParameters.PageSize)
-            .Take(pagingEmployeeParameters.PageSize)
+            .Skip((employeeRequestParameters.PageNumber - 1) * employeeRequestParameters.PageSize)
+            .Take(employeeRequestParameters.PageSize)
             .ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        return new PagingList<Employee_Employee>(employees, count, pagingEmployeeParameters.PageNumber, pagingEmployeeParameters.PageSize);
+        return new PagingList<Employee_Employee>(employees, count, employeeRequestParameters.PageNumber, employeeRequestParameters.PageSize);
     }
 }

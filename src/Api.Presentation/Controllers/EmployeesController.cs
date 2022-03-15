@@ -25,7 +25,7 @@ using System.Text.Json;
 using Api.Presentation.ActionFilters;
 using Api.Service.Contracts;
 using Api.Shared.DataTransferObjects;
-using Api.Shared.Paging;
+using Shared.Paging;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,9 +45,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployeesForCompanyAsync(int companyId, [FromQuery] PagingEmployeeParameters pagingEmployeeParameters, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetEmployeesForCompanyAsync(int companyId, [FromQuery] EmployeeRequestParameters employeeRequestParameters, CancellationToken cancellationToken)
     {
-        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, pagingEmployeeParameters, false, cancellationToken).ConfigureAwait(false);
+        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, employeeRequestParameters, false, cancellationToken).ConfigureAwait(false);
 
         Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingResult.pagingMetaData));
 

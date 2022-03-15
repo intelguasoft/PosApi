@@ -23,7 +23,7 @@
 
 using Entities;
 using Api.Shared.DataTransferObjects;
-using Api.Shared.Paging;
+using Shared.Paging;
 
 #endregion
 
@@ -33,7 +33,7 @@ public interface IEmployeeService
 {
     Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
-        PagingEmployeeParameters pagingEmployeeParameters,
+        EmployeeRequestParameters employeeRequestParameters,
         bool trackChanges, 
         CancellationToken cancellationToken);
 

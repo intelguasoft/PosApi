@@ -25,7 +25,7 @@ using NDepend.Attributes;
 
 #endregion
 
-namespace Api.Shared.Paging;
+namespace Shared.Paging;
 
 [FullCovered]
 public class PagingMetaData

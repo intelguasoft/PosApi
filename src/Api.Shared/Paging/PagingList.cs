@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Api.Shared.Paging;
+namespace Shared.Paging;
 
 public class PagingList<T> : List<T>
 {

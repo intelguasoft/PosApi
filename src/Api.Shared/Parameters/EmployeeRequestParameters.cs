@@ -1,6 +1,6 @@
 ﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// PagingRequestParameters.cs
+// employeeRequestParameters.cs
 // 
 // Copyright (C) 2022 Binary Builders Inc.
 // 
@@ -21,26 +21,14 @@
 
 #region using
 
-using System.Diagnostics.CodeAnalysis;
-using NDepend.Attributes;
-
 #endregion
 
-[assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Api.Shared.Paging", Scope = "type", Justification = "TODO")]
+namespace Shared.Paging;
 
-namespace Api.Shared.Paging;
-
-[FullCovered]
-public abstract class PagingRequestParametersBase
+public class EmployeeRequestParameters : PagingBase
 {
-    private const int maxPageSize = 50;
+    public int MinAge { get; set; }
+	public int MaxAge { get; set; } = int.MaxValue;
 
-    private int _pageSize = 10;
-    public int PageNumber { get; set; } = 1;
-
-    public int PageSize
-    {
-        get => _pageSize;
-        set => _pageSize = value > maxPageSize ? maxPageSize : value;
-    }
+	public bool ValidAgeRange => MaxAge > MinAge;
 }

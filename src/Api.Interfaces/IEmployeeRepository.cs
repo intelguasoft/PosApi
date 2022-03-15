@@ -22,7 +22,7 @@
 #region using
 
 using Entities;
-using Api.Shared.Paging;
+using Shared.Paging;
 
 #endregion
 
@@ -30,7 +30,7 @@ namespace Api.Interfaces;
 
 public interface IEmployeeRepository
 {
-    Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, PagingEmployeeParameters pagingEmployeeParameters, bool trackChanges, CancellationToken cancellationToken);
+    Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, EmployeeRequestParameters employeeRequestParameters, bool trackChanges, CancellationToken cancellationToken);
     Task<Employee_Employee> GetEmployeeAsync(int companyId, int id, bool trackChanges, CancellationToken cancellationToken);
     void CreateEmployeeForCompany(int companyId, Employee_Employee employee, CancellationToken cancellationToken);
     void DeleteEmployee(Employee_Employee employee);
