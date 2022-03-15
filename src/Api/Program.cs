@@ -23,16 +23,13 @@
 
 using Api;
 using Api.Extensions;
-using Api.Interfaces;
-using Api.Presentation;
-using Api.Presentation.ActionFilters;
-using Api.Presentation.Middleware;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
+using Presentation;
 
 #endregion
 
@@ -57,7 +54,7 @@ builder.Services.AddAutoMapper(typeof(Api.Program));
 
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
-builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<Presentation.ActionFilters.ValidationFilterAttribute>();
 
 builder.Services.AddControllers(config =>
     {
@@ -70,7 +67,7 @@ builder.Services.AddControllers(config =>
 
 var app = builder.Build();
 
-var logger = app.Services.GetRequiredService<ILoggerManager>();
+var logger = app.Services.GetRequiredService<Interfaces.ILoggerManager>();
 app.ConfigureExceptionHandler(logger);
 
 if (app.Environment.IsProduction())
@@ -87,7 +84,7 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
-app.UseMiddleware<ApiKeyMiddleware>();
+app.UseMiddleware<Presentation.Middleware.ApiKeyMiddleware>();
 
 app.MapControllers();
 
