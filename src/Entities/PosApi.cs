@@ -100,7 +100,7 @@ namespace Entities
             }
         }
 
-        public bool IsSqlParameterNull(SqlParameter param)
+        public static bool IsSqlParameterNull(SqlParameter param)
         {
             var sqlValue = param.SqlValue;
             var nullableValue = sqlValue as INullable;
