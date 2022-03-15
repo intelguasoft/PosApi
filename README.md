@@ -18,4 +18,6 @@ Includes these features:
 - Paged data responses
 - Migrated to Database First
 - Added EntityFramework Reverse POCO Code First Generator (https://www.reversepoco.co.uk/)
+- Added filtered responses
+- Added search
 > Written with [StackEdit](https://stackedit.io/).
