@@ -40,18 +40,20 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 {
     // https://code-maze.com/aspnet-core-integration-testing/
 
+    private const string APIKEYNAME = "x-posapi-key";
+
     private readonly string _apiKey;
     private readonly HttpClient _client;
 
     public CompanyControllerTests(TestingWebAppFactory<Program> factory)
     {
         var config = InitConfiguration();
-        _apiKey = config["ApiKey"];
+        _apiKey = config[APIKEYNAME];
 
         _client = factory.CreateClient();
 
         // https://makolyte.com/csharp-how-to-add-request-headers-when-using-httpclient/
-        _client.DefaultRequestHeaders.Add("ApiKey", _apiKey);
+        _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
 
         //_client.BaseAddress = new Uri("https://localhost:5001/");
     }

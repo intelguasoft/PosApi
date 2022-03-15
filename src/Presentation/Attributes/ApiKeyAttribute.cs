@@ -35,7 +35,7 @@ public sealed class ApiKeyAttribute : Attribute, IAsyncActionFilter
 {
     // http://codingsonata.com/secure-asp-net-core-web-api-using-api-key-authentication/
 
-    private const string APIKEYNAME = "ApiKey";
+    private const string APIKEYNAME = "x-posapi-key";
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {

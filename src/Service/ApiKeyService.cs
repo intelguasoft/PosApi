@@ -30,7 +30,7 @@ namespace Service;
 
 public class ApiKeyService : IApiKeyService
 {
-    private const string APIKEYNAME = "ApiKey";
+    private const string APIKEYNAME = "x-posapi-key";
 
     // https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor?view=aspnetcore-6.0
     private readonly IHttpContextAccessor _httpContextAccessor;

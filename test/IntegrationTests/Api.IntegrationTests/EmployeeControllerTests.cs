@@ -38,6 +38,8 @@ namespace IntegrationTests;
 
 public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
+     private const string APIKEYNAME = "x-posapi-key";
+
     private readonly string _apiKey;
     // https://code-maze.com/aspnet-core-integration-testing/
 
@@ -46,12 +48,12 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     public EmployeeControllerTests(TestingWebAppFactory<Program> factory)
     {
         var config = InitConfiguration();
-        _apiKey = config["ApiKey"];
+        _apiKey = config[APIKEYNAME];
 
         _client = factory.CreateClient();
 
         // https://makolyte.com/csharp-how-to-add-request-headers-when-using-httpclient/
-        _client.DefaultRequestHeaders.Add("ApiKey", _apiKey);
+        _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
     }
 
     [Fact]

@@ -98,7 +98,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91819C3E-EFCD-4899-9D2C-C2B97BD96F63}
 	EndGlobalSection
-	GlobalSection(NDepend) = preSolution
-		Project = ".\Pos.Api.ndproj"
-	EndGlobalSection
 EndGlobal
