@@ -34,7 +34,7 @@ namespace Repository;
 
 internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IEmployeeRepository
 {
-    public EmployeeRepository(RepositoryContext repositoryContext)
+    internal EmployeeRepository(RepositoryContext repositoryContext)
         : base(repositoryContext)
     {
     }

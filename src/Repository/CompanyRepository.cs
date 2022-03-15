@@ -30,7 +30,7 @@ namespace Repository;
 
 internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Interfaces.ICompanyRepository
 {
-    public CompanyRepository(RepositoryContext repositoryContext)
+    internal CompanyRepository(RepositoryContext repositoryContext)
         : base(repositoryContext)
     {
     }
