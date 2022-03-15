@@ -21,36 +21,34 @@
 
 #region using
 
-using Entities;
-using Api.Shared.DataTransferObjects;
 using AutoMapper;
-using NDepend.Attributes;
+using Entities;
+using Shared.DataTransferObjects;
 
 #endregion
 
 namespace Api;
 
-[FullCovered]
 public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Company_Company, CompanyDto>()
+        CreateMap<Company_Company, Shared.DataTransferObjects.CompanyDto>()
             .ForMember(c => c.FullAddress,
                 opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
 
-        CreateMap<Employee_Employee, EmployeeDto>();
+        CreateMap<Employee_Employee, Shared.DataTransferObjects.EmployeeDto>();
 
-        CreateMap<CompanyForCreationDto, Company_Company>();
+        CreateMap<Shared.DataTransferObjects.CompanyForCreationDto, Company_Company>();
 
-        CreateMap<EmployeeForCreationDto, Employee_Employee>();
+        CreateMap<Shared.DataTransferObjects.EmployeeForCreationDto, Employee_Employee>();
 
         CreateMap<EmployeeForUpdateDto, Employee_Employee>();
 
-        CreateMap<CompanyForUpdateDto, Company_Company>();
+        CreateMap<Shared.DataTransferObjects.CompanyForUpdateDto, Company_Company>();
 
         CreateMap<EmployeeForUpdateDto, Employee_Employee>().ReverseMap();
 
-        CreateMap<CompanyForUpdateDto, Company_Company>().ReverseMap();
+        CreateMap<Shared.DataTransferObjects.CompanyForUpdateDto, Company_Company>().ReverseMap();
     }
 }

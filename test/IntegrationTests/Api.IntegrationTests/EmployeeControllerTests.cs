@@ -21,23 +21,21 @@
 
 #region using
 
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Api.Shared.DataTransferObjects;
-using Microsoft.Extensions.Configuration;
-using NDepend.Attributes;
-using Newtonsoft.Json;
 using Xunit;
+using Api;
 
 #endregion
 
-namespace Api.IntegrationTests;
+namespace IntegrationTests;
 
-[FullCovered]
 public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     private readonly string _apiKey;
@@ -56,62 +54,30 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         _client.DefaultRequestHeaders.Add("ApiKey", _apiKey);
     }
 
-    public static IConfiguration InitConfiguration()
-    {
-        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
-
-        var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.test.json")
-            .AddEnvironmentVariables()
-            .Build();
-        return config;
-    }
-
     [Fact]
-    public async Task GetCompanyEmployees_WhenCalled_Returns_Employees()
-    {
-        var response = await _client.GetAsync("api/companies/1/employees").ConfigureAwait(false);
-
-        response.EnsureSuccessStatusCode();
-
-        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-        Assert.Contains("Raiden", responseString);
-
-        var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(employees?.Count() > 0);
-    }
-
-    [Fact]
-    public async Task GetCompanyEmployees_WhenCalled_Returns_PagedEmployees()
+    public async Task CreateEmployee_WhenPassed_InvalidData_Returns_UnprocessableEntity()
     {
         // arrange
-        var companyId = 3;
-        var pageNumber = 1;
-        var pageSize = 3;
+        var companyId = 1;
+
+        // note null position
+        var postEmployee = new Shared.DataTransferObjects.EmployeeForCreationDto
+        {
+            FirstName = "Curly",
+            MiddleName = "Lester",
+            LastName = "Horwitz",
+            Age = 30,
+            Phone = "346-300-4000",
+            Position = null
+        };
+
 
         // act
-        var response = await _client.GetAsync($"api/companies/{companyId}/employees?pageNumber={pageNumber}&pageSize={pageSize}").ConfigureAwait(false);
+        var payLoad = new StringContent(JsonConvert.SerializeObject(postEmployee), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad).ConfigureAwait(false);
 
         // assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var employees = JsonConvert.DeserializeObject<IEnumerable<EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(employees?.Count() == 3);
-    }
-
-    [Fact]
-    public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
-    {
-        // act
-        var response = await _client.GetAsync("api/companies/1/employees/1").ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var json = response.Content.ReadAsStringAsync().Result;
-        var employee = JsonConvert.DeserializeObject<EmployeeDto>(json);
-        Assert.NotNull(employee);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
     }
 
     [Fact]
@@ -124,7 +90,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // POST
         // ----
 
-        var postEmployee = new EmployeeForCreationDto
+        var postEmployee = new Shared.DataTransferObjects.EmployeeForCreationDto
         {
             FirstName = "Curly",
             MiddleName = "Lester",
@@ -141,7 +107,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var employee = JsonConvert.DeserializeObject<EmployeeDto>(response.Content.ReadAsStringAsync().Result);
+        var employee = JsonConvert.DeserializeObject<Shared.DataTransferObjects.EmployeeDto>(response.Content.ReadAsStringAsync().Result);
         Assert.True(employee?.EmployeeId > 0);
 
         // ---
@@ -149,7 +115,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // ---
 
         // arrange
-        var putEmployee = new EmployeeForCreationDto
+        var putEmployee = new Shared.DataTransferObjects.EmployeeForCreationDto
         {
             FirstName = "Mo",
             MiddleName = "Harry",
@@ -171,7 +137,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         // -----
 
         // arrange
-        var patchEmployee = new EmployeeForCreationDto
+        var patchEmployee = new Shared.DataTransferObjects.EmployeeForCreationDto
         {
             FirstName = "Larry",
             MiddleName = "Fine",
@@ -197,29 +163,61 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     }
 
     [Fact]
-    public async Task CreateEmployee_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    public async Task GetCompanyEmployee_WhenCalled_Returns_Employee()
     {
-        // arrange
-        var companyId = 1;
-
-        // note null position
-        var postEmployee = new EmployeeForCreationDto
-        {
-            FirstName = "Curly",
-            MiddleName = "Lester",
-            LastName = "Horwitz",
-            Age = 30,
-            Phone = "346-300-4000",
-            Position = null
-        };
-
-
         // act
-        var payLoad = new StringContent(JsonConvert.SerializeObject(postEmployee), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync($"api/companies/{companyId}/employees", payLoad).ConfigureAwait(false);
+        var response = await _client.GetAsync("api/companies/1/employees/1").ConfigureAwait(false);
 
         // assert
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var json = response.Content.ReadAsStringAsync().Result;
+        var employee = JsonConvert.DeserializeObject<Shared.DataTransferObjects.EmployeeDto>(json);
+        Assert.NotNull(employee);
+    }
+
+    [Fact]
+    public async Task GetCompanyEmployees_WhenCalled_Returns_Employees()
+    {
+        var response = await _client.GetAsync("api/companies/1/employees").ConfigureAwait(false);
+
+        response.EnsureSuccessStatusCode();
+
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+        Assert.Contains("Raiden", responseString);
+
+        var employees = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(employees?.Count() > 0);
+    }
+
+    [Fact]
+    public async Task GetCompanyEmployees_WhenCalled_Returns_PagedEmployees()
+    {
+        // arrange
+        var companyId = 3;
+        var pageNumber = 1;
+        var pageSize = 3;
+
+        // act
+        var response = await _client.GetAsync($"api/companies/{companyId}/employees?pageNumber={pageNumber}&pageSize={pageSize}").ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var employees = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(employees?.Count() == 3);
+    }
+
+    public static IConfiguration InitConfiguration()
+    {
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Fact]
@@ -230,7 +228,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
         var employeeId = 1;
 
         // note null last name
-        var putEmployee = new EmployeeForCreationDto
+        var putEmployee = new Shared.DataTransferObjects.EmployeeForCreationDto
         {
             FirstName = "Larry",
             MiddleName = "Fine",

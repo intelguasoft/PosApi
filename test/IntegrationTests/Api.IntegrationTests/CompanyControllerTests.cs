@@ -21,20 +21,20 @@
 
 #region using
 
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Api.Shared.DataTransferObjects;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Xunit;
+using Api;
 
 #endregion
 
-namespace Api.IntegrationTests;
+namespace IntegrationTests;
 
 public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
@@ -56,28 +56,152 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         //_client.BaseAddress = new Uri("https://localhost:5001/");
     }
 
-    public static IConfiguration InitConfiguration()
+    [Fact]
+    public async Task CreateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
     {
-        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
+        // arrange - with null phone number
+        var company = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Bit Flip Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = null
+        };
 
-        var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.test.json")
-            .AddEnvironmentVariables()
-            .Build();
-        return config;
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
     }
 
     [Fact]
-    public async Task Index_WhenCalled_Returns_ApplicationForm()
+    public async Task CreateCompany_WhenPassedValidData_Returns_Success()
     {
-        var response = await _client.GetAsync("api/companies").ConfigureAwait(false);
+        // ----
+        // POST
+        // ----
 
-        response.EnsureSuccessStatusCode();
+        // arrange
+        var postCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Bit Friendly Networks - 1",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
 
-        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(postCompany), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
 
-        Assert.Contains("Admin Solutions Limited", responseString);
-        Assert.Contains("IT Solutions Limited", responseString);
+        // assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var company = JsonConvert.DeserializeObject<Shared.DataTransferObjects.CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(company?.CompanyId > 0);
+
+        // ---
+        // PUT
+        // ---
+
+        // arrange
+        var putCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Byte Friendly Networks - 1",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        // act
+        payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
+        response = await _client.PutAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // -----
+        // PATCH
+        // -----
+
+        // todo - assert patch response because I dont think patch is working
+        // arrange
+        var patchCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "FooBar Friendly Networks"
+        };
+
+        // act
+        payLoad = new StringContent(JsonConvert.SerializeObject(patchCompany), Encoding.UTF8, "application/json");
+        response = await _client.PatchAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        // ------
+        // DELETE
+        // ------
+
+        // act
+        response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}").ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateCompanyCollection_WhenPassed_ValidData_Creates_MultipleCompanies()
+    {
+        // arrange
+        var listOfCompanies = new List<Shared.DataTransferObjects.CompanyForCreationDto>();
+
+        var aCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Bit Friendly Networks - 2",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        listOfCompanies.Add(aCompany);
+
+        aCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Byte Friendly Networks - 2",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = "200-300-4000"
+        };
+
+        listOfCompanies.Add(aCompany);
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(listOfCompanies), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("api/companies/collection", payLoad).ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var companies = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.CompanyDto>>(response.Content.ReadAsStringAsync().Result);
+
+        Assert.True(companies?.Count() == 2);
     }
 
     [Fact]
@@ -108,183 +232,34 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task CreateCompany_WhenPassedValidData_Returns_Success()
+    public async Task Index_WhenCalled_Returns_ApplicationForm()
     {
-        // ----
-        // POST
-        // ----
+        var response = await _client.GetAsync("api/companies").ConfigureAwait(false);
 
-        // arrange
-        var postCompany = new CompanyForCreationDto
-        {
-            Name = "Bit Friendly Networks - 1",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = "200-300-4000"
-        };
+        response.EnsureSuccessStatusCode();
 
-        // act
-        var payLoad = new StringContent(JsonConvert.SerializeObject(postCompany), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-        // assert
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-
-        var company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
-        Assert.True(company?.CompanyId > 0);
-
-        // ---
-        // PUT
-        // ---
-
-        // arrange
-        var putCompany = new CompanyForCreationDto
-        {
-            Name = "Byte Friendly Networks - 1",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = "200-300-4000"
-        };
-
-        // act
-        payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
-        response = await _client.PutAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-
-        // -----
-        // PATCH
-        // -----
-
-        // todo - assert patch response because I dont think patch is working
-        // arrange
-        var patchCompany = new CompanyForCreationDto
-        {
-            Name = "FooBar Friendly Networks"
-        };
-
-        // act
-        payLoad = new StringContent(JsonConvert.SerializeObject(patchCompany), Encoding.UTF8, "application/json");
-        response = await _client.PatchAsync($"api/companies/{company?.CompanyId}", payLoad).ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-
-        // ------
-        // DELETE
-        // ------
-
-        // act
-        response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}").ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        Assert.Contains("Admin Solutions Limited", responseString);
+        Assert.Contains("IT Solutions Limited", responseString);
     }
 
-    [Fact]
-    public async Task CreateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    public static IConfiguration InitConfiguration()
     {
-        // arrange - with null phone number
-        var company = new CompanyForCreationDto
-        {
-            Name = "Bit Flip Networks",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = null
-        };
+        // https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
 
-        // act
-        var payLoad = new StringContent(JsonConvert.SerializeObject(company), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies", payLoad).ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task UpdateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
-    {
-        var companyId = 1;
-
-        // arrange - with null phone number
-        var putCompany = new CompanyForCreationDto
-        {
-            Name = "Bit Flip Networks",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = null
-        };
-
-        // act
-        var payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
-        var response = await _client.PutAsync($"api/companies/{companyId}", payLoad).ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task CreateCompanyCollection_WhenPassed_ValidData_Creates_MultipleCompanies()
-    {
-        // arrange
-        var listOfCompanies = new List<CompanyForCreationDto>();
-
-        var aCompany = new CompanyForCreationDto
-        {
-            Name = "Bit Friendly Networks - 2",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = "200-300-4000"
-        };
-
-        listOfCompanies.Add(aCompany);
-
-        aCompany = new CompanyForCreationDto
-        {
-            Name = "Byte Friendly Networks - 2",
-            Address = "5000 Almeda Road",
-            City = "Kansas City",
-            State = "KS",
-            ZipCode = "30000",
-            Country = "USA",
-            Phone = "200-300-4000"
-        };
-
-        listOfCompanies.Add(aCompany);
-
-        // act
-        var payLoad = new StringContent(JsonConvert.SerializeObject(listOfCompanies), Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("api/companies/collection", payLoad).ConfigureAwait(false);
-
-        // assert
-        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-
-        var companies = JsonConvert.DeserializeObject<IEnumerable<CompanyDto>>(response.Content.ReadAsStringAsync().Result);
-
-        Assert.True(companies?.Count() == 2);
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
+            .AddEnvironmentVariables()
+            .Build();
+        return config;
     }
 
     [Fact]
     public async Task PartiallyUpdateCompany_WhenPassed_ValidData_Patches_Company()
     {
         // arrange
-        var newCompany = new CompanyForCreationDto
+        var newCompany = new Shared.DataTransferObjects.CompanyForCreationDto
         {
             Name = "Bit Friendly Networks - 3",
             Address = "5000 Almeda Road",
@@ -302,7 +277,32 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var company = JsonConvert.DeserializeObject<CompanyDto>(response.Content.ReadAsStringAsync().Result);
+        var company = JsonConvert.DeserializeObject<Shared.DataTransferObjects.CompanyDto>(response.Content.ReadAsStringAsync().Result);
         Assert.True(company?.CompanyId > 0);
+    }
+
+    [Fact]
+    public async Task UpdateCompany_WhenPassed_InvalidData_Returns_UnprocessableEntity()
+    {
+        var companyId = 1;
+
+        // arrange - with null phone number
+        var putCompany = new Shared.DataTransferObjects.CompanyForCreationDto
+        {
+            Name = "Bit Flip Networks",
+            Address = "5000 Almeda Road",
+            City = "Kansas City",
+            State = "KS",
+            ZipCode = "30000",
+            Country = "USA",
+            Phone = null
+        };
+
+        // act
+        var payLoad = new StringContent(JsonConvert.SerializeObject(putCompany), Encoding.UTF8, "application/json");
+        var response = await _client.PutAsync($"api/companies/{companyId}", payLoad).ConfigureAwait(false);
+
+        // assert
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
     }
 }

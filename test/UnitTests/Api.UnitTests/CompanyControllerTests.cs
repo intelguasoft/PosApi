@@ -21,29 +21,28 @@
 
 #region using
 
-using System.Collections.Generic;
 using Entities;
-using Api.Interfaces;
-using Api.Presentation.Controllers;
-using Api.Service.Contracts;
 using FakeItEasy;
+using Presentation.Controllers;
+using Service.Interfaces;
+using System.Collections.Generic;
 using Xunit;
 
 #endregion
 
-namespace Api.UnitTests;
+namespace UnitTests;
 
 public class CompanyControllerTests
 {
     private readonly CompaniesController _controller;
 
-    private readonly ICompanyRepository _repository;
+    private readonly Interfaces.ICompanyRepository _repository;
 
     private readonly IServiceManager _serviceManager;
 
     public CompanyControllerTests()
     {
-        _repository = A.Fake<ICompanyRepository>();
+        _repository = A.Fake<Interfaces.ICompanyRepository>();
         _serviceManager = A.Fake<IServiceManager>();
         _controller = A.Fake<CompaniesController>();
     }

@@ -21,10 +21,9 @@
 
 #region using
 
-using System.Text;
-using Api.Shared.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
+using System.Text;
 
 #endregion
 
@@ -39,10 +38,15 @@ public class CsvOutputFormatter : TextOutputFormatter
         SupportedEncodings.Add(Encoding.Unicode);
     }
 
+    private static void FormatCsv(StringBuilder buffer, Shared.DataTransferObjects.CompanyDto company)
+    {
+        buffer.AppendLine($"{company.CompanyId},\"{company.Name},\"{company.FullAddress}\"");
+    }
+
     protected override bool CanWriteType(Type? type)
     {
-        if (typeof(CompanyDto).IsAssignableFrom(type)
-            || typeof(IEnumerable<CompanyDto>).IsAssignableFrom(type))
+        if (typeof(Shared.DataTransferObjects.CompanyDto).IsAssignableFrom(type)
+            || typeof(IEnumerable<Shared.DataTransferObjects.CompanyDto>).IsAssignableFrom(type))
             return base.CanWriteType(type);
 
         return false;
@@ -57,17 +61,12 @@ public class CsvOutputFormatter : TextOutputFormatter
         // todo - write unit test for working code below, then add context.Object != null guard clause to prevent null dereference
         // if (context.Object != null)
 
-        if (context.Object is IEnumerable<CompanyDto>)
-            foreach (var company in (IEnumerable<CompanyDto>) context.Object)
+        if (context.Object is IEnumerable<Shared.DataTransferObjects.CompanyDto>)
+            foreach (var company in (IEnumerable<Shared.DataTransferObjects.CompanyDto>)context.Object)
                 FormatCsv(buffer, company);
         else
-            FormatCsv(buffer, (CompanyDto) context.Object);
+            FormatCsv(buffer, (Shared.DataTransferObjects.CompanyDto)context.Object);
 
         await response.WriteAsync(buffer.ToString(), cancellationToken: default).ConfigureAwait(false);
-    }
-
-    private static void FormatCsv(StringBuilder buffer, CompanyDto company)
-    {
-        buffer.AppendLine($"{company.CompanyId},\"{company.Name},\"{company.FullAddress}\"");
     }
 }

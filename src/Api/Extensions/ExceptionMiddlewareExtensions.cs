@@ -21,9 +21,7 @@
 
 #region using
 
-using Entities.Exceptions;
-using Api.Entities.Models.ErrorModel;
-using Api.Interfaces;
+using Entities.Models.ErrorModel;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
@@ -33,7 +31,7 @@ namespace Api.Extensions;
 
 public static class ExceptionMiddlewareExtensions
 {
-    public static void ConfigureExceptionHandler(this WebApplication app, ILoggerManager logger)
+    public static void ConfigureExceptionHandler(this WebApplication app, Interfaces.ILoggerManager logger)
     {
         app.UseExceptionHandler(appError =>
         {

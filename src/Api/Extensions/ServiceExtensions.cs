@@ -22,14 +22,12 @@
 #region using
 
 using Entities;
-using Api.Interfaces;
-using Api.LoggerService;
-using Api.Repository;
-using Api.Service;
-using Api.Service.Contracts;
-using Api.Service.Interfaces;
+using Interfaces;
+using LoggerService;
 using Microsoft.EntityFrameworkCore;
+using Repository;
 using Service;
+using Service.Interfaces;
 
 #endregion
 
@@ -37,6 +35,16 @@ namespace Api.Extensions;
 
 public static class ServiceExtensions
 {
+
+    public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
+    {
+        return builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
+    }
+
+    public static void ConfigureApiKeyService(this IServiceCollection services)
+    {
+        services.AddScoped<Service.Interfaces.IApiKeyService, ApiKeyService>();
+    }
     public static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
@@ -48,6 +56,11 @@ public static class ServiceExtensions
         });
     }
 
+    public static void ConfigureHttpContextAccessor(this IServiceCollection services)
+    {
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    }
+
     public static void ConfigureIISIntegration(this IServiceCollection services)
     {
         services.Configure<IISOptions>(options => { });
@@ -55,7 +68,7 @@ public static class ServiceExtensions
 
     public static void ConfigureLoggerService(this IServiceCollection services)
     {
-        services.AddSingleton<ILoggerManager, LoggerManager>();
+        services.AddSingleton<Interfaces.ILoggerManager, LoggerManager>();
     }
 
     public static void ConfigureRepositoryManager(this IServiceCollection services)
@@ -68,24 +81,9 @@ public static class ServiceExtensions
         services.AddScoped<IServiceManager, ServiceManager>();
     }
 
-    public static void ConfigureHttpContextAccessor(this IServiceCollection services)
-    {
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-    }
-
-    public static void ConfigureApiKeyService(this IServiceCollection services)
-    {
-        services.AddScoped<IApiKeyService, ApiKeyService>();
-    }
-
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<RepositoryContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
-    }
-
-    public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
-    {
-        return builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
     }
 }
