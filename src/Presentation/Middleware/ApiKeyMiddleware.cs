@@ -33,7 +33,7 @@ namespace Presentation.Middleware;
 
 public class ApiKeyMiddleware
 {
-    private const string APIKEYNAME = "ApiKey";
+    private const string APIKEYNAME = "x-posapi-key";
 
     private readonly RequestDelegate _next;
 
@@ -47,7 +47,7 @@ public class ApiKeyMiddleware
         if (!context.Request.Headers.TryGetValue(APIKEYNAME, out var extractedApiKey))
         {
             context.Response.StatusCode = 401;
-            await context.Response.WriteAsync("Api Key was not provided. (Using ApiKeyMiddleware)", default).ConfigureAwait(false);
+            await context.Response.WriteAsync($"Api Key {APIKEYNAME} was not provided.)", default).ConfigureAwait(false);
             return;
         }
 
@@ -59,7 +59,7 @@ public class ApiKeyMiddleware
         if (!apiKey.Equals(extractedApiKey))
         {
             context.Response.StatusCode = 401;
-            await context.Response.WriteAsync("Unauthorized client. (Using ApiKeyMiddleware)", default).ConfigureAwait(false);
+            await context.Response.WriteAsync("Unauthorized client.", default).ConfigureAwait(false);
             return;
         }
 
