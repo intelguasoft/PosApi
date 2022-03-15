@@ -21,7 +21,7 @@
 
 #region using
 
-using Api.Entities.Exceptions;
+using Entities.Exceptions;
 using Api.Entities.Models.ErrorModel;
 using Api.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;

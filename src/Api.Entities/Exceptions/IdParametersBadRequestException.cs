@@ -23,7 +23,7 @@
 
 #endregion
 
-namespace Api.Entities.Exceptions;
+using Entities.Exceptions;
 
 public sealed class IdParametersBadRequestException : BadRequestException
 {

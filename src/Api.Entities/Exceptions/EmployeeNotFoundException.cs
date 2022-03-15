@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Api.Entities.Exceptions;
+using Entities.Exceptions;
 
 public class EmployeeNotFoundException : NotFoundException
 {

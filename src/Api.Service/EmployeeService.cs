@@ -21,17 +21,17 @@
 
 #region using
 
-using Entities;
-using Api.Entities.Exceptions;
 using Api.Interfaces;
 using Api.Service.Interfaces;
 using Api.Shared.DataTransferObjects;
-using Api.Shared.Paging;
 using AutoMapper;
+using Entities;
+using Entities.Exceptions;
+using Shared.Paging;
 
 #endregion
 
-namespace Api.Service;
+namespace Service;
 
 internal sealed class EmployeeService : IEmployeeService
 {
@@ -44,104 +44,6 @@ internal sealed class EmployeeService : IEmployeeService
         _repository = repository;
         _logger = logger;
         _mapper = mapper;
-    }
-
-    public async Task<EmployeeDto> CreateEmployeeForCompanyAsync(
-        int companyId,
-        EmployeeForCreationDto employeeForCreation,
-        bool trackChanges, 
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeEntity = _mapper.Map<Employee_Employee>(employeeForCreation);
-
-        _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity, cancellationToken);
-        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
-
-        var employeeToReturn = _mapper.Map<EmployeeDto>(employeeEntity);
-
-        return employeeToReturn;
-    }
-
-    public async Task DeleteEmployeeForCompanyAsync(
-        int companyId,
-        int id,
-        bool trackChanges, 
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        _repository.Employee.DeleteEmployee(employeeDb);
-        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task UpdateEmployeeForCompanyAsync(
-        int companyId,
-        int id,
-        EmployeeForUpdateDto employeeForUpdate,
-        bool compTrackChanges,
-        bool empTrackChanges, 
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, compTrackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, empTrackChanges, cancellationToken).ConfigureAwait(false);
-
-        _mapper.Map(employeeForUpdate, employeeDb);
-        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)> GetEmployeeForPatchAsync(
-        int companyId,
-        int id,
-        bool compTrackChanges,
-        bool empTrackChanges,
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, compTrackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, empTrackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeToPatch = _mapper.Map<EmployeeForUpdateDto>(employeeDb);
-
-        return (employeeToPatch, employeeEntity: employeeDb);
-    }
-
-    public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity, CancellationToken cancellationToken)
-    {
-        _mapper.Map(employeeToPatch, employeeEntity);
-        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<EmployeeDto> GetEmployeeAsync(
-        int companyId,
-        int id,
-        bool trackChanges, 
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employee = _mapper.Map<EmployeeDto>(employeeDb);
-        return employee;
-    }
-
-    public async Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
-        int companyId,
-        PagingEmployeeParameters pagingEmployeeParameters,
-        bool trackChanges, 
-        CancellationToken cancellationToken)
-    {
-        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
-
-        var employeesWithMetaData = await _repository.Employee.GetEmployeesAsync(companyId, pagingEmployeeParameters, trackChanges, cancellationToken).ConfigureAwait(false);
-        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithMetaData);
-
-        return (employees: employeesDto, pagingMetaData: employeesWithMetaData.PagingMetaData);
     }
 
     private async Task CheckIfCompanyExistsAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
@@ -162,5 +64,106 @@ internal sealed class EmployeeService : IEmployeeService
             throw new EmployeeNotFoundException(id);
 
         return employeeDb;
+    }
+
+    public async Task<EmployeeDto> CreateEmployeeForCompanyAsync(
+        int companyId,
+        EmployeeForCreationDto employeeForCreation,
+        bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeEntity = _mapper.Map<Employee_Employee>(employeeForCreation);
+
+        _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity, cancellationToken);
+        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
+
+        var employeeToReturn = _mapper.Map<EmployeeDto>(employeeEntity);
+
+        return employeeToReturn;
+    }
+
+    public async Task DeleteEmployeeForCompanyAsync(
+        int companyId,
+        int id,
+        bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        _repository.Employee.DeleteEmployee(employeeDb);
+        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<EmployeeDto> GetEmployeeAsync(
+        int companyId,
+        int id,
+        bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employee = _mapper.Map<EmployeeDto>(employeeDb);
+        return employee;
+    }
+
+    public async Task<(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity)> GetEmployeeForPatchAsync(
+        int companyId,
+        int id,
+        bool compTrackChanges,
+        bool empTrackChanges,
+        CancellationToken cancellationToken)
+    {
+        await CheckIfCompanyExistsAsync(companyId, compTrackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, empTrackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeToPatch = _mapper.Map<EmployeeForUpdateDto>(employeeDb);
+
+        return (employeeToPatch, employeeEntity: employeeDb);
+    }
+
+    public async Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
+        int companyId,
+        EmployeeRequestParameters employeeRequestParameters,
+        bool trackChanges,
+        CancellationToken cancellationToken)
+    {
+        if (!employeeRequestParameters.ValidAgeRange)
+            throw new MaxAgeRangeBadRequestException();
+
+        await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeesWithMetaData = await _repository.Employee.GetEmployeesAsync(companyId, employeeRequestParameters, trackChanges, cancellationToken).ConfigureAwait(false);
+        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithMetaData);
+
+        return (employees: employeesDto, pagingMetaData: employeesWithMetaData.PagingMetaData);
+    }
+
+    public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity, CancellationToken cancellationToken)
+    {
+        _mapper.Map(employeeToPatch, employeeEntity);
+        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task UpdateEmployeeForCompanyAsync(
+        int companyId,
+        int id,
+        EmployeeForUpdateDto employeeForUpdate,
+        bool compTrackChanges,
+        bool empTrackChanges,
+        CancellationToken cancellationToken)
+    {
+        await CheckIfCompanyExistsAsync(companyId, compTrackChanges, cancellationToken).ConfigureAwait(false);
+
+        var employeeDb = await GetEmployeeForCompanyAndCheckIfItExistsAsync(companyId, id, empTrackChanges, cancellationToken).ConfigureAwait(false);
+
+        _mapper.Map(employeeForUpdate, employeeDb);
+        await _repository.SaveAsync(cancellationToken).ConfigureAwait(false);
     }
 }

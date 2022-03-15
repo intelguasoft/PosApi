@@ -22,7 +22,7 @@
 #region using
 
 using Entities;
-using Api.Entities.Exceptions;
+using Entities.Exceptions;
 using Api.Interfaces;
 using Api.Service.Interfaces;
 using Api.Shared.DataTransferObjects;
@@ -30,7 +30,7 @@ using AutoMapper;
 
 #endregion
 
-namespace Api.Service;
+namespace Service;
 
 internal sealed class CompanyService : ICompanyService
 {

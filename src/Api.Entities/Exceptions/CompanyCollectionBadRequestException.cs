@@ -27,8 +27,6 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("NDepend", "ND1500:APIBreakingChangesTypes", Target = "Api.Entities.Exceptions", Scope = "type", Justification = "TODO")]
 
-namespace Api.Entities.Exceptions;
-
 public sealed class CompanyCollectionBadRequestException : BadRequestException
 {
     public CompanyCollectionBadRequestException()
