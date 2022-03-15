@@ -21,6 +21,7 @@
 
 #region using
 
+using Api;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -30,7 +31,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Api;
 
 #endregion
 
@@ -170,7 +170,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         var aCompany = new Shared.DataTransferObjects.CompanyForCreationDto
         {
-            Name = "Bit Friendly Networks - 2",
+            Name = "Bit Friendly Networks",
             Address = "5000 Almeda Road",
             City = "Kansas City",
             State = "KS",
@@ -183,7 +183,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         aCompany = new Shared.DataTransferObjects.CompanyForCreationDto
         {
-            Name = "Byte Friendly Networks - 2",
+            Name = "Byte Friendly Networks",
             Address = "5000 Almeda Road",
             City = "Kansas City",
             State = "KS",
@@ -204,6 +204,13 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         var companies = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.CompanyDto>>(response.Content.ReadAsStringAsync().Result);
 
         Assert.True(companies?.Count() == 2);
+
+        // cleanup by deleting any test records that were just created
+        foreach (var company in companies)
+        {
+            response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}").ConfigureAwait(false);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
     }
 
     [Fact]
@@ -263,7 +270,7 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
         // arrange
         var newCompany = new Shared.DataTransferObjects.CompanyForCreationDto
         {
-            Name = "Bit Friendly Networks - 3",
+            Name = "Bit Friendly Networks",
             Address = "5000 Almeda Road",
             City = "Kansas City",
             State = "KS",
@@ -281,6 +288,10 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
 
         var company = JsonConvert.DeserializeObject<Shared.DataTransferObjects.CompanyDto>(response.Content.ReadAsStringAsync().Result);
         Assert.True(company?.CompanyId > 0);
+
+        // cleanup by deleting the test record that was just created
+        response = await _client.DeleteAsync($"api/companies/{company?.CompanyId}").ConfigureAwait(false);
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
     }
 
     [Fact]
