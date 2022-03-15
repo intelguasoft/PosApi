@@ -29,6 +29,7 @@ using Api.Service;
 using Api.Service.Contracts;
 using Api.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Service;
 
 #endregion
 

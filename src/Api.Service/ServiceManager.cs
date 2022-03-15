@@ -22,6 +22,7 @@
 #region using
 
 using Api.Interfaces;
+using Api.Service;
 using Api.Service.Contracts;
 using Api.Service.Interfaces;
 using AutoMapper;
@@ -29,7 +30,7 @@ using NDepend.Attributes;
 
 #endregion
 
-namespace Api.Service;
+namespace Service;
 
 [FullCovered]
 public sealed class ServiceManager : IServiceManager
@@ -39,10 +40,8 @@ public sealed class ServiceManager : IServiceManager
 
     public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
     {
-        _companyService = new Lazy<ICompanyService>(() =>
-            new CompanyService(repositoryManager, logger, mapper));
-        _employeeService = new Lazy<IEmployeeService>(() =>
-            new EmployeeService(repositoryManager, logger, mapper));
+        _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
+        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper));
     }
 
     public ICompanyService CompanyService => _companyService.Value;

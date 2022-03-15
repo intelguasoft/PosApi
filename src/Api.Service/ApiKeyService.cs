@@ -27,7 +27,7 @@ using NDepend.Attributes;
 
 #endregion
 
-namespace Api.Service;
+namespace Service;
 
 [FullCovered]
 public class ApiKeyService : IApiKeyService
