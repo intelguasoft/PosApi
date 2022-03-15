@@ -57,6 +57,7 @@ public interface IEmployeeService
         bool compTrackChanges,
         bool empTrackChanges,
         CancellationToken cancellationToken);
+
     Task<(IEnumerable<Shared.DataTransferObjects.EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         EmployeeRequestParameters employeeRequestParameters,
