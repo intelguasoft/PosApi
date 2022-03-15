@@ -22,6 +22,8 @@
 #region using
 
 using Entities;
+using Shared.Paging;
+using Shared.Parameters;
 
 #endregion
 
@@ -37,7 +39,10 @@ public interface ICompanyService
 
     Task<IEnumerable<Shared.DataTransferObjects.CompanyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken);
 
-    Task<IEnumerable<Shared.DataTransferObjects.CompanyDto>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken);
+    Task<(IEnumerable<Shared.DataTransferObjects.CompanyDto> companies, PagingMetaData pagingMetaData)> GetCompaniesAsync(
+        CompanyRequestParameters companyRequestParameters, 
+        bool trackChanges, 
+        CancellationToken cancellationToken);
 
     Task<Shared.DataTransferObjects.CompanyDto> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
 

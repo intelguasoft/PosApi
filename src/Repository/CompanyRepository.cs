@@ -23,6 +23,8 @@
 
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Shared.Paging;
+using Shared.Parameters;
 
 #endregion
 
@@ -47,14 +49,20 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Inter
 
     public async Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken)
     {
-        return await FindByCondition(x => ids.Contains(x.CompanyId), trackChanges).ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        return await FindByCondition(c => ids.Contains(c.CompanyId), trackChanges).ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken)
+    public async Task<PagingList<Company_Company>> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
-        return await FindAll(trackChanges)
+        var companies = await FindAll(trackChanges)
             .OrderBy(c => c.Name)
+            .Skip((companyRequestParameters.PageNumber - 1) * companyRequestParameters.PageSize)
+            .Take(companyRequestParameters.PageSize)
             .ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        var count = await FindByCondition(c => c.CompanyId > 0, trackChanges).CountAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        return new PagingList<Company_Company>(companies, count, companyRequestParameters.PageNumber, companyRequestParameters.PageSize);
     }
 
     public async Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)

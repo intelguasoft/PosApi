@@ -26,6 +26,8 @@ using Entities;
 using Interfaces;
 using Service.Interfaces;
 using Shared.DataTransferObjects;
+using Shared.Paging;
+using Shared.Parameters;
 
 #endregion
 
@@ -105,13 +107,13 @@ internal sealed class CompanyService : ICompanyService
         return companiesToReturn;
     }
 
-    public async Task<IEnumerable<CompanyDto>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken)
+    public async Task<(IEnumerable<CompanyDto> companies, PagingMetaData pagingMetaData)> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
-        var companies = await _repository.Company.GetCompaniesAsync(trackChanges, cancellationToken: cancellationToken).ConfigureAwait(false);
+        var companiesWithMetaData = await _repository.Company.GetCompaniesAsync(companyRequestParameters, trackChanges, cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+        var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companiesWithMetaData);
 
-        return companiesDto;
+        return (companies: companiesDto, pagingMetaData: companiesWithMetaData.PagingMetaData);
     }
 
     public async Task<CompanyDto> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)

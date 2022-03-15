@@ -26,6 +26,8 @@
 #region using
 
 using Entities;
+using Shared.Paging;
+using Shared.Parameters;
 
 namespace Interfaces;
 
@@ -34,8 +36,12 @@ namespace Interfaces;
 public interface ICompanyRepository
 {
     void CreateCompany(Company_Company company);
+
     void DeleteCompany(Company_Company company);
+
     Task<IEnumerable<Company_Company>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges, CancellationToken cancellationToken);
-    Task<IEnumerable<Company_Company>> GetCompaniesAsync(bool trackChanges, CancellationToken cancellationToken);
+
+    Task<PagingList<Company_Company>> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken);
+
     Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
 }

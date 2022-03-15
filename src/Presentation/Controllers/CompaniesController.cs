@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Presentation.ModelBinders;
 using Service.Interfaces;
+using Shared.Parameters;
+using System.Text.Json;
 
 #endregion
 
@@ -69,11 +71,13 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCompaniesAsync(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCompaniesAsync([FromQuery] CompanyRequestParameters companyRequestParameters, CancellationToken cancellationToken)
     {
-        var companies = await _service.CompanyService.GetCompaniesAsync(false, cancellationToken).ConfigureAwait(false);
+        var pagingResult = await _service.CompanyService.GetCompaniesAsync(companyRequestParameters, false, cancellationToken).ConfigureAwait(false);
 
-        return Ok(companies);
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingResult.pagingMetaData));
+
+        return Ok(pagingResult.companies);
     }
 
     [HttpGet("{id:int}", Name = "CompanyById")]
