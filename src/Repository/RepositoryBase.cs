@@ -29,7 +29,7 @@ using System.Linq.Expressions;
 
 namespace Repository;
 
-public class RepositoryBase<T> : Interfaces.IRepositoryBase<T> where T : class
+public class RepositoryBase<T> : IDisposable, Interfaces.IRepositoryBase<T> where T : class
 {
     private readonly RepositoryContext _repositoryContext;
 
@@ -70,5 +70,20 @@ public class RepositoryBase<T> : Interfaces.IRepositoryBase<T> where T : class
     public void Update(T entity)
     {
         _repositoryContext.Set<T>().Update(entity);
+    }
+
+   public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing) 
+        {
+            // free managed resources
+        }
+        // free native resources if there are any.
     }
 }

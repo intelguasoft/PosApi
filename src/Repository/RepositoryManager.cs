@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Repository;
 
-public sealed class RepositoryManager : IRepositoryManager
+public class RepositoryManager : IRepositoryManager, IDisposable
 {
     private readonly string _apiKey;
     private readonly Lazy<Interfaces.ICompanyRepository> _companyRepository;
@@ -129,5 +129,21 @@ public sealed class RepositoryManager : IRepositoryManager
     }
 
     public Interfaces.ICompanyRepository Company => _companyRepository.Value;
+
     public Interfaces.IEmployeeRepository Employee => _employeeRepository.Value;
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing) 
+        {
+            // free managed resources
+        }
+        // free native resources if there are any.
+    }
 }
