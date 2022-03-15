@@ -29,25 +29,25 @@ namespace LoggerService;
 
 public class LoggerManager : Interfaces.ILoggerManager
 {
-    private static readonly ILogger s_logger = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger s_Logger = LogManager.GetCurrentClassLogger();
 
     public void LogDebug(string message)
     {
-        s_logger.Debug(message);
+        s_Logger.Debug(message);
     }
 
     public void LogError(string message)
     {
-        s_logger.Error(message);
+        s_Logger.Error(message);
     }
 
     public void LogInfo(string message)
     {
-        s_logger.Info(message);
+        s_Logger.Info(message);
     }
 
     public void LogWarn(string message)
     {
-        s_logger.Warn(message);
+        s_Logger.Warn(message);
     }
 }
