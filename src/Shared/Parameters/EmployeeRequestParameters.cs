@@ -29,8 +29,8 @@ namespace Shared.Parameters;
 
 public class EmployeeRequestParameters : PagingBase
 {
-    public int MaxAge { get; set; } = int.MaxValue;
-    public int MinAge { get; set; }
+    public uint MaxAge { get; set; } = int.MaxValue;
+    public uint MinAge { get; set; }
 
-    public bool ValidAgeRange => MaxAge > MinAge;
+    public bool ValidAgeRange => MaxAge >= MinAge;
 }

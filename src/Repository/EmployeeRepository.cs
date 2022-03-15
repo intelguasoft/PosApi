@@ -26,6 +26,7 @@ using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Shared.Paging;
 using Shared.Parameters;
+using Repository.Extensions;
 
 #endregion
 
@@ -70,8 +71,8 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IE
     // method #2 for larger tables
     public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, EmployeeRequestParameters employeeRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
-        var employees = await FindByCondition(e => e.CompanyId.Equals(companyId) &&
-            (e.Age >= employeeRequestParameters.MinAge && e.Age <= employeeRequestParameters.MaxAge), trackChanges)
+        var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+            .FilterByEmployeesAge(employeeRequestParameters.MinAge, employeeRequestParameters.MaxAge)
             .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
             .Skip((employeeRequestParameters.PageNumber - 1) * employeeRequestParameters.PageSize)
             .Take(employeeRequestParameters.PageSize)
