@@ -40,7 +40,7 @@ internal sealed class EmployeeService : IEmployeeService
     private readonly IMapper _mapper;
     private readonly IRepositoryManager _repository;
 
-    public EmployeeService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+    internal EmployeeService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
     {
         _repository = repository;
         _logger = logger;
