@@ -25,6 +25,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Shared.Paging;
 using Shared.Parameters;
+using Repository.Extensions;
 
 #endregion
 
@@ -55,6 +56,7 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Inter
     public async Task<PagingList<Company_Company>> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
         var companies = await FindAll(trackChanges)
+            .SearchByCompanyName(companyRequestParameters.SearchTerm)
             .OrderBy(c => c.Name)
             .Skip((companyRequestParameters.PageNumber - 1) * companyRequestParameters.PageSize)
             .Take(companyRequestParameters.PageSize)

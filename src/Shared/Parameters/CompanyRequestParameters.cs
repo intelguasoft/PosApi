@@ -9,5 +9,6 @@ namespace Shared.Parameters
 {
     public class CompanyRequestParameters : PagingBase
     {
+        public string? SearchTerm { get; set; }
     }
 }
