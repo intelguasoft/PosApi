@@ -40,14 +40,14 @@ public class DataShaper<T> : IDataShaper<T> where T : class
         Properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
     }
 
-    public IEnumerable<Entity> ShapeData(IEnumerable<T> entities, string fieldsString)
+    public IEnumerable<DataShaperEntity> ShapeData(IEnumerable<T> entities, string fieldsString)
     {
         var requiredProperties = GetRequiredProperties(fieldsString);
 
         return FetchData(entities, requiredProperties);
     }
 
-    public Entity ShapeData(T entity, string fieldsString)
+    public DataShaperEntity ShapeData(T entity, string fieldsString)
     {
         var requiredProperties = GetRequiredProperties(fieldsString);
 
@@ -81,9 +81,9 @@ public class DataShaper<T> : IDataShaper<T> where T : class
         return requiredProperties;
     }
 
-    private IEnumerable<Entity> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
+    private IEnumerable<DataShaperEntity> FetchData(IEnumerable<T> entities, IEnumerable<PropertyInfo> requiredProperties)
     {
-        var shapedData = new List<Entity>();
+        var shapedData = new List<DataShaperEntity>();
 
         foreach (var entity in entities)
         {
@@ -94,9 +94,9 @@ public class DataShaper<T> : IDataShaper<T> where T : class
         return shapedData;
     }
 
-    private Entity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
+    private DataShaperEntity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
     {
-        var shapedObject = new Entity();
+        var shapedObject = new DataShaperEntity();
 
         foreach (var property in requiredProperties)
         {

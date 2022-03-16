@@ -136,7 +136,7 @@ internal sealed class EmployeeService : IEmployeeService
         return (employeeToPatch, employeeEntity: employeeDb);
     }
 
-    public async Task<(IEnumerable<Entity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
+    public async Task<(IEnumerable<DataShaperEntity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         EmployeeRequestParameters employeeRequestParameters,
         bool trackChanges,

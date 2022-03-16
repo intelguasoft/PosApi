@@ -33,12 +33,12 @@ using System.Xml.Serialization;
 
 namespace Entities.Models;
 
-public class Entity : DynamicObject, IXmlSerializable, IDictionary<string, object>
+public class DataShaperEntity : DynamicObject, IXmlSerializable, IDictionary<string, object>
 {
     private readonly string _root = "Entity";
     private readonly IDictionary<string, object> _expando;
 
-    public Entity()
+    public DataShaperEntity()
     {
         _expando = new ExpandoObject();
     }

@@ -31,6 +31,6 @@ namespace Interfaces;
 
 public interface IDataShaper<T>
 {
-    IEnumerable<Entity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    Entity ShapeData(T entity, string fieldsString);
+    IEnumerable<DataShaperEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
+    DataShaperEntity ShapeData(T entity, string fieldsString);
 }

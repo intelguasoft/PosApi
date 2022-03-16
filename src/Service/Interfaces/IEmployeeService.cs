@@ -59,7 +59,7 @@ public interface IEmployeeService
         bool empTrackChanges,
         CancellationToken cancellationToken);
 
-    Task<(IEnumerable<Entity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
+    Task<(IEnumerable<DataShaperEntity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         EmployeeRequestParameters employeeRequestParameters,
         bool trackChanges,
