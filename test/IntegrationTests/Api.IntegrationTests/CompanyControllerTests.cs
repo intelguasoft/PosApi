@@ -214,27 +214,6 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
-    public async Task Get_Company_With_Missing_API_Key_Throws_Returns_Unauthorized()
-    {
-        try
-        {
-            _client.DefaultRequestHeaders.Remove(APIKEYNAME);
-
-            var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
-
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-
-            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            Assert.Contains("was not provided", responseString.ToLower());
-        }
-        finally
-        {
-            _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
-        }
-    }
-
-    [Fact]
     public async Task Get_Company_With_Invalid_API_Key_Throws_Returns_Unauthorized()
     {
         try
@@ -258,24 +237,39 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
+    public async Task Get_Company_With_Missing_API_Key_Throws_Returns_Unauthorized()
+    {
+        try
+        {
+            _client.DefaultRequestHeaders.Remove(APIKEYNAME);
+
+            var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            Assert.Contains("was not provided", responseString.ToLower());
+        }
+        finally
+        {
+            _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
+        }
+    }
+
+    [Fact]
     public async Task GetCompany_WhenCalled_Returns_RequestedCompany()
     {
         var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
 
-        response.EnsureSuccessStatusCode();
-
-        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-        Assert.Contains("IT Solutions Limited", responseString);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
     [Fact]
     public async Task GetCompanyCollection_WhenCalled_Returns_RequestedCompanies()
     {
-        // act
         var response = await _client.GetAsync("api/companies/collection/(1,2)").ConfigureAwait(false);
 
-        // assert
         response.EnsureSuccessStatusCode();
 
         var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
