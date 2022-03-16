@@ -24,6 +24,7 @@
 using AutoMapper;
 using Entities;
 using Entities.Exceptions;
+using Entities.Models;
 using Interfaces;
 using Service.Interfaces;
 using Shared.DataTransferObjects;
@@ -39,12 +40,18 @@ internal sealed class EmployeeService : IEmployeeService
     private readonly ILoggerManager _logger;
     private readonly IMapper _mapper;
     private readonly IRepositoryManager _repository;
+    private readonly IDataShaper<EmployeeDto> _dataShaper;
 
-    internal EmployeeService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+    internal EmployeeService(
+        IRepositoryManager repository, 
+        ILoggerManager logger, 
+        IMapper mapper,
+        IDataShaper<EmployeeDto> dataShaper)
     {
         _repository = repository;
         _logger = logger;
         _mapper = mapper;
+        _dataShaper = dataShaper;
     }
 
     private async Task CheckIfCompanyExistsAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
@@ -129,7 +136,7 @@ internal sealed class EmployeeService : IEmployeeService
         return (employeeToPatch, employeeEntity: employeeDb);
     }
 
-    public async Task<(IEnumerable<EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
+    public async Task<(IEnumerable<Entity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         EmployeeRequestParameters employeeRequestParameters,
         bool trackChanges,
@@ -141,9 +148,11 @@ internal sealed class EmployeeService : IEmployeeService
         await CheckIfCompanyExistsAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
 
         var employeesWithMetaData = await _repository.Employee.GetEmployeesAsync(companyId, employeeRequestParameters, trackChanges, cancellationToken).ConfigureAwait(false);
-        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithMetaData);
 
-        return (employees: employeesDto, pagingMetaData: employeesWithMetaData.PagingMetaData);
+        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesWithMetaData);
+        var shapedData = _dataShaper.ShapeData(employeesDto, employeeRequestParameters.Fields);
+
+        return (employees: shapedData, pagingMetaData: employeesWithMetaData.PagingMetaData);
     }
 
     public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee_Employee employeeEntity, CancellationToken cancellationToken)

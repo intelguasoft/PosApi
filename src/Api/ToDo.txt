@@ -1,0 +1,4 @@
+﻿1) create generic method for API key
+2) rename PagingList to PagedList
+3) create endpoint for company + employee dto
+4) move IApiKeyService to Interfaces project

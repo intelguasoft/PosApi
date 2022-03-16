@@ -24,12 +24,15 @@
 using Api;
 using Api.Extensions;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
+using Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
 using Presentation;
+using Service.DataShaping;
+using Shared.DataTransferObjects;
 using System.Text.Json.Serialization;
 
 #endregion
@@ -56,6 +59,8 @@ builder.Services.AddAutoMapper(typeof(Api.Program));
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.AddScoped<Presentation.ActionFilters.ValidationFilterAttribute>();
+
+builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 
 builder.Services.AddControllers(config =>
     {

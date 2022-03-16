@@ -22,6 +22,7 @@
 #region using
 
 using Entities;
+using Entities.Models;
 using Shared.DataTransferObjects;
 using Shared.Paging;
 using Shared.Parameters;
@@ -58,7 +59,7 @@ public interface IEmployeeService
         bool empTrackChanges,
         CancellationToken cancellationToken);
 
-    Task<(IEnumerable<Shared.DataTransferObjects.EmployeeDto> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
+    Task<(IEnumerable<Entity> employees, PagingMetaData pagingMetaData)> GetEmployeesAsync(
         int companyId,
         EmployeeRequestParameters employeeRequestParameters,
         bool trackChanges,

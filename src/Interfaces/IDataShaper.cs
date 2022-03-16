@@ -1,10 +1,13 @@
-﻿using Shared.Paging;
-
+﻿
 #region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// employeeRequestParameters.cs
-// 
-// Copyright (C) 2022 Binary Builders Inc.
+//-----------------------------------------------------------------------
+// <copyright> 
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//     Author:  
+//     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -18,23 +21,16 @@
 // 
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------
 
 #endregion
 
-#region using
+using Entities.Models;
 
-#endregion
+namespace Interfaces;
 
-namespace Shared.Parameters;
-
-public class EmployeeRequestParameters : PagingBase
+public interface IDataShaper<T>
 {
-    public uint MaxAge { get; set; } = int.MaxValue;
-    public uint MinAge { get; set; }
-
-    public bool ValidAgeRange => MaxAge >= MinAge;
-
-    public string? OrderBy { get; set; } = "LastName";   // default sort
-
-    public string? Fields { get; set; }
+    IEnumerable<Entity> ShapeData(IEnumerable<T> entities, string fieldsString);
+    Entity ShapeData(T entity, string fieldsString);
 }

@@ -17,7 +17,8 @@ Includes these features:
 - Action Filters for DRY data validation
 - Paged data responses
 - Migrated to Database First
-- Added EntityFramework Reverse POCO Code First Generator (https://www.reversepoco.co.uk/)
-- Added filtered responses
-- Added search
+- EntityFramework Reverse POCO Code First Generator (https://www.reversepoco.co.uk/)
+- Filtered API responses
+- Search
+- Sort
 > Written with [StackEdit](https://stackedit.io/).
