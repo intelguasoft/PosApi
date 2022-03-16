@@ -33,22 +33,24 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Company_Company, Shared.DataTransferObjects.CompanyDto>()
+        CreateMap<Company_Company, CompanyDto>()
             .ForMember(c => c.FullAddress,
                 opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
 
-        CreateMap<Employee_Employee, Shared.DataTransferObjects.EmployeeDto>();
+        CreateMap<Employee_Employee, EmployeeDto>();
 
-        CreateMap<Shared.DataTransferObjects.CompanyForCreationDto, Company_Company>();
+        CreateMap<CompanyForCreationDto, Company_Company>();
 
-        CreateMap<Shared.DataTransferObjects.EmployeeForCreationDto, Employee_Employee>();
+        CreateMap<EmployeeForCreationDto, Employee_Employee>();
 
         CreateMap<EmployeeForUpdateDto, Employee_Employee>();
 
-        CreateMap<Shared.DataTransferObjects.CompanyForUpdateDto, Company_Company>();
+        CreateMap<CompanyForUpdateDto, Company_Company>();
+
+        CreateMap<CompanyJoinEmployeeDto, Company_Company>();
 
         CreateMap<EmployeeForUpdateDto, Employee_Employee>().ReverseMap();
 
-        CreateMap<Shared.DataTransferObjects.CompanyForUpdateDto, Company_Company>().ReverseMap();
+        CreateMap<CompanyForUpdateDto, Company_Company>().ReverseMap();
     }
 }
