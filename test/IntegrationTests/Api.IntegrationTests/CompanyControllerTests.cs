@@ -214,6 +214,50 @@ public class CompanyControllerTests : IClassFixture<TestingWebAppFactory<Program
     }
 
     [Fact]
+    public async Task Get_Company_With_Missing_API_Key_Throws_Returns_Unauthorized()
+    {
+        try
+        {
+            _client.DefaultRequestHeaders.Remove(APIKEYNAME);
+
+            var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            Assert.Contains("was not provided", responseString.ToLower());
+        }
+        finally
+        {
+            _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
+        }
+    }
+
+    [Fact]
+    public async Task Get_Company_With_Invalid_API_Key_Throws_Returns_Unauthorized()
+    {
+        try
+        {
+            _client.DefaultRequestHeaders.Remove(APIKEYNAME);
+
+            _client.DefaultRequestHeaders.Add(APIKEYNAME, "12345");
+
+            var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);
+
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            Assert.Contains("unauthorized client", responseString.ToLower());
+        }
+        finally
+        {
+            _client.DefaultRequestHeaders.Add(APIKEYNAME, _apiKey);
+        }
+    }
+
+    [Fact]
     public async Task GetCompany_WhenCalled_Returns_RequestedCompany()
     {
         var response = await _client.GetAsync("api/companies/1").ConfigureAwait(false);

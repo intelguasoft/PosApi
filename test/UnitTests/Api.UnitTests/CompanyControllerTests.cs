@@ -54,14 +54,28 @@ public class CompanyControllerTests
         var listOfEmployees = new List<Employee_Employee>();
         listOfEmployees.Add(new Employee_Employee
         {
-            Age = 20,
-            FirstName = "John",
+            CompanyId = 1,
+            EmployeeId = 1,
+            FirstName = "Bob",
             MiddleName = "D",
-            LastName = "Smith"
+            LastName = "Smith",
+            Age = 20
+
         });
 
-        var company = new Company_Company
+        listOfEmployees.Add(new Employee_Employee
         {
+            CompanyId = 1,
+            EmployeeId = 2,
+            FirstName = "Alice",
+            MiddleName = "C",
+            LastName = "Clark",
+            Age = 25
+        });
+
+        var expectedCompany = new Company_Company
+        {
+            CompanyId = 1,
             Name = "Marketing Solutions Ltd",
             Address = "242 Sunny Ave, K334",
             City = "Los Angeles",
@@ -71,11 +85,14 @@ public class CompanyControllerTests
             Employee_Employees = listOfEmployees
         };
 
-        A.CallTo(() => _repository.GetCompanyAsync(1, false, default)).Returns(company);
-        var result = _repository.GetCompanyAsync(1, false, default);
+        A.CallTo(() => _repository.GetCompanyAsync(1, false, default)).Returns(expectedCompany);
+        var actualCompany = _repository.GetCompanyAsync(1, false, default);
 
         // assert
-        Assert.NotNull(result);
-        Assert.Equal(company.Name, result.Result.Name);
+        Assert.NotNull(actualCompany);
+        Assert.Equal(expectedCompany.Name, actualCompany.Result.Name);
+
+        var employees = actualCompany.Result.Employee_Employees;
+        Assert.True(actualCompany.Result.Employee_Employees.Count == listOfEmployees.Count);
     }
 }
