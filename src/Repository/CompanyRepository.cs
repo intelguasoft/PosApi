@@ -81,34 +81,26 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Inter
 
     public async Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
-        //IQueryable<CompanyJoinEmployeeDto> query = await from c in _repositoryContext.Company_Companies
-        //            join e in _repositoryContext.Employee_Employees on c.CompanyId equals e.CompanyId
-        //            where c.CompanyId == companyId
-        //            orderby e.LastName, e.FirstName, e.MiddleName
-        //            select new CompanyJoinEmployeeDto { Company = c, Employee = e };
+
+        // works
+        //return await (from c in _repositoryContext.Company_Companies
+        //              join e in _repositoryContext.Employee_Employees on c.CompanyId equals e.CompanyId
+        //              where c.CompanyId == companyId
+        //              orderby e.LastName, e.FirstName, e.MiddleName
+        //              select new CompanyJoinEmployeeDto { Company = c, Employee = e }).ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return await (from c in _repositoryContext.Company_Companies
                       join e in _repositoryContext.Employee_Employees on c.CompanyId equals e.CompanyId
                       where c.CompanyId == companyId
                       orderby e.LastName, e.FirstName, e.MiddleName
-                      select new CompanyJoinEmployeeDto { Company = c, Employee = e }).ToListAsync(cancellationToken).ConfigureAwait(false);
-
-
-        // https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
-        //var query = await _repositoryContext.Company_Companies
-        //    .AsNoTracking()
-        //    .AsQueryable()
-        //    .Include(e => e.Employee_Employees).ToListAsync(cancellationToken).ConfigureAwait(false);
-
-
-
-        //var firstEmployee = sortedList.First();
-
-        //foreach (var item in query)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"{item?.Company.Name} - {item?.Employee.LastName} {item?.Employee.FirstName}");
-        //}
-
-        //return query;
+                      select new CompanyJoinEmployeeDto 
+                      { 
+                          CompanyId = c.CompanyId,
+                          Name = c.Name,   
+                          EmployeeId = e.EmployeeId,
+                          FirstName = e.FirstName,
+                          MiddleName = e.MiddleName,
+                          LastName = e.LastName
+                      }).ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 }
