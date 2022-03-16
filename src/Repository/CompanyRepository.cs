@@ -62,6 +62,7 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Inter
 
     public async Task<PagingList<Company_Company>> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
+        // the order is filter, search, sort
         var companies = await FindAll(trackChanges)
             .SearchByCompanyName(companyRequestParameters.SearchTerm)
             .OrderBy(c => c.Name)

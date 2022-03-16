@@ -33,4 +33,6 @@ public class EmployeeRequestParameters : PagingBase
     public uint MinAge { get; set; }
 
     public bool ValidAgeRange => MaxAge >= MinAge;
+
+    public string? OrderBy { get; set; } = "name";
 }

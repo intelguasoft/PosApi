@@ -1,8 +1,13 @@
-﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
+﻿
+#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// EmployeeRepository.cs
-// 
-// Copyright (C) 2022 Binary Builders Inc.
+//-----------------------------------------------------------------------
+// <copyright> 
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Repository\EmployeeRepository.cs
+//     Author:  
+//     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -16,17 +21,17 @@
 // 
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//-----------------------------------------------------------------------
 
 #endregion
 
 #region using
-
 using Entities;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using Shared.Paging;
 using Shared.Parameters;
-using Repository.Extensions;
 
 #endregion
 
@@ -71,9 +76,10 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee_Employee>, IE
     // method #2 for larger tables
     public async Task<PagingList<Employee_Employee>> GetEmployeesAsync(int companyId, EmployeeRequestParameters employeeRequestParameters, bool trackChanges, CancellationToken cancellationToken)
     {
+        // the order is filter, search, sort
         var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .FilterByEmployeesAge(employeeRequestParameters.MinAge, employeeRequestParameters.MaxAge)
-            .OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ThenBy(e => e.MiddleName)
+            .Sort(employeeRequestParameters.OrderBy)
             .Skip((employeeRequestParameters.PageNumber - 1) * employeeRequestParameters.PageSize)
             .Take(employeeRequestParameters.PageSize)
             .ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

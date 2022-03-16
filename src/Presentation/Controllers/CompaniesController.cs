@@ -83,14 +83,13 @@ public class CompaniesController : ControllerBase
     [HttpGet("{id:int}", Name = "CompanyById")]
     public async Task<IActionResult> GetCompanyAsync(int id, CancellationToken cancellationToken)
     {
-        //var company = await _service.CompanyService.GetCompanyAsync(id, false, cancellationToken).ConfigureAwait(false);
+        var company = await _service.CompanyService.GetCompanyAsync(id, false, cancellationToken).ConfigureAwait(false);
 
-        //return Ok(company);
+        return Ok(company);
 
-        // include employee info
-        var response = await _service.CompanyService.GetCompanyWithEmployeesAsync(id, false, cancellationToken);
-        
-        return Ok(response);
+        // odo - write endpoint to include the new company + employee dto
+        // var response = await _service.CompanyService.GetCompanyWithEmployeesAsync(id, false, cancellationToken);
+        // return Ok(response);
     }
 
     [HttpGet("collection/({ids})", Name = "CompanyCollection")]
