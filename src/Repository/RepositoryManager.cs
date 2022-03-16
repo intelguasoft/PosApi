@@ -21,10 +21,12 @@
 
 #region using
 
+using AutoMapper;
 using Entities;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Service.Interfaces;
 
 #endregion
 
@@ -37,11 +39,11 @@ public class RepositoryManager : IRepositoryManager, IDisposable
     private readonly Lazy<Interfaces.IEmployeeRepository> _employeeRepository;
     private readonly RepositoryContext _repositoryContext;
 
-    public RepositoryManager(RepositoryContext repositoryContext, Service.Interfaces.IApiKeyService apiKeyService)
+    public RepositoryManager(RepositoryContext repositoryContext, IApiKeyService apiKeyService, IMapper mapper)
     {
         _repositoryContext = repositoryContext;
         _apiKey = apiKeyService.GetApiKey();
-        _companyRepository = new Lazy<Interfaces.ICompanyRepository>(() => new Repository.CompanyRepository(repositoryContext));
+        _companyRepository = new Lazy<Interfaces.ICompanyRepository>(() => new Repository.CompanyRepository(repositoryContext, mapper));
         _employeeRepository = new Lazy<Interfaces.IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
     }
 
