@@ -26,6 +26,7 @@
 #region using
 
 using Entities;
+using Shared.DataTransferObjects;
 using Shared.Paging;
 using Shared.Parameters;
 
@@ -44,4 +45,6 @@ public interface ICompanyRepository
     Task<PagingList<Company_Company>> GetCompaniesAsync(CompanyRequestParameters companyRequestParameters, bool trackChanges, CancellationToken cancellationToken);
 
     Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
+
+    Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
 }
