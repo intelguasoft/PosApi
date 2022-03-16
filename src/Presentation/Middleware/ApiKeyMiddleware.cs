@@ -24,6 +24,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 #endregion
 
@@ -46,7 +47,7 @@ public class ApiKeyMiddleware
     {
         if (!context.Request.Headers.TryGetValue(APIKEYNAME, out var extractedApiKey))
         {
-            context.Response.StatusCode = 401;
+            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             await context.Response.WriteAsync($"Api Key {APIKEYNAME} was not provided.)", default).ConfigureAwait(false);
             return;
         }
@@ -58,7 +59,7 @@ public class ApiKeyMiddleware
 
         if (!apiKey.Equals(extractedApiKey))
         {
-            context.Response.StatusCode = 401;
+            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             await context.Response.WriteAsync("Unauthorized client.", default).ConfigureAwait(false);
             return;
         }
