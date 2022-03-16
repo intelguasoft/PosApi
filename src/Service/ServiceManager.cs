@@ -23,6 +23,7 @@
 
 using AutoMapper;
 using Interfaces;
+using Microsoft.AspNetCore.Http;
 using Service.Interfaces;
 
 #endregion
@@ -33,13 +34,16 @@ public sealed class ServiceManager : IServiceManager
 {
     private readonly Lazy<ICompanyService> _companyService;
     private readonly Lazy<IEmployeeService> _employeeService;
+    private readonly Lazy<IApiKeyService> _apiKeyService;
 
-    public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper)
+    public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     {
         _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
         _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper));
+        _apiKeyService = new Lazy<IApiKeyService>(() => new ApiKeyService(httpContextAccessor));
     }
 
     public ICompanyService CompanyService => _companyService.Value;
     public IEmployeeService EmployeeService => _employeeService.Value;
+    public IApiKeyService ApiKeyService => _apiKeyService.Value;
 }

@@ -117,7 +117,9 @@ public class RepositoryManager : IRepositoryManager, IDisposable
 
         foreach (var trackerEntry in tracker.Entries())
         {
-            // todo - create generic
+            // todo - create generic method - use 
+            //      - create an audit interface and use : EntityType<T> so a single
+            //        method that can be used for any entity that has the audit interface
             if (trackerEntry.Entity is Company_Company companyEntity)
                 UpdateCompanyAuditing(companyEntity, trackerEntry);
 
