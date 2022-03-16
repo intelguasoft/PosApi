@@ -21,11 +21,13 @@
 
 #region using
 
+using AutoMapper;
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.DataTransferObjects;
 using Shared.Paging;
 using Shared.Parameters;
-using Repository.Extensions;
 
 #endregion
 
@@ -33,9 +35,14 @@ namespace Repository;
 
 internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Interfaces.ICompanyRepository
 {
-    internal CompanyRepository(RepositoryContext repositoryContext)
+    private readonly IMapper _mapper;
+    private readonly RepositoryContext _repositoryContext;
+
+    internal CompanyRepository(RepositoryContext repositoryContext, IMapper mapper)
         : base(repositoryContext)
     {
+        _repositoryContext = repositoryContext;
+        _mapper = mapper;
     }
 
     public void CreateCompany(Company_Company company)
@@ -70,5 +77,38 @@ internal sealed class CompanyRepository : RepositoryBase<Company_Company>, Inter
     public async Task<Company_Company> GetCompanyAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
         return await FindByCondition(c => c.CompanyId.Equals(companyId), trackChanges).SingleOrDefaultAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
+    {
+        //IQueryable<CompanyJoinEmployeeDto> query = await from c in _repositoryContext.Company_Companies
+        //            join e in _repositoryContext.Employee_Employees on c.CompanyId equals e.CompanyId
+        //            where c.CompanyId == companyId
+        //            orderby e.LastName, e.FirstName, e.MiddleName
+        //            select new CompanyJoinEmployeeDto { Company = c, Employee = e };
+
+        return await (from c in _repositoryContext.Company_Companies
+                      join e in _repositoryContext.Employee_Employees on c.CompanyId equals e.CompanyId
+                      where c.CompanyId == companyId
+                      orderby e.LastName, e.FirstName, e.MiddleName
+                      select new CompanyJoinEmployeeDto { Company = c, Employee = e }).ToListAsync(cancellationToken).ConfigureAwait(false);
+
+
+        // https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
+        //var query = await _repositoryContext.Company_Companies
+        //    .AsNoTracking()
+        //    .AsQueryable()
+        //    .Include(e => e.Employee_Employees).ToListAsync(cancellationToken).ConfigureAwait(false);
+
+
+
+        //var firstEmployee = sortedList.First();
+
+        //foreach (var item in query)
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"{item?.Company.Name} - {item?.Employee.LastName} {item?.Employee.FirstName}");
+        //}
+
+        //return query;
     }
 }
