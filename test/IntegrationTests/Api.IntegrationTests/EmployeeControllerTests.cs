@@ -183,7 +183,7 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
     {
         var response = await _client.GetAsync("api/companies/1/employees").ConfigureAwait(false);
 
-        response.EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
@@ -191,6 +191,23 @@ public class EmployeeControllerTests : IClassFixture<TestingWebAppFactory<Progra
 
         var employees = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
         Assert.True(employees?.Count() > 0);
+    }
+
+    [Fact]
+    public async Task GetCompanyEmployees_With_DataShaper_Option_Returns_Data_Shaped_Employees()
+    {
+        var response = await _client.GetAsync("api/companies/1/employees?fields=FirstName,LastName,Age").ConfigureAwait(false);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+        Assert.Contains("FirstName", responseString);
+        Assert.Contains("LastName", responseString);
+        Assert.Contains("Age", responseString);
+
+        var employees = JsonConvert.DeserializeObject<IEnumerable<Shared.DataTransferObjects.EmployeeDto>>(response.Content.ReadAsStringAsync().Result);
+        Assert.True(employees?.Count() == 5);
     }
 
     [Fact]
