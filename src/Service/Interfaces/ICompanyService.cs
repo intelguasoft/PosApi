@@ -22,6 +22,7 @@
 #region using
 
 using Entities;
+using Shared.DataTransferObjects;
 using Shared.Paging;
 using Shared.Parameters;
 
@@ -51,4 +52,6 @@ public interface ICompanyService
     Task SaveChangesForPatchAsync(Shared.DataTransferObjects.CompanyForUpdateDto companyToPatch, Company_Company companyEntity, CancellationToken cancellationToken);
 
     Task UpdateCompanyAsync(int companyId, Shared.DataTransferObjects.CompanyForUpdateDto companyForUpdate, bool trackChanges, CancellationToken cancellationToken);
+
+    Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken);
 }

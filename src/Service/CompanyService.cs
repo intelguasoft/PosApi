@@ -148,4 +148,13 @@ internal sealed class CompanyService : ICompanyService
         _mapper.Map(companyForUpdate, company);
         await _repository.SaveAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
+
+    public async Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
+    {
+        var companyJoinEmployeeDtos = await _repository.Company.GetCompanyWithEmployeesAsync(companyId, trackChanges, cancellationToken);
+        if (companyJoinEmployeeDtos is null)
+            throw new CompanyNotFoundException(companyId);
+
+        return companyJoinEmployeeDtos;
+    }
 }
