@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
 using Presentation;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -63,7 +64,8 @@ builder.Services.AddControllers(config =>
         config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
     }).AddXmlDataContractSerializerFormatters()
     .AddCustomCSVFormatter()
-    .AddApplicationPart(typeof(AssemblyReference).Assembly);
+    .AddApplicationPart(typeof(AssemblyReference).Assembly)
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // https://stackoverflow.com/questions/60197270/jsonexception-a-possible-object-cycle-was-detected-which-is-not-supported-this
 
 var app = builder.Build();
 
