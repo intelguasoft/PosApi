@@ -151,7 +151,7 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task<IEnumerable<CompanyJoinEmployeeDto>> GetCompanyWithEmployeesAsync(int companyId, bool trackChanges, CancellationToken cancellationToken)
     {
-        var companyJoinEmployeeDtos = await _repository.Company.GetCompanyWithEmployeesAsync(companyId, trackChanges, cancellationToken);
+        var companyJoinEmployeeDtos = await _repository.Company.GetCompanyWithEmployeesAsync(companyId, trackChanges, cancellationToken).ConfigureAwait(false);
         if (companyJoinEmployeeDtos is null)
             throw new CompanyNotFoundException(companyId);
 
