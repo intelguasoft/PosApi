@@ -1,8 +1,13 @@
-﻿#region (c) 2022 Binary Builders Inc. All rights reserved.
+﻿
+#region (c) 2022 Binary Builders Inc. All rights reserved.
 
-// CompanyDto.cs
-// 
-// Copyright (C) 2022 Binary Builders Inc.
+//-----------------------------------------------------------------------
+// <copyright> 
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Shared\DataTransferObjects\CompanyDto.cs
+//     Author:  
+//     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -16,11 +21,7 @@
 // 
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
-
-#region using
-
+//-----------------------------------------------------------------------
 
 #endregion
 
@@ -28,12 +29,12 @@ namespace Shared.DataTransferObjects;
 
 public record CompanyDto
 {
-    public string? City { get; init; }
     public int CompanyId { get; init; }
-    public string? Country { get; init; }
-    public string? FullAddress { get; init; }
     public string? Name { get; init; }
-    public string? Phone { get; init; }
+    public string? FullAddress { get; init; }
+    public string? City { get; init; }
     public string? State { get; init; }
     public string? ZipCode { get; init; }
+    public string? Country { get; init; }
+    public string? Phone { get; init; }
 }
