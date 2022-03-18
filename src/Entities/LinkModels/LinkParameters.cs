@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Entities\LinkModels\LinkParameters.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -25,11 +25,9 @@
 
 #endregion
 
-using Entities.Models;
-namespace Interfaces;
+using Microsoft.AspNetCore.Http;
+using Shared.Parameters;
 
-public interface IDataShaper<T>
-{
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
-}
+namespace Entities.LinkModels;
+
+public record LinkParameters(EmployeeRequestParameters employeeRequestParameters, HttpContext Context);

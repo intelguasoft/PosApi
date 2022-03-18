@@ -42,10 +42,10 @@ public sealed class ServiceManager : IServiceManager
         ILoggerManager logger, 
         IMapper mapper, 
         IHttpContextAccessor httpContextAccessor,
-        IDataShaper<EmployeeDto> dataShaper)
+        IEmployeeLinks employeeLinks)
     {
         _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
-        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, dataShaper));
+        _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, employeeLinks));
         _apiKeyService = new Lazy<IApiKeyService>(() => new ApiKeyService(httpContextAccessor));
     }
 

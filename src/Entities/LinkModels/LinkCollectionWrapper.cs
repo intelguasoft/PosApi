@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Entities\LinkModels\LinkCollectionWrapper.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -25,11 +25,14 @@
 
 #endregion
 
-using Entities.Models;
-namespace Interfaces;
+namespace Entities.LinkModels;
 
-public interface IDataShaper<T>
+public class LinkCollectionWrapper<T> : LinkResourceBase
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
+    public List<T> Value { get; set; } = new List<T>();
+
+    public LinkCollectionWrapper()
+    { }
+
+    public LinkCollectionWrapper(List<T> value) => Value = value;
 }

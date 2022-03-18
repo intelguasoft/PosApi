@@ -1,9 +1,10 @@
-﻿
+﻿using Entities.LinkModels;
+
 #region (c) 2022 Binary Builders Inc. All rights reserved.
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Entities\Models\LinkResponse.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -25,11 +26,19 @@
 
 #endregion
 
-using Entities.Models;
-namespace Interfaces;
+namespace Entities.Models;
 
-public interface IDataShaper<T>
+public class LinkResponse
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
+    public bool HasLinks { get; set; }
+
+    public List<DataShapedEntity> ShapedEntities { get; set; }
+
+    public LinkCollectionWrapper<DataShapedEntity> LinkedEntities { get; set; }
+
+    public LinkResponse()
+    {
+        LinkedEntities = new LinkCollectionWrapper<DataShapedEntity>();
+        ShapedEntities = new List<DataShapedEntity>();
+    }
 }

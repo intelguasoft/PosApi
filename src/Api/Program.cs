@@ -59,8 +59,10 @@ builder.Services.AddAutoMapper(typeof(Api.Program));
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 builder.Services.AddScoped<Presentation.ActionFilters.ValidationFilterAttribute>();
+builder.Services.AddScoped<Presentation.ActionFilters.ValidateMediaTypeAttribute>();
 
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+builder.Services.AddScoped<IEmployeeLinks, Service.Utility.EmployeeLinks>();
 
 builder.Services.AddControllers(config =>
     {
@@ -71,6 +73,8 @@ builder.Services.AddControllers(config =>
     .AddCustomCSVFormatter()
     .AddApplicationPart(typeof(AssemblyReference).Assembly)
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // https://stackoverflow.com/questions/60197270/jsonexception-a-possible-object-cycle-was-detected-which-is-not-supported-this
+
+builder.Services.AddCustomMediaTypes();
 
 var app = builder.Build();
 

@@ -21,6 +21,7 @@
 
 #region using
 
+using Entities.LinkModels;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -69,13 +70,16 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     public async Task<IActionResult> GetEmployeesForCompanyAsync(int companyId, [FromQuery] EmployeeRequestParameters employeeRequestParameters, CancellationToken cancellationToken)
     {
-        var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, employeeRequestParameters, false, cancellationToken).ConfigureAwait(false);
+        var linkParams = new LinkParameters(employeeRequestParameters, HttpContext);
+
+		var pagingResult = await _service.EmployeeService.GetEmployeesAsync(companyId, linkParams, trackChanges: false, cancellationToken).ConfigureAwait(false);
 
         Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingResult.pagingMetaData));
 
-        return Ok(pagingResult.employees);
+        return pagingResult.linkResponse.HasLinks ? Ok(pagingResult.linkResponse.LinkedEntities) : Ok(pagingResult.linkResponse.ShapedEntities);
     }
 
     [HttpPatch("{id:int}")]

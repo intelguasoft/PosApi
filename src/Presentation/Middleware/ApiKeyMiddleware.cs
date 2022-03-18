@@ -48,7 +48,7 @@ public class ApiKeyMiddleware
         if (!context.Request.Headers.TryGetValue(APIKEYNAME, out var extractedApiKey))
         {
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            await context.Response.WriteAsync($"Api Key {APIKEYNAME} was not provided.)", default).ConfigureAwait(false);
+            await context.Response.WriteAsync($"Api Key {APIKEYNAME} was not provided.", default).ConfigureAwait(false);
             return;
         }
 

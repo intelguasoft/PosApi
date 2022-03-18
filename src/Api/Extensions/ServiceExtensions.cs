@@ -24,6 +24,8 @@
 using Entities;
 using Interfaces;
 using LoggerService;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -86,4 +88,29 @@ public static class ServiceExtensions
         services.AddDbContext<RepositoryContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
     }
+
+	public static void AddCustomMediaTypes(this IServiceCollection services)
+	{
+		services.Configure<MvcOptions>(config =>
+		{
+			var systemTextJsonOutputFormatter = config.OutputFormatters
+					.OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+
+			if (systemTextJsonOutputFormatter != null)
+			{
+				systemTextJsonOutputFormatter.SupportedMediaTypes
+				.Add("application/vnd.bbinc.hateoas+json");
+			}
+
+			var xmlOutputFormatter = config.OutputFormatters
+					.OfType<XmlDataContractSerializerOutputFormatter>()?
+					.FirstOrDefault();
+
+			if (xmlOutputFormatter != null)
+			{
+				xmlOutputFormatter.SupportedMediaTypes
+				.Add("application/vnd.bbinc.hateoas+xml");
+			}
+		});
+	}
 }

@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Entities\Models\ShapedEntity.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -25,11 +25,15 @@
 
 #endregion
 
-using Entities.Models;
-namespace Interfaces;
+namespace Entities.Models;
 
-public interface IDataShaper<T>
+public class ShapedEntity
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
+    public ShapedEntity()
+    {
+        DataShapedEntity = new DataShapedEntity();
+    }
+
+    public int Id { get; set; }
+    public DataShapedEntity DataShapedEntity { get; set; }
 }

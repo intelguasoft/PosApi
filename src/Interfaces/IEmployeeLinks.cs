@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IEmployeeLinks.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -26,10 +26,16 @@
 #endregion
 
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
+using Shared.DataTransferObjects;
+
 namespace Interfaces;
 
-public interface IDataShaper<T>
+public interface IEmployeeLinks
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
+    LinkResponse TryGenerateLinks(
+        IEnumerable<EmployeeDto> employeesDto,
+        string fields, 
+        int companyId, 
+        HttpContext httpContext);
 }

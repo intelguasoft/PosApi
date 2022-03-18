@@ -21,4 +21,5 @@ Includes these features:
 - Filtered API responses
 - Search
 - Sort
+- HATEOAS Interface
 > Written with [StackEdit](https://stackedit.io/).

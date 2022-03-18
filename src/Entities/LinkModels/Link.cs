@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------
 // <copyright> 
-//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Interfaces\IDataShaper.cs
+//       File: D:\Dev\Src\GitHub\PointOfSale\PosApi\src\Entities\LinkModels\Link.cs
 //     Author:  
 //     Copyright (c) 2022 Binary Builders Inc.. All rights reserved.
 // </copyright>
@@ -25,11 +25,21 @@
 
 #endregion
 
-using Entities.Models;
-namespace Interfaces;
+namespace Entities.LinkModels;
 
-public interface IDataShaper<T>
+public class Link
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-    ShapedEntity ShapeData(T entity, string fieldsString);
+    public string? Href { get; set; }
+    public string? Rel { get; set; }
+    public string? Method { get; set; }
+
+    public Link()
+    { }
+
+    public Link(string href, string rel, string method)
+    {
+        Href = href;
+        Rel = rel;
+        Method = method;
+    }
 }
