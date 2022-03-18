@@ -22,4 +22,5 @@ Includes these features:
 - Search
 - Sort
 - HATEOAS Interface
+- Add HEAD and OPTIONS headers
 > Written with [StackEdit](https://stackedit.io/).
