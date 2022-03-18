@@ -23,5 +23,6 @@ Includes these features:
 - Sort
 - HATEOAS Interface
 - Add HEAD and OPTIONS headers
-- Add Root document 
+- Add Root document
+- Add API Versioning
 > Written with [StackEdit](https://stackedit.io/).

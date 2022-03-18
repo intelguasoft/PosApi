@@ -33,6 +33,7 @@ using System.Text.Json;
 
 namespace Presentation.Controllers;
 
+[ApiVersion("1.0")]
 [Route("api/companies")]
 [ApiController]
 //[ApiKey]
