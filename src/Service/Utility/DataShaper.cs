@@ -29,7 +29,7 @@ using Entities.Models;
 using Interfaces;
 using System.Reflection;
 
-namespace Service.DataShaping;
+namespace Service.Utility;
 
 public class DataShaper<T> : IDataShaper<T> where T : class
 {

@@ -23,4 +23,5 @@ Includes these features:
 - Sort
 - HATEOAS Interface
 - Add HEAD and OPTIONS headers
+- Add Root document 
 > Written with [StackEdit](https://stackedit.io/).

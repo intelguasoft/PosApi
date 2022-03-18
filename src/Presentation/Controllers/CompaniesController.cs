@@ -45,7 +45,7 @@ public class CompaniesController : ControllerBase
         _service = service;
     }
 
-    [HttpPost]
+    [HttpPost(Name = "CreateCompany")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompanyAsync([FromBody] Shared.DataTransferObjects.CompanyForCreationDto company, CancellationToken cancellationToken)
     {
@@ -70,7 +70,7 @@ public class CompaniesController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet]
+    [HttpGet(Name = "GetCompanies")]
     public async Task<IActionResult> GetCompaniesAsync([FromQuery] CompanyRequestParameters companyRequestParameters, CancellationToken cancellationToken)
     {
         var pagingResult = await _service.CompanyService.GetCompaniesAsync(companyRequestParameters, false, cancellationToken).ConfigureAwait(false);

@@ -31,7 +31,6 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
 using Presentation;
-using Service.DataShaping;
 using Shared.DataTransferObjects;
 using System.Text.Json.Serialization;
 
@@ -61,7 +60,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressMode
 builder.Services.AddScoped<Presentation.ActionFilters.ValidationFilterAttribute>();
 builder.Services.AddScoped<Presentation.ActionFilters.ValidateMediaTypeAttribute>();
 
-builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+builder.Services.AddScoped<IDataShaper<EmployeeDto>, Service.Utility.DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<IEmployeeLinks, Service.Utility.EmployeeLinks>();
 
 builder.Services.AddControllers(config =>
